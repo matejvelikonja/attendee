@@ -1,0 +1,17 @@
+{{!--
+{{#menu-main path=currentPath container="#container"}}-->
+    <nav class="navbar navbar-default">
+        <h1 class="navbar-brand">Menu</h1>
+        <ul class="nav nav-pills nav-stacked">
+            {{#linkTo "events"    tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Events</a>{{/linkTo}}
+            {{#linkTo "locations" tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Locations</a>{{/linkTo}}
+            {{#linkTo "users"     tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Users</a>{{/linkTo}}
+            {{#linkTo "groups"    tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Groups</a>{{/linkTo}}
+        </ul>
+    </nav>
+{{/menu-main}}
+--}}
+
+<div id="container" class="container">
+    {{animated-outlet name="main"}}
+</div>

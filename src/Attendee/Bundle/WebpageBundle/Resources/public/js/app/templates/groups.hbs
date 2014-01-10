@@ -1,0 +1,12 @@
+<h1>Groups</h1>
+{{#link-to 'groups.new' }} Add new {{/link-to}}
+<ul>
+    {{#each group in controller}}
+        <li {{bind-attr class="group.isDirty"}}>
+            {{#link-to 'groups.show' group.id}} {{group.name}} {{/link-to}}
+            <span>{{#link-to 'groups.edit' group.id}} Edit {{/link-to}}</span>
+        </li>
+    {{/each}}
+</ul>
+
+{{ outlet }}

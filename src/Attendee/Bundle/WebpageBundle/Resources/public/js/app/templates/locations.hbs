@@ -1,0 +1,12 @@
+<h1>Locations</h1>
+{{#link-to 'locations.new' }} Add new {{/link-to}}
+<ul>
+    {{#each location in controller}}
+    <li {{bind-attr class="location.isDirty"}}>
+        {{#link-to 'locations.show' location.id}} {{location.name}} {{/link-to}}
+        <span>{{#link-to 'locations.edit' location.id}} Edit {{/link-to}}</span>
+    </li>
+    {{/each}}
+</ul>
+
+{{ outlet }}

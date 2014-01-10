@@ -1,0 +1,12 @@
+<h1>Users</h1>
+
+<ul>
+    {{#each user in controller}}
+    <li {{bind-attr class="user.isDirty"}}>
+    <img width="32px" height="32px" {{bind-attr src="user.image"}}>
+    {{user.name}}
+    </li>
+    {{/each}}
+</ul>
+
+{{ outlet }}

@@ -1,0 +1,15 @@
+{{# if isNew }}
+<h1>New location</h1>
+{{ else }}
+<h1>Edit location</h1>
+{{/if}}
+
+{{partial "locations/form"}}
+
+<p>
+    <button {{action updateItem this}} class="btn btn-default">Update record</button>
+</p>
+
+{{# if mapsLink }}
+<img {{bind-attr src=mapsLink}} alt="Map" width="100%">
+{{/if}}

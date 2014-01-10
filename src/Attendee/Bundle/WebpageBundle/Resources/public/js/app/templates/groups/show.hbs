@@ -1,0 +1,32 @@
+<div class="btn-group pull-right">
+    {{# if isEditable }}
+        {{#link-to 'groups.show' content.id class="btn btn-primary"}} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
+    {{ else }}
+        {{#link-to 'groups.edit' content.id class="btn btn-default"}} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
+    {{/if}}
+    {{#link-to 'groups' class="btn btn-default"}} <span class="glyphicon glyphicon-arrow-left"></span> {{/link-to}}
+</div>
+
+{{# if isEditable }}
+    <div class="form-group">
+        {{view Ember.TextField valueBinding="name" class="form-control" placeholder="Name"}}
+    </div>
+
+    <!--TODO: edit members -->
+{{ else }}
+    <h1>{{ name }}</h1>
+{{/if}}
+
+<h2>Group members</h2>
+
+<ul class="list-group">
+    {{#each member in members}}
+        <li class="list-group-item">{{member.name}}</li>
+    {{/each}}
+</ul>
+
+{{# if isEditable }}
+    <p>
+        <button {{action updateItem this}} class="btn btn-primary btn-lg">Update record</button>
+    </p>
+{{/if}}

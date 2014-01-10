@@ -1,0 +1,22 @@
+<div class="btn-group pull-right">
+    {{# link-to 'event.edit' content.id class="btn btn-default" }} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
+    <a {{ action goBack }} class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>
+</div>
+
+<h1>{{ name }}</h1>
+<h2>{{ humanizeDate date }}</h2>
+
+<h2>Attendees</h2>
+
+<div class="list-group">
+{{# each attendee in attendees }}
+    <div class="list-group-item">
+        {{attendee.name}}
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+        </div>
+    </div>
+{{/each}}
+</div>

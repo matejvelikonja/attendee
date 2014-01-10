@@ -17,3 +17,5 @@ app/data/*.db3
 .vagrant
 vagrant*
 Vagrantfile
+
+node_modules
