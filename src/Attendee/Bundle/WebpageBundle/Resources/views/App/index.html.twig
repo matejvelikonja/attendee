@@ -1,1 +1,12 @@
-<h1>app</h1>
+{% extends 'AttendeeWebpageBundle::layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts '@AttendeeWebpageBundle/Resources/public/js/app/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block container %}
+    <h1>app</h1>
+{% endblock %}

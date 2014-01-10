@@ -3,13 +3,13 @@
 {% block title %}Attendee{% endblock %}
 
 {% block stylesheets %}
-    {% stylesheets '@AttendeeWebpageBundle/Resources/public/css/*' filter='cssrewrite' %}
+    {% stylesheets '@AttendeeWebpageBundle/Resources/public/css/vendor/*' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
 
 {% block javascripts %}
-    {% javascripts '@AttendeeWebpageBundle/Resources/public/js/*' %}
+    {% javascripts '@AttendeeWebpageBundle/Resources/public/js/vendor/*' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
