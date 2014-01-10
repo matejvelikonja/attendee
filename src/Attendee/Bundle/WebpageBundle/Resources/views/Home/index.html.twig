@@ -1,1 +1,15 @@
-<h1>attendee</h1>
+{% extends 'AttendeeWebpageBundle::layout.html.twig' %}
+
+{% block container %}
+    <div class="jumbotron">
+        <h1 class="text-center">Attendee</h1>
+        <h4 class="text-center">Track'em!</h4>
+
+        {% if app.user %}
+            Hello, {{ app.user.username }}
+            <a href="{{ path('app') }}" class="btn btn-primary btn-lg btn-block">{{ 'Enter' | trans }}</a>
+        {% else %}
+            {{ render(controller('AttendeeUserBundle:Security:login')) }}
+        {% endif %}
+    </div>
+{% endblock %}

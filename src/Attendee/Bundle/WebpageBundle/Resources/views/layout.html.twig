@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Attendee{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets '@AttendeeWebpageBundle/Resources/public/css/*' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@AttendeeWebpageBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% block container %}{% endblock %}
+        <footer>
+            <hr>
+            <em>footer</em>
+        </footer>
+    </div>
+{% endblock %}

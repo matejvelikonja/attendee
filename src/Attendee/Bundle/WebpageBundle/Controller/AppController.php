@@ -2,15 +2,14 @@
 
 namespace Attendee\Bundle\WebpageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
-class AppController extends Controller
+class AppController extends BaseController
 {
     /**
-     * @Route("/app")
+     * @Route("/app", name="app")
      * @Template()
      */
     public function indexAction()

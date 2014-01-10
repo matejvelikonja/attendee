@@ -2,17 +2,16 @@
 
 namespace Attendee\Bundle\WebpageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Class HomeController
  */
-class HomeController extends Controller
+class HomeController extends BaseController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      * @Template()
      */
     public function indexAction()
