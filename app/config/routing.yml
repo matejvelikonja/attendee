@@ -1,5 +1,17 @@
+attendee_webpage:
+    resource: "@AttendeeWebpageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+attendee_user:
+    resource: "@AttendeeUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 attendee_api:
     resource: "@AttendeeApiBundle/Controller/"
     type:     annotation
     prefix:   /
 
+fos_user:
+    resource: "@AttendeeUserBundle/Resources/config/routing.yml"
