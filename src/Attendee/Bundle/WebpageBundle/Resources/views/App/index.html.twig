@@ -2,9 +2,14 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts '@AttendeeWebpageBundle/Resources/public/js/app/*' %}
+    {% javascripts
+        '@AttendeeWebpageBundle/Resources/public/js/app/*.coffee'
+        '@AttendeeWebpageBundle/Resources/public/js/app/*/*.coffee'
+        '@AttendeeWebpageBundle/Resources/public/js/app/*/*/*.coffee'
+    %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    {{ render(controller('AttendeeWebpageBundle:App:templates')) }}
 {% endblock %}
 
 {% block container %}

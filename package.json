@@ -1,0 +1,22 @@
+{
+    "name": "attendee",
+    "version": "0.0.0",
+    "description": "[![Build Status](https://travis-ci.org/matejvelikonja/attendee.png?branch=master)](https://travis-ci.org/matejvelikonja/attendee) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/74b322c6-707e-40ff-a390-7ede494c4c55/mini.png)](https://insight.sensiolabs.com/projects/74b322c6-707e-40ff-a390-7ede494c4c55)",
+    "main": "index.js",
+    "dependencies": {
+        "coffee-script": "~1.6"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/matejvelikonja/attendee.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/matejvelikonja/attendee/issues"
+    },
+    "homepage": "https://github.com/matejvelikonja/attendee"
+}

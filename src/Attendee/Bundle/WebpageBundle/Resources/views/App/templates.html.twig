@@ -1,0 +1,5 @@
+{% for id, content in templates %}
+    <script type="text/x-handlebars" id="{{ id }}">
+        {{ content | raw }}
+    </script>
+{% endfor %}

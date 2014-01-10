@@ -23,18 +23,18 @@ App.Router.map ()->
     @route 'edit',
       path: '/edit/:group_id'
 
-App.ApplicationRoute = Ember.Route.extend
-  actions:
-    showEvent: (event) ->
-      @transitionToAnimated('event', main: 'slideLeft', event)
-    goBack: ->
-      Ember.AnimatedContainerView.enqueueAnimations main: 'slideRight'
-      window.history.go -1
+#App.ApplicationRoute = Ember.Route.extend
+#  actions:
+#    showEvent: (event) ->
+#      @transitionToAnimated('event', main: 'slideLeft', event)
+#    goBack: ->
+#      Ember.AnimatedContainerView.enqueueAnimations main: 'slideRight'
+#      window.history.go -1
 
 App.IndexRoute = Ember.Route.extend
   redirect: ->
     @transitionTo('events')
 
-App.EventsRoute = Ember.Route.extend
-  model: ->
-    App.Event.find()
+#App.EventsRoute = Ember.Route.extend
+#  model: ->
+#    App.Event.find()
