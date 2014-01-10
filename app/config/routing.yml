@@ -1,0 +1,5 @@
+attendee_api:
+    resource: "@AttendeeApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
