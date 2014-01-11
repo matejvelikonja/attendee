@@ -35,6 +35,6 @@ App.IndexRoute = Ember.Route.extend
   redirect: ->
     @transitionTo('events')
 
-#App.EventsRoute = Ember.Route.extend
-#  model: ->
-#    App.Event.find()
+App.EventsRoute = Ember.Route.extend
+  model: ->
+    @store.find('event')

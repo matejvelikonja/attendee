@@ -4,6 +4,9 @@ namespace Attendee\Bundle\WebpageBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 class AppController extends BaseController
@@ -18,6 +21,7 @@ class AppController extends BaseController
     }
 
     /**
+     * @Route("/templates")
      * @Template()
      */
     public function templatesAction()
@@ -25,10 +29,15 @@ class AppController extends BaseController
         $templates = array();
         $templatesPath = realpath(__DIR__ . '/../Resources/public/js/app/templates');
 
-        foreach (glob("$templatesPath/*.hbs") as $template) {
-            $relativePath = str_replace(array($templatesPath . '/', '.hbs'), array(''), $template);
-            $templates[$relativePath] = file_get_contents($template);
+        $finder = new Finder();
+        $finder->files()->in($templatesPath);
+
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $id = str_replace('.hbs', '', $file->getRelativePathname());
+            $templates[$id] = file_get_contents($file);
         }
+
         return array(
             'templates' => $templates
         );
