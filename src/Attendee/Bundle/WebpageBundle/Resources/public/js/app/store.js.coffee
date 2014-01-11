@@ -7,9 +7,10 @@ App.ApplicationAdapter = DS.RESTAdapter.extend
       # CSRF-Token passing to all requests
       hash.data['authenticity_token'] = $('meta[name="csrf-token"]').attr('content')
     @_super(url, type, hash)
-  buildURL: ->
-    normalURL = @_super.apply(@, arguments)
-    normalURL + '.json'
+  namespace: 'api',
+#  buildURL: ->
+#    normalURL = @_super.apply(@, arguments)
+#    normalURL + '.json'
 
 App.Store = DS.Store.extend
   revision: 12
