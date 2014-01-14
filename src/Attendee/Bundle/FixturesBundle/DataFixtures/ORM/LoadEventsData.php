@@ -1,12 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: matej
- * Date: 1/14/14
- * Time: 7:33 PM
- */
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
+
+use Attendee\Bundle\ApiBundle\Entity\Event;
 
 /**
  * Class LoadEventsData
@@ -15,9 +11,27 @@ namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
  */
 class LoadEventsData extends AbstractFixtures
 {
+    /**
+     * Runs fixtures.
+     */
     protected function run()
     {
-        // TODO: Implement run() method.
+        $this->createRandomEvents(50);
+    }
+
+    /**
+     * @param int $quantity
+     */
+    private function createRandomEvents($quantity)
+    {
+        foreach (range(0, $quantity) as $q) {
+            $event = new Event();
+            $event
+                ->setName($this->faker->sentence())
+                ->setStartsAt($this->faker->dateTime)
+                ->setEndsAt($this->faker->dateTime);
+            $this->manager->persist($event);
+        }
     }
 
     /**

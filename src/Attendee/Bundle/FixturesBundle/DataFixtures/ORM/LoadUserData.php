@@ -15,14 +15,14 @@ class LoadUserData extends AbstractFixtures
     /**
      * @var UserManager
      */
-    private $manager;
+    private $userManager;
 
     /**
      * Runs fixtures.
      */
     protected function run()
     {
-        $this->manager = $this->container->get('fos_user.user_manager');
+        $this->userManager = $this->container->get('fos_user.user_manager');
 
         $this->createAdmin();
         $this->createRandomUsers(10);
@@ -39,7 +39,7 @@ class LoadUserData extends AbstractFixtures
             ->setEmail('admin@example.com')
             ->setEnabled(true);
 
-        $this->manager->updateUser($user);
+        $this->userManager->updateUser($user);
     }
 
     /**
@@ -60,7 +60,7 @@ class LoadUserData extends AbstractFixtures
                 ->setEmail($email)
                 ->setEnabled(true);
 
-            $this->manager->updateUser($user);
+            $this->userManager->updateUser($user);
         }
     }
 
@@ -69,7 +69,7 @@ class LoadUserData extends AbstractFixtures
      */
     private function createUser()
     {
-        return $this->manager->createUser();
+        return $this->userManager->createUser();
     }
 
     /**

@@ -28,7 +28,7 @@ abstract class AbstractFixtures implements FixtureInterface, ContainerAwareInter
     /**
      * @var ObjectManager
      */
-    private $manager;
+    protected $manager;
 
     /**
      * Runs fixtures.
@@ -46,6 +46,8 @@ abstract class AbstractFixtures implements FixtureInterface, ContainerAwareInter
         $this->faker   = $this->container->get('faker');
 
         $this->run();
+
+        $this->manager->flush();
     }
 
     /**
