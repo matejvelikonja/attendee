@@ -136,7 +136,7 @@ class EventSchedule
      *
      * @return $this
      */
-    public function setOccurrences($events)
+    public function setEvents($events)
     {
         $this->events = $events;
 
@@ -146,7 +146,7 @@ class EventSchedule
     /**
      * @return \Attendee\Bundle\ApiBundle\Entity\Event[]
      */
-    public function getOccurrences()
+    public function getEvents()
     {
         return $this->events;
     }

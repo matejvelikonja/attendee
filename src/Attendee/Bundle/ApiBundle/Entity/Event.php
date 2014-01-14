@@ -38,7 +38,7 @@ class Event
     /**
      * @var EventSchedule
      *
-     * @ORM\ManyToOne(targetEntity="Event", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="EventSchedule", inversedBy="events")
      */
     private $schedule;
 
@@ -50,6 +50,14 @@ class Event
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getSchedule()->getName();
     }
 
     /**
@@ -105,7 +113,7 @@ class Event
      *
      * @return $this
      */
-    public function setEvent(EventSchedule $schedule)
+    public function setSchedule(EventSchedule $schedule)
     {
         $this->schedule = $schedule;
 
@@ -115,7 +123,7 @@ class Event
     /**
      * @return \Attendee\Bundle\ApiBundle\Entity\EventSchedule
      */
-    public function getEvent()
+    public function getSchedule()
     {
         return $this->schedule;
     }
