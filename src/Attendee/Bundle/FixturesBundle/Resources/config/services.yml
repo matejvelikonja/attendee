@@ -1,0 +1,6 @@
+services:
+    faker:
+        class: Faker\Generator
+        factory_class: Faker\Factory
+        factory_method: create
+        arguments: [ en_US ]

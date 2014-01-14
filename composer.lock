@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "92cc62f76b03ba98ad2daaf0b3352437",
+    "hash": "18e0613ec4d008cebdfce2953b251989",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -919,6 +919,52 @@
             "time": "2013-09-23 08:24:12"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "1d143fd8caf4d264602450bc01d7484af788706b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/1d143fd8caf4d264602450bc01d7484af788706b",
+                "reference": "1d143fd8caf4d264602450bc01d7484af788706b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Faker": "src/",
+                    "Faker\\PHPUnit": "test/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2013-12-16 21:56:48"
+        },
+        {
             "name": "incenteev/composer-parameter-handler",
             "version": "v2.1.0",
             "target-dir": "Incenteev/ParameterHandler",
@@ -972,16 +1018,16 @@
         },
         {
             "name": "jdorn/sql-formatter",
-            "version": "v1.2.16",
+            "version": "v1.2.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jdorn/sql-formatter.git",
-                "reference": "8859d664737492d313c34796731b35eca851b362"
+                "reference": "64990d96e0959dff8e059dfcdc1af130728d92bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/8859d664737492d313c34796731b35eca851b362",
-                "reference": "8859d664737492d313c34796731b35eca851b362",
+                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/64990d96e0959dff8e059dfcdc1af130728d92bc",
+                "reference": "64990d96e0959dff8e059dfcdc1af130728d92bc",
                 "shasum": ""
             },
             "require": {
@@ -1018,7 +1064,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2013-11-27 22:51:13"
+            "time": "2014-01-12 16:20:24"
         },
         {
             "name": "jms/aop-bundle",

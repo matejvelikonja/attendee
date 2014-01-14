@@ -3,54 +3,82 @@
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Attendee\Bundle\ApiBundle\Entity\User;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Doctrine\UserManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class LoadUserData
  *
  * @package   Attendee\Bundle\UserBundle\DataFixtures\ORM
- * @author    Matej Velikonja <mvelikonja@astina.ch>
- * @copyright 2014 Astina AG (http://astina.ch)
  */
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
+class LoadUserData extends AbstractFixtures
 {
     /**
-     * @var ContainerInterface
+     * @var UserManager
      */
-    private $container;
+    private $manager;
 
     /**
-     * @param ObjectManager $manager
+     * Runs fixtures.
      */
-    public function load(ObjectManager $manager)
+    protected function run()
     {
-        /** @var UserManager $manager */
-        $manager = $this->container->get('fos_user.user_manager');
+        $this->manager = $this->container->get('fos_user.user_manager');
 
-        /** @var User $user */
-        $user = $manager->createUser();
+        $this->createAdmin();
+        $this->createRandomUsers(10);
+    }
+    /**
+     * Creates admin user.
+     */
+    protected function createAdmin()
+    {
+        $user = $this->createUser();
         $user
             ->setUsername('admin')
             ->setPlainPassword('admin')
             ->setEmail('admin@example.com')
             ->setEnabled(true);
 
-        $manager->updateUser($user);
+        $this->manager->updateUser($user);
     }
 
     /**
-     * Sets the Container.
+     * Creates random users.
      *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     *
-     * @api
+     * @param int $quantity
      */
-    public function setContainer(ContainerInterface $container = null)
+    private function createRandomUsers($quantity)
     {
-        $this->container = $container;
+        foreach (range(0, $quantity) as $number) {
+            $user     = $this->createUser();
+            $userName = $this->faker->userName;
+            $email    = "$userName@example.com";
+
+            $user
+                ->setUsername($userName)
+                ->setPlainPassword('password')
+                ->setEmail($email)
+                ->setEnabled(true);
+
+            $this->manager->updateUser($user);
+        }
+    }
+
+    /**
+     * @return User
+     */
+    private function createUser()
+    {
+        return $this->manager->createUser();
+    }
+
+    /**
+     * Get the order of this fixture.
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 0;
     }
 }

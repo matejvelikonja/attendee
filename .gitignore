@@ -13,6 +13,9 @@
 # Sqlite DB
 app/data/*.db3
 
+# Phing auto complete
+.phing_targets
+
 # Vagrant stuff
 .vagrant
 vagrant*
