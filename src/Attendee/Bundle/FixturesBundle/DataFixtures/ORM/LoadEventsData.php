@@ -16,21 +16,28 @@ class LoadEventsData extends AbstractFixtures
      */
     protected function run()
     {
-        $this->createRandomEvents(50);
+        $this->createRandomEventSchedules(2);
     }
 
     /**
      * @param int $quantity
      */
-    private function createRandomEvents($quantity)
+    private function createRandomEventSchedules($quantity)
     {
-        foreach (range(0, $quantity) as $q) {
-            $event = new EventSchedule();
-            $event
+        foreach (range(1, $quantity) as $q) {
+            /** @var \DateTime $startDate */
+            $startDate = $this->faker->dateTimeThisYear;
+            $endDate   = clone $startDate;
+            $endDate   = $endDate->add(new \DateInterval('P1Y'));
+
+            $schedule = new EventSchedule();
+            $schedule
                 ->setName($this->faker->sentence())
-                ->setStartsAt($this->faker->dateTime)
-                ->setEndsAt($this->faker->dateTime);
-            $this->manager->persist($event);
+                ->setStartsAt($startDate)
+                ->setEndsAt($endDate)
+                ->setRRule('FREQ=WEEKLY');
+
+            $this->manager->persist($schedule);
         }
     }
 

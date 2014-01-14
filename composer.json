@@ -33,6 +33,8 @@
 
         "nelmio/api-doc-bundle": "~2.4",
 
+        "simshaun/recurr": "~0.1",
+
         "friendsofsymfony/user-bundle": "~1.3"
     },
     "scripts": {

@@ -4,7 +4,12 @@ namespace Attendee\Bundle\ApiBundle\EventListener;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Entity\EventSchedule;
+
 use Doctrine\ORM\Event\LifecycleEventArgs;
+
+use Recurr\RecurrenceRule;
+use Recurr\RecurrenceRuleTransformer;
+use Recurr\TransformerConfig;
 
 use JMS\DiExtraBundle\Annotation\DoctrineListener;
 
@@ -13,9 +18,7 @@ use JMS\DiExtraBundle\Annotation\DoctrineListener;
  *
  * @package Attendee\Bundle\ApiBundle\EventListener
  *
- * @DoctrineListener(
- *     events = {"prePersist"}
- * )
+ * @DoctrineListener(events = { "prePersist" })
  */
 class EventScheduler
 {
@@ -31,13 +34,37 @@ class EventScheduler
             return;
         }
 
-        // TODO: needs to read rules about occurrences and create event
-        $event = new Event();
-        $event
-            ->setStartsAt($schedule->getStartsAt())
-            ->setEndsAt($schedule->getEndsAt())
-            ->setSchedule($schedule);
+        foreach ($this->calculateEvents($schedule) as $eventDate) {
+            $event = new Event();
+            $event
+                ->setStartsAt($eventDate)
+                ->setEndsAt($eventDate)
+                ->setSchedule($schedule);
 
-        $args->getEntityManager()->persist($event);
+            $args->getEntityManager()->persist($event);
+        }
+    }
+
+    /**
+     * @param EventSchedule $schedule
+     *
+     * @return \Datetime[]
+     */
+    private function calculateEvents(EventSchedule $schedule)
+    {
+        $rrule = $schedule->getRRule() . ';UNTIL=' . $schedule->getEndsAt()->format('c');
+        $transformer = new RecurrenceRuleTransformer(
+            new RecurrenceRule(
+                $rrule,
+                $schedule->getStartsAt()
+            )
+        );
+
+        $transformerConfig = new TransformerConfig();
+        $transformerConfig->enableLastDayOfMonthFix();
+
+        $transformer->setTransformerConfig($transformerConfig);
+
+        return $transformer->getComputedArray();
     }
 } 

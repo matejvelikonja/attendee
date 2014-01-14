@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "716c4ac0054a4aaef9f135ceae873f44",
+    "hash": "fa91dbce5d4b8462b2def5e0346b698b",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -2007,6 +2007,59 @@
             ],
             "description": "This bundle generates code for you",
             "time": "2013-08-21 18:09:35"
+        },
+        {
+            "name": "simshaun/recurr",
+            "version": "v0.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simshaun/recurr.git",
+                "reference": "ddf315628918edd7eb89b0221efd3a047425f8a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simshaun/recurr/zipball/ddf315628918edd7eb89b0221efd3a047425f8a1",
+                "reference": "ddf315628918edd7eb89b0221efd3a047425f8a1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Recurr": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shaun Simmons",
+                    "email": "shaun@envysphere.com",
+                    "homepage": "http://envysphere.com"
+                }
+            ],
+            "description": "PHP library for working with recurrence rules",
+            "homepage": "https://github.com/simshaun/recurr",
+            "keywords": [
+                "dates",
+                "events",
+                "recurrence",
+                "recurring",
+                "rrule"
+            ],
+            "time": "2014-01-10 02:07:13"
         },
         {
             "name": "swiftmailer/swiftmailer",

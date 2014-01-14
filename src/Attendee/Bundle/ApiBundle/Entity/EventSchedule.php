@@ -43,6 +43,13 @@ class EventSchedule
     private $endsAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="r_rule", type="string", length=255)
+     */
+    private $rrule;
+
+    /**
      * @var Event[]
      *
      * @ORM\OneToMany(targetEntity="Event", mappedBy="schedule")
@@ -64,7 +71,7 @@ class EventSchedule
      *
      * @param string $name
      *
-     * @return Event
+     * @return $this
      */
     public function setName($name)
     {
@@ -88,7 +95,7 @@ class EventSchedule
      *
      * @param \DateTime $startsAt
      *
-     * @return Event
+     * @return $this
      */
     public function setStartsAt($startsAt)
     {
@@ -112,7 +119,7 @@ class EventSchedule
      *
      * @param \DateTime $endsAt
      *
-     * @return Event
+     * @return $this
      */
     public function setEndsAt($endsAt)
     {
@@ -129,6 +136,26 @@ class EventSchedule
     public function getEndsAt()
     {
         return $this->endsAt;
+    }
+
+    /**
+     * @param string $rrule
+     *
+     * @return $this
+     */
+    public function setRRule($rrule)
+    {
+        $this->rrule = $rrule;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRRule()
+    {
+        return $this->rrule;
     }
 
     /**
