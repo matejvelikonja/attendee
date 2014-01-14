@@ -2,7 +2,7 @@
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Attendee\Bundle\ApiBundle\Entity\Event;
+use Attendee\Bundle\ApiBundle\Entity\EventSchedule;
 
 /**
  * Class LoadEventsData
@@ -25,7 +25,7 @@ class LoadEventsData extends AbstractFixtures
     private function createRandomEvents($quantity)
     {
         foreach (range(0, $quantity) as $q) {
-            $event = new Event();
+            $event = new EventSchedule();
             $event
                 ->setName($this->faker->sentence())
                 ->setStartsAt($this->faker->dateTime)

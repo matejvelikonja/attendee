@@ -31,6 +31,8 @@
         "jms/di-extra-bundle": "~1.4",
         "jms/serializer-bundle": "~0.13",
 
+        "nelmio/api-doc-bundle": "~2.4",
+
         "friendsofsymfony/user-bundle": "~1.3"
     },
     "scripts": {

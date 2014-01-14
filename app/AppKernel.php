@@ -34,6 +34,8 @@ class AppKernel extends Kernel
 
             new FOS\UserBundle\FOSUserBundle(),
 
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+
             new Attendee\Bundle\ApiBundle\AttendeeApiBundle(),
             new Attendee\Bundle\UserBundle\AttendeeUserBundle(),
             new Attendee\Bundle\WebpageBundle\AttendeeWebpageBundle(),

@@ -79,3 +79,11 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Attendee\Bundle\ApiBundle\Entity\User
+
+nelmio_api_doc: ~
+
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [AttendeeApiBundle]
+        directories: ["%kernel.root_dir%/../src"]

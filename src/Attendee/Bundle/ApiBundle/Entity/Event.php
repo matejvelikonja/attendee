@@ -5,7 +5,7 @@ namespace Attendee\Bundle\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Event
+ * EventOccurrence
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -22,13 +22,6 @@ class Event
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="starts_at", type="datetimetz")
@@ -43,11 +36,11 @@ class Event
     private $endsAt;
 
     /**
-     * @var EventOccurrence[]
+     * @var EventSchedule
      *
-     * @ORM\OneToMany(targetEntity="EventOccurrence", mappedBy="event")
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="events")
      */
-    private $occurrences;
+    private $schedule;
 
     /**
      * Get id
@@ -60,35 +53,11 @@ class Event
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Event
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set startsAt
      *
      * @param \DateTime $startsAt
      *
-     * @return Event
+     * @return $this
      */
     public function setStartsAt($startsAt)
     {
@@ -112,7 +81,7 @@ class Event
      *
      * @param \DateTime $endsAt
      *
-     * @return Event
+     * @return $this
      */
     public function setEndsAt($endsAt)
     {
@@ -132,22 +101,22 @@ class Event
     }
 
     /**
-     * @param \Attendee\Bundle\ApiBundle\Entity\EventOccurrence[] $occurrences
+     * @param \Attendee\Bundle\ApiBundle\Entity\EventSchedule $schedule
      *
      * @return $this
      */
-    public function setOccurrences($occurrences)
+    public function setEvent(EventSchedule $schedule)
     {
-        $this->occurrences = $occurrences;
+        $this->schedule = $schedule;
 
         return $this;
     }
 
     /**
-     * @return \Attendee\Bundle\ApiBundle\Entity\EventOccurrence[]
+     * @return \Attendee\Bundle\ApiBundle\Entity\EventSchedule
      */
-    public function getOccurrences()
+    public function getEvent()
     {
-        return $this->occurrences;
+        return $this->schedule;
     }
 }
