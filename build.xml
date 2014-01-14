@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="attendee" default="db">
+
+    <property name="env" value="dev"/>
+    <property name="dir.app" value="${project.basedir}/app" />
+    <property name="dir.src" value="${project.basedir}/src" />
+    <property name="dir.build" value="${project.basedir}/build" />
+
+    <target name="db"
+            description="Creates database and runs fixtures."
+            depends="setup-db, fixtures" />
+
+    <target name="setup-db" description="Creates database and schema.">
+        <SymfonyConsole command="doctrine:database:drop">
+            <arg name="env" value="${env}" />
+            <arg value="--force"/>
+        </SymfonyConsole>
+
+        <SymfonyConsole command="doctrine:database:create"
+                        checkreturn="true">
+            <arg name="env" value="${env}" />
+        </SymfonyConsole>
+
+        <SymfonyConsole command="doctrine:schema:create"
+                        checkreturn="true">
+            <arg name="env" value="${env}" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="fixtures"
+            description="Loads fixtures.">
+
+        <SymfonyConsole command="doctrine:fixtures:load"
+                        checkreturn="true">
+            <arg name="env" value="${env}" />
+            <arg value="-n" />
+        </SymfonyConsole>
+    </target>
+
+
+</project>
