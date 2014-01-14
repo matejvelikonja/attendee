@@ -18,7 +18,6 @@ class EventsController extends Controller
 {
     /**
      * @Route("/")
-     * @Template()
      */
     public function indexAction()
     {

@@ -37,6 +37,7 @@ class AppKernel extends Kernel
             new Attendee\Bundle\ApiBundle\AttendeeApiBundle(),
             new Attendee\Bundle\UserBundle\AttendeeUserBundle(),
             new Attendee\Bundle\WebpageBundle\AttendeeWebpageBundle(),
+            new Attendee\Bundle\FixturesBundle\AttendeeFixturesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

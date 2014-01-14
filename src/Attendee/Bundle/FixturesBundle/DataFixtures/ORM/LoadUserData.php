@@ -1,8 +1,8 @@
 <?php
 
-namespace Attendee\Bundle\UserBundle\DataFixtures\ORM;
+namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Attendee\Bundle\UserBundle\Entity\User;
+use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Doctrine\UserManager;
@@ -13,7 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Class LoadUserData
  *
  * @package   Attendee\Bundle\UserBundle\DataFixtures\ORM
- * @author    Matej Velikonja <matej@velikonja.si>
+ * @author    Matej Velikonja <mvelikonja@astina.ch>
+ * @copyright 2014 Astina AG (http://astina.ch)
  */
 class LoadUserData implements FixtureInterface, ContainerAwareInterface
 {
