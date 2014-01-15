@@ -34,7 +34,9 @@ class EventScheduler
             return;
         }
 
-        foreach ($this->calculateEvents($schedule) as $eventDate) {
+        $events = $this->calculateEvents($schedule);
+
+        foreach ($events as $eventDate) {
             $event = new Event();
             $event
                 ->setStartsAt($eventDate)
@@ -52,10 +54,9 @@ class EventScheduler
      */
     private function calculateEvents(EventSchedule $schedule)
     {
-        $rrule = $schedule->getRRule() . ';UNTIL=' . $schedule->getEndsAt()->format('c');
         $transformer = new RecurrenceRuleTransformer(
             new RecurrenceRule(
-                $rrule,
+                $schedule->getRRule(),
                 $schedule->getStartsAt()
             )
         );

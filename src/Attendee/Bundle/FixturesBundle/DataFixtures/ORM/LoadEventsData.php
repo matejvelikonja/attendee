@@ -32,10 +32,10 @@ class LoadEventsData extends AbstractFixtures
 
             $schedule = new EventSchedule();
             $schedule
-                ->setName($this->faker->sentence())
+                ->setName($this->faker->sentence() . ' ' . $q)
                 ->setStartsAt($startDate)
                 ->setEndsAt($endDate)
-                ->setRRule('FREQ=WEEKLY');
+                ->setFrequency(EventSchedule::MONTHLY);
 
             $this->manager->persist($schedule);
         }

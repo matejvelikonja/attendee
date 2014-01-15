@@ -4,14 +4,21 @@ namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+
 /**
  * Event
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @HasLifecycleCallbacks
  */
 class EventSchedule
 {
+    const WEEKLY  = 'weekly';
+    const MONTHLY = 'monthly';
+    const YEARLY  = 'yearly';
+
     /**
      * @var integer
      *
@@ -43,18 +50,23 @@ class EventSchedule
     private $endsAt;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="r_rule", type="string", length=255)
-     */
-    private $rrule;
-
-    /**
      * @var Event[]
      *
      * @ORM\OneToMany(targetEntity="Event", mappedBy="schedule")
      */
     private $events;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="r_rule", type="string", length=255)
+     */
+    private $rRule;
+
+    /**
+     * @var string
+     */
+    private $frequency;
 
     /**
      * Get id
@@ -139,15 +151,15 @@ class EventSchedule
     }
 
     /**
-     * @param string $rrule
-     *
-     * @return $this
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
-    public function setRRule($rrule)
+    public function setRRule()
     {
-        $this->rrule = $rrule;
-
-        return $this;
+        $this->rRule = sprintf('freq=%s;until=%s',
+            $this->frequency,
+            $this->endsAt->format('c')
+        );
     }
 
     /**
@@ -155,7 +167,11 @@ class EventSchedule
      */
     public function getRRule()
     {
-        return $this->rrule;
+        if (! $this->rRule) {
+            $this->setRRule();
+        }
+
+        return $this->rRule;
     }
 
     /**
@@ -176,5 +192,13 @@ class EventSchedule
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * @param string $frequency
+     */
+    public function setFrequency($frequency)
+    {
+        $this->frequency = $frequency;
     }
 }
