@@ -2,7 +2,7 @@
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Attendee\Bundle\ApiBundle\Entity\EventSchedule;
+use Attendee\Bundle\ApiBundle\Entity\Schedule;
 
 /**
  * Class LoadEventsData
@@ -30,12 +30,12 @@ class LoadEventsData extends AbstractFixtures
             $endDate   = clone $startDate;
             $endDate   = $endDate->add(new \DateInterval('P1Y'));
 
-            $schedule = new EventSchedule();
+            $schedule = new Schedule();
             $schedule
                 ->setName($this->faker->sentence() . ' ' . $q)
                 ->setStartsAt($startDate)
                 ->setEndsAt($endDate)
-                ->setFrequency(EventSchedule::MONTHLY);
+                ->setFrequency(Schedule::MONTHLY);
 
             $this->manager->persist($schedule);
         }

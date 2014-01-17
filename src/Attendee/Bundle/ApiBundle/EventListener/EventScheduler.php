@@ -3,7 +3,7 @@
 namespace Attendee\Bundle\ApiBundle\EventListener;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
-use Attendee\Bundle\ApiBundle\Entity\EventSchedule;
+use Attendee\Bundle\ApiBundle\Entity\Schedule;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Recurr\RecurrenceRule;
 use Recurr\RecurrenceRuleTransformer;
@@ -24,10 +24,10 @@ class EventScheduler
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        /** @var EventSchedule $schedule */
+        /** @var Schedule $schedule */
         $schedule = $args->getEntity();
 
-        if (! $schedule instanceof EventSchedule) {
+        if (! $schedule instanceof Schedule) {
             return;
         }
 
@@ -45,11 +45,11 @@ class EventScheduler
     }
 
     /**
-     * @param EventSchedule $schedule
+     * @param Schedule $schedule
      *
      * @return \Datetime[]
      */
-    private function calculateEvents(EventSchedule $schedule)
+    private function calculateEvents(Schedule $schedule)
     {
         $transformer = new RecurrenceRuleTransformer(
             new RecurrenceRule(

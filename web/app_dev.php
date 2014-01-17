@@ -4,7 +4,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
 /**
+ * @param string $ip
  * @param string $range
+ *
+ * @return bool
  */
 function cidr_match($ip, $range)
 {
@@ -16,6 +19,11 @@ function cidr_match($ip, $range)
     return ($ip & $mask) == $subnet;
 }
 
+/**
+ * @param string $ip
+ *
+ * @return bool
+ */
 function isAllowedIp($ip)
 {
     if (cidr_match($ip, '10.0.0.0/8')

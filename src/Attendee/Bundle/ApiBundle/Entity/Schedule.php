@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
  * @ORM\Entity
  * @HasLifecycleCallbacks
  */
-class EventSchedule
+class Schedule
 {
     const WEEKLY  = 'weekly';
     const MONTHLY = 'monthly';
