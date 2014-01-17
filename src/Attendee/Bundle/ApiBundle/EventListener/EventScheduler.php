@@ -38,7 +38,8 @@ class EventScheduler
             $event
                 ->setStartsAt($eventDate)
                 ->setEndsAt($eventDate)
-                ->setSchedule($schedule);
+                ->setSchedule($schedule)
+                ->setLocation($schedule->getDefaultLocation());
 
             $args->getEntityManager()->persist($event);
         }

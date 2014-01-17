@@ -2,27 +2,33 @@
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
 
 /**
- * Class LoadEventsData
+ * Class LoadScheduleData
  *
  * @package   Attendee\Bundle\FixturesBundle\DataFixtures\ORM
  */
-class LoadEventsData extends AbstractFixtures
+class LoadScheduleData extends AbstractFixtures
 {
+    /**
+     * @var Location[]
+     */
+    private $locations;
+
     /**
      * Runs fixtures.
      */
     protected function run()
     {
-        $this->createRandomEventSchedules(2);
+        $this->createRandomSchedules(2);
     }
 
     /**
      * @param int $quantity
      */
-    private function createRandomEventSchedules($quantity)
+    private function createRandomSchedules($quantity)
     {
         foreach (range(1, $quantity) as $q) {
             /** @var \DateTime $startDate */
@@ -30,15 +36,31 @@ class LoadEventsData extends AbstractFixtures
             $endDate   = clone $startDate;
             $endDate   = $endDate->add(new \DateInterval('P1Y'));
 
+            $location = $this->getRandomLocation();
+
             $schedule = new Schedule();
             $schedule
                 ->setName($this->faker->sentence() . ' ' . $q)
                 ->setStartsAt($startDate)
                 ->setEndsAt($endDate)
-                ->setFrequency(Schedule::MONTHLY);
+                ->setFrequency(Schedule::MONTHLY)
+                ->setDefaultLocation($location);
 
             $this->manager->persist($schedule);
         }
+    }
+
+
+    /**
+     * @return Location
+     */
+    private function getRandomLocation()
+    {
+        if (! $this->locations) {
+            $this->locations = $this->manager->getRepository('AttendeeApiBundle:Location')->findAll();
+        }
+
+        return $this->locations[array_rand($this->locations)];
     }
 
     /**

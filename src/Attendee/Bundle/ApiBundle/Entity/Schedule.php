@@ -63,6 +63,14 @@ class Schedule
     private $rRule;
 
     /**
+     * @var Location
+     *
+     * @ORM\ManyToOne(targetEntity="Location")
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     */
+    private $defaultLocation;
+
+    /**
      * @var string
      */
     private $frequency;
@@ -195,9 +203,29 @@ class Schedule
 
     /**
      * @param string $frequency
+     *
+     * @return $this
      */
     public function setFrequency($frequency)
     {
         $this->frequency = $frequency;
+
+        return $this;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Location $defaultLocation
+     */
+    public function setDefaultLocation(Location $defaultLocation = null)
+    {
+        $this->defaultLocation = $defaultLocation;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\Location
+     */
+    public function getDefaultLocation()
+    {
+        return $this->defaultLocation;
     }
 }

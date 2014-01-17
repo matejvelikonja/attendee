@@ -50,6 +50,14 @@ class Event
     private $attendances;
 
     /**
+     * @var Location
+     *
+     * @ORM\ManyToOne(targetEntity="Location")
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     */
+    private $location;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -149,5 +157,21 @@ class Event
     public function getAttendances()
     {
         return $this->attendances;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Location $location
+     */
+    public function setLocation(Location $location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

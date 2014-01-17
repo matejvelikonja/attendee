@@ -33,6 +33,6 @@ class LoadLocationData extends AbstractFixtures
      */
     public function getOrder()
     {
-        return 300;
+        return 50;
     }
 }
