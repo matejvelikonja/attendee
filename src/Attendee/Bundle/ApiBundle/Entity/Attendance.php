@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Attendance
  *
- * @ORM\Table()
+ * @ORM\Table(name="attendances")
  * @ORM\Entity
  */
 class Attendance

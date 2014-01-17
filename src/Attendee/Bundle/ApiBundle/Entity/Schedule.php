@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 /**
  * Event
  *
- * @ORM\Table()
+ * @ORM\Table(name="schedules")
  * @ORM\Entity
  * @HasLifecycleCallbacks
  */

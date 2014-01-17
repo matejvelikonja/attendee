@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EventOccurrence
  *
- * @ORM\Table()
+ * @ORM\Table(name="events")
  * @ORM\Entity
  */
 class Event

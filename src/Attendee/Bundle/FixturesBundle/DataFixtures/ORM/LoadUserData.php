@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use FOS\UserBundle\Doctrine\UserManager;
 
@@ -49,16 +50,29 @@ class LoadUserData extends AbstractFixtures
      */
     private function createRandomUsers($quantity)
     {
+        $teams      = $this->manager->getRepository('AttendeeApiBundle:Team')->findAll();
+        $teamsCount = count($teams);
+
         foreach (range(0, $quantity) as $number) {
-            $user     = $this->createUser();
-            $userName = $this->faker->userName;
-            $email    = "$userName@example.com";
+            $user        = $this->createUser();
+            $userName    = $this->faker->userName;
+            $email       = "$userName@example.com";
+            $numbOfTeams = rand(1, $teamsCount); // how many groups user have
 
             $user
                 ->setUsername($userName)
                 ->setPlainPassword('password')
                 ->setEmail($email)
                 ->setEnabled(true);
+
+            for ($i = 0; $i < $numbOfTeams; $i++) {
+                /** @var Team $team */
+                do {
+                    $team = $this->faker->randomElement($teams);
+                } while($user->belongsTo($team));
+
+                $user->addTeam($team);
+            }
 
             $this->userManager->updateUser($user);
         }
@@ -79,6 +93,6 @@ class LoadUserData extends AbstractFixtures
      */
     public function getOrder()
     {
-        return 0;
+        return 10;
     }
 }
