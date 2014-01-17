@@ -66,8 +66,8 @@ class LoadUserData extends AbstractFixtures
                 ->setEnabled(true);
 
             for ($i = 0; $i < $numbOfTeams; $i++) {
-                /** @var Team $team */
                 do {
+                    /** @var Team $team */
                     $team = $this->faker->randomElement($teams);
                 } while($user->belongsTo($team));
 
