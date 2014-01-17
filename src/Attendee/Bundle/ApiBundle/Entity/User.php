@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Attendee\Bundle\UserBundle\Entity\User as BaseUser;
 
 /**
