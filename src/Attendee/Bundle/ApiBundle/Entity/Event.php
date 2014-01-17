@@ -43,6 +43,13 @@ class Event
     private $schedule;
 
     /**
+     * @var Attendance[]
+     *
+     * @ORM\OneToMany(targetEntity="Attendance", mappedBy="event")
+     */
+    private $attendances;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -126,5 +133,21 @@ class Event
     public function getSchedule()
     {
         return $this->schedule;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Attendance[] $attendances
+     */
+    public function setAttendances($attendances)
+    {
+        $this->attendances = $attendances;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\Attendance[]
+     */
+    public function getAttendances()
+    {
+        return $this->attendances;
     }
 }

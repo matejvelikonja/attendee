@@ -13,5 +13,28 @@ use Attendee\Bundle\UserBundle\Entity\User as BaseUser;
  */
 class User extends BaseUser
 {
+    /**
+     * @var Attendance[]
+     *
+     * @ORM\OneToMany(targetEntity="Attendance", mappedBy="user")
+     */
+    private $attendances;
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Attendance[] $attendances
+     */
+    public function setAttendances($attendances)
+    {
+        $this->attendances = $attendances;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\Attendance[]
+     */
+    public function getAttendances()
+    {
+        return $this->attendances;
+    }
+
 
 }

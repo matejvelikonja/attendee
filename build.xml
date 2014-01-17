@@ -10,6 +10,16 @@
             description="Creates database and runs fixtures."
             depends="setup-db, fixtures" />
 
+    <target name="test"
+            description="Runs all tests."
+            >
+        <exec executable="phpunit"
+              passthru="true">
+            <arg value="-c" />
+            <arg path="${dir.app}" />
+        </exec>
+    </target>
+
     <target name="setup-db" description="Creates database and schema.">
         <SymfonyConsole command="doctrine:database:drop">
             <arg name="env" value="${env}" />
