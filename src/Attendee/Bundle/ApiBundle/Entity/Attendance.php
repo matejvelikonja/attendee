@@ -80,7 +80,7 @@ class Attendance
     }
 
     /**
-     * @return int[]
+     * @return integer[]
      */
     public static function getStatuses()
     {
