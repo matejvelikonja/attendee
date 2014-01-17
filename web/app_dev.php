@@ -3,6 +3,9 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
+/**
+ * @param string $range
+ */
 function cidr_match($ip, $range)
 {
     list ($subnet, $bits) = explode('/', $range);

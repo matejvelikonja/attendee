@@ -3,11 +3,8 @@
 namespace Attendee\Bundle\ApiBundle\Service;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
-
 use Doctrine\ORM\EntityManager;
-
 use Doctrine\ORM\EntityRepository;
-
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;

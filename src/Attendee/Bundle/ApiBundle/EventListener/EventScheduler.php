@@ -4,13 +4,10 @@ namespace Attendee\Bundle\ApiBundle\EventListener;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Entity\EventSchedule;
-
 use Doctrine\ORM\Event\LifecycleEventArgs;
-
 use Recurr\RecurrenceRule;
 use Recurr\RecurrenceRuleTransformer;
 use Recurr\TransformerConfig;
-
 use JMS\DiExtraBundle\Annotation\DoctrineListener;
 
 /**

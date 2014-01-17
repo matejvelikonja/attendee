@@ -4,7 +4,6 @@ namespace Attendee\Bundle\UserBundle\Controller;
 
 use FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class SecurityController extends BaseSecurityController
 {

@@ -5,7 +5,6 @@ namespace Attendee\Bundle\ApiBundle\Controller;
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Service\EventService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
