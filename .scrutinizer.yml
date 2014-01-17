@@ -2,6 +2,7 @@ tools:
     external_code_coverage: true
     php_code_sniffer: true
     php_cs_fixer: true
+    php_analyzer: true
     php_cpd:
         # A list of excluded directories.
         excluded_dirs:        []
