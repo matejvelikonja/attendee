@@ -1,9 +1,7 @@
-# for more details see: http://emberjs.com/guides/models/defining-models/
-
 App.Location = DS.Model.extend
   name: DS.attr 'string'
-  lat: DS.attr 'number'
-  lng: DS.attr 'number'
+  lat:  DS.attr  'number'
+  lng:  DS.attr  'number'
 
   coordinates: (->
     if (@get 'lat') != 0 and (@get 'lng') != 0

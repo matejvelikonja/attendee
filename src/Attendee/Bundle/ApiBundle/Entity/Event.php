@@ -44,8 +44,6 @@ class Event extends AbstractEntity
      * @var Attendance[]
      *
      * @ORM\OneToMany(targetEntity="Attendance", mappedBy="event")
-     *
-     * Serializer\Expose
      */
     private $attendances;
 
@@ -59,7 +57,24 @@ class Event extends AbstractEntity
 
     /**
      * @Serializer\VirtualProperty
-     * @Serializer\SerializedName("location_id")
+     * @Serializer\SerializedName("attendances")
+     *
+     * @return int[]
+     */
+    public function getAttendancesIds()
+    {
+        $ids = array();
+
+        foreach ($this->attendances as $attendance) {
+            $ids[] = $attendance->getId();
+        }
+
+        return $ids;
+    }
+
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("location")
      *
      * @return int
      */
