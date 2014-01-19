@@ -6,15 +6,18 @@
 <h1>{{ name }}</h1>
 <h2>{{ humanizeDate date }}</h2>
 
-<h2>Attendees</h2>
+<h2 {{ action setStatus }}>Attendees</h2>
 
 <div class="list-group">
 {{# each a in attendances }}
     <div class="list-group-item">
         {{a.user_name}}
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default">
+            <button {{ action setStatus a 'present' }} type="button" class="btn btn-default" {{bind-attr class="a.isPresent"}}>
                 <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <button {{ action setStatus a 'absent' }} type="button" class="btn btn-default" {{bind-attr class="a.isAbsent"}}>
+                <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>
     </div>

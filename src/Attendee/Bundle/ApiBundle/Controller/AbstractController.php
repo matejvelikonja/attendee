@@ -60,6 +60,38 @@ class AbstractController extends Controller
     }
 
     /**
+     * @param string $serialized
+     * @param string $className
+     *
+     * @return object
+     */
+    protected function deSerialize($serialized, $className)
+    {
+        /** @var \JMS\Serializer\Serializer $serializer */
+        $serializer = $this->container->get('jms_serializer');
+
+        $keyName = $this->getKeyFromClassName($className);
+
+        $data = json_decode($serialized, true);
+
+        return $serializer->deserialize($serialized, $className, 'json');
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string
+     */
+    private function getKeyFromClassName($name)
+    {
+        $parts = explode('\\', $name);
+
+        $keyName = strtolower(end($parts));
+
+        return $keyName;
+    }
+
+    /**
      * @return EventService
      */
     protected function getEventService()

@@ -67,7 +67,7 @@ class Attendance extends AbstractEntity
     /**
      * Set status
      *
-     * @param int $status
+     * @param string $status
      *
      * @return Attendance
      */
@@ -81,7 +81,7 @@ class Attendance extends AbstractEntity
     /**
      * Get status
      *
-     * @return integer 
+     * @return string
      */
     public function getStatus()
     {

@@ -6,3 +6,8 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/matejvelikonja/attendee/badges/coverage.png?s=725e5c1ed511243ac7f1fd1aec5f46fe6d917c77)](https://scrutinizer-ci.com/g/matejvelikonja/attendee/)
 
 ## Development
+
+## TODOs
+
+* Fix events when editing schedules.
+* Fix attendances when editing events

@@ -8,6 +8,8 @@ use Attendee\Bundle\ApiBundle\Entity\Location;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AttendancesController
@@ -43,7 +45,7 @@ class AttendancesController extends AbstractController
     }
 
     /**
-     * @param Attendance $location
+     * @param Attendance $attendance
      *
      * @Route("/{id}", methods="GET")
      *
@@ -55,12 +57,35 @@ class AttendancesController extends AbstractController
      *
      * @return array
      */
-    public function showAction(Attendance $location)
+    public function showAction(Attendance $attendance)
     {
         return $this->createResponse(
             array(
-                'attendance' => $location
+                'attendance' => $attendance
             )
         );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Attendance $attendance
+     *
+     * @Route("/{id}", methods="PUT")
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Update attendance.",
+     *  section="Attendances"
+     * )
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function updateAction(Request $request, Attendance $attendance)
+    {
+//        $params = $this->deSerialize($request->getContent(), get_class($attendance));
+//var_dump($request->getContent(), $params);die;
+//        $this->getAttendanceService()->update($attendance, $params);
+
+        return $this->createResponse(array());
     }
 }

@@ -51,4 +51,9 @@ class AttendanceService
 
         return $qb->getQuery()->getResult();
     }
+
+    public function update(Attendance $attendance, $params)
+    {
+        var_dump($params);die;
+    }
 }
