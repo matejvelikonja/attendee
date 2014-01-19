@@ -44,10 +44,15 @@ class EventsController extends AbstractController
      *  description="Event detail."
      * )
      *
+     * @return array
      */
     public function showAction(Event $event)
     {
-
+        return $this->createResponse(
+            array(
+                'event' => $event
+            )
+        );
     }
 
     /**

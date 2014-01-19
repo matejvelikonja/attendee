@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +19,20 @@ class AbstractController extends Controller
     /**
      * @param array $params
      *
+     * @throws \RuntimeException
+     *
      * @return JsonResponse
      */
     protected function createResponse(array $params)
     {
+        $serialized = $this->serialize($params);
+
+        if (!$serialized) {
+            throw new \RuntimeException('Serialization failed.');
+        }
+
         return new Response(
-            $this->serialize($params),
+            $serialized,
             200,
             array(
                 'Content-Type' =>'text/javascript'
@@ -41,6 +50,9 @@ class AbstractController extends Controller
         /** @var \JMS\Serializer\Serializer $serializer */
         $serializer = $this->container->get('jms_serializer');
 
-        return $serializer->serialize($object, 'json');
+        $context = SerializationContext::create();
+//        $context->enableMaxDepthChecks();
+
+        return $serializer->serialize($object, 'json', $context);
     }
 } 

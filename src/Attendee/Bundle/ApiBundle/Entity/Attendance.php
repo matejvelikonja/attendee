@@ -22,6 +22,8 @@ class Attendance extends AbstractEntity
      * @var int
      *
      * @ORM\Column(name="status", type="smallint")
+     *
+     * @SER\Expose
      */
     private $status;
 
@@ -29,6 +31,8 @@ class Attendance extends AbstractEntity
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="attendances")
+     *
+     * SER\Expose
      */
     private $user;
 

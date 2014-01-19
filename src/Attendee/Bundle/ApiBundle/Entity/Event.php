@@ -44,6 +44,8 @@ class Event extends AbstractEntity
      * @var Attendance[]
      *
      * @ORM\OneToMany(targetEntity="Attendance", mappedBy="event")
+     *
+     * @SER\Expose
      */
     private $attendances;
 
