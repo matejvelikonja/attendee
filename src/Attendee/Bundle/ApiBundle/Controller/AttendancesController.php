@@ -22,12 +22,18 @@ class AttendancesController extends AbstractController
      * @Route("/", methods="GET")
      *
      * @ApiDoc(
-     *  description="Lists all attendances."
+     *  description="Lists all attendances.",
+     *  section="Attendances",
+     *  parameters={
+     *      {"name"="ids[]", "dataType"="integer", "required"=false}
+     *  }
      * )
      */
     public function indexAction()
     {
-        $attendances = $this->getDoctrine()->getRepository('AttendeeApiBundle:Attendance')->findAll();
+        $ids = $this->getRequest()->get('ids');
+
+        $attendances = $this->getAttendanceService()->find($ids);
 
         return $this->createResponse(
             array(
@@ -42,7 +48,9 @@ class AttendancesController extends AbstractController
      * @Route("/{id}", methods="GET")
      *
      * @ApiDoc(
-     *  description="Attendance detail."
+     *  resource=true,
+     *  description="Attendance detail.",
+     *  section="Attendances"
      * )
      *
      * @return array
@@ -54,5 +62,13 @@ class AttendancesController extends AbstractController
                 'attendance' => $location
             )
         );
+    }
+
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    private function getRepo()
+    {
+        return $this->getDoctrine()->getRepository('AttendeeApiBundle:Attendance');
     }
 }

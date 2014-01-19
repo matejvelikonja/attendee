@@ -2,6 +2,8 @@
 
 namespace Attendee\Bundle\ApiBundle\Controller;
 
+use Attendee\Bundle\ApiBundle\Service\AttendanceService;
+use Attendee\Bundle\ApiBundle\Service\EventService;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,5 +56,21 @@ class AbstractController extends Controller
 //        $context->enableMaxDepthChecks();
 
         return $serializer->serialize($object, 'json', $context);
+    }
+
+    /**
+     * @return EventService
+     */
+    protected function getEventService()
+    {
+        return $this->container->get('attendee.event_service');
+    }
+
+    /**
+     * @return AttendanceService
+     */
+    protected function getAttendanceService()
+    {
+        return $this->container->get('attendee.attendance_service');
     }
 } 

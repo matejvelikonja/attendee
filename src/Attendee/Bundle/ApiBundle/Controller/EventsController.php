@@ -54,12 +54,4 @@ class EventsController extends AbstractController
             )
         );
     }
-
-    /**
-     * @return EventService
-     */
-    private function getEventService()
-    {
-        return $this->container->get('attendee.event_service');
-    }
 }
