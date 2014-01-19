@@ -39,9 +39,6 @@ assetic:
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
-        sass:
-          bin:      /home/vagrant/.rbenv/shims/sass
-          apply_to: "\.sass"
         coffee:
           bin:      %kernel.root_dir%/../node_modules/coffee-script/bin/coffee
           apply_to: "\.coffee$"

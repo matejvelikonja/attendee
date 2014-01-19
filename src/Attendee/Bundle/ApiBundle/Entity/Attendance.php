@@ -31,8 +31,6 @@ class Attendance extends AbstractEntity
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="attendances")
-     *
-     * Serializer\Expose
      */
     private $user;
 
