@@ -63,12 +63,4 @@ class AttendancesController extends AbstractController
             )
         );
     }
-
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    private function getRepo()
-    {
-        return $this->getDoctrine()->getRepository('AttendeeApiBundle:Attendance');
-    }
 }
