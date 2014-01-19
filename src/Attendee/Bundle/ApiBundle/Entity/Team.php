@@ -10,17 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="teams")
  * @ORM\Entity
  */
-class Team
+class Team extends AbstractEntity
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @var string
      *
@@ -41,14 +32,6 @@ class Team
      * @ORM\ManyToMany(targetEntity="Schedule", mappedBy="teams")
      */
     private $schedules;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @param string $name

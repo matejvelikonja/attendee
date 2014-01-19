@@ -3,28 +3,24 @@
 namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as SER;
 
 /**
  * EventOccurrence
  *
  * @ORM\Table(name="events")
  * @ORM\Entity
+ *
+ * @SER\ExclusionPolicy("all")
  */
-class Event
+class Event extends AbstractEntity
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="starts_at", type="datetimetz")
+     *
+     * @SER\Expose
      */
     private $startsAt;
 
@@ -32,6 +28,8 @@ class Event
      * @var \DateTime
      *
      * @ORM\Column(name="ends_at", type="datetimetz")
+     *
+     * @SER\Expose
      */
     private $endsAt;
 
@@ -54,18 +52,10 @@ class Event
      *
      * @ORM\ManyToOne(targetEntity="Location")
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
+     *
+     * @SER\Expose
      */
     private $location;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return string

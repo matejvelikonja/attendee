@@ -2,31 +2,22 @@
 
 namespace Attendee\Bundle\ApiBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Event
  *
  * @ORM\Table(name="schedules")
  * @ORM\Entity
- * @HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
-class Schedule
+class Schedule extends AbstractEntity
 {
     const WEEKLY  = 'weekly';
     const MONTHLY = 'monthly';
     const YEARLY  = 'yearly';
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -89,16 +80,6 @@ class Schedule
     public function __construct()
     {
         $this->teams = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

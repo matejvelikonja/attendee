@@ -3,26 +3,20 @@
 namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as SER;
 
 /**
  * Attendance
  *
  * @ORM\Table(name="attendances")
  * @ORM\Entity
+ *
+ * @SER\ExclusionPolicy("all")
  */
-class Attendance
+class Attendance extends AbstractEntity
 {
     const STATUS_PRESENT = 1;
     const STATUS_ABSENT  = 0;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var int
@@ -44,16 +38,6 @@ class Attendance
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="attendances")
      */
     private $event;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set status
