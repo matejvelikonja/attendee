@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
@@ -81,6 +82,14 @@ class Schedule
      * @var string
      */
     private $frequency;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->teams = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -254,6 +263,34 @@ class Schedule
     public function getTeams()
     {
         return $this->teams;
+    }
+
+    /**
+     * @param Team $team
+     *
+     * @return $this
+     */
+    public function addTeam(Team $team)
+    {
+        $this->teams->add($team);
+
+        return $this;
+    }
+
+    /**
+     * @param Team $team
+     *
+     * @return bool
+     */
+    public function belongsTo(Team $team)
+    {
+        foreach($this->teams as $existingTeam) {
+            if ($team === $existingTeam) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

@@ -4,6 +4,7 @@ namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
+use Attendee\Bundle\ApiBundle\Entity\Team;
 
 /**
  * Class LoadScheduleData
@@ -30,11 +31,14 @@ class LoadScheduleData extends AbstractFixtures
      */
     private function createRandomSchedules($quantity)
     {
+        $teams = $this->manager->getRepository('AttendeeApiBundle:Team')->findAll();
+
         foreach (range(1, $quantity) as $q) {
             /** @var \DateTime $startDate */
-            $startDate = $this->faker->dateTimeThisYear;
-            $endDate   = clone $startDate;
-            $endDate   = $endDate->add(new \DateInterval('P1Y'));
+            $startDate   = $this->faker->dateTimeThisYear;
+            $endDate     = clone $startDate;
+            $endDate     = $endDate->add(new \DateInterval('P1Y'));
+            $numbOfTeams = rand(1, count($teams)); // how many teams schedule has
 
             $location = $this->getRandomLocation();
 
@@ -45,6 +49,15 @@ class LoadScheduleData extends AbstractFixtures
                 ->setEndsAt($endDate)
                 ->setFrequency(Schedule::MONTHLY)
                 ->setDefaultLocation($location);
+
+            for ($i = 0; $i < $numbOfTeams; $i++) {
+                do {
+                    /** @var Team $team */
+                    $team = $this->faker->randomElement($teams);
+                } while($schedule->belongsTo($team));
+
+                $schedule->addTeam($team);
+            }
 
             $this->manager->persist($schedule);
         }
