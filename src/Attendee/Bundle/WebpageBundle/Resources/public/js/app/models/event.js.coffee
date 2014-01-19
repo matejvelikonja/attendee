@@ -1,11 +1,9 @@
-# for more details see: http://emberjs.com/guides/models/defining-models/
-
 App.Event = DS.Model.extend
-  name:      DS.attr      'string'
-  starts_at: DS.attr      'string'
-  ends_at:   DS.attr      'string'
-  location:  DS.belongsTo 'location'
-#  attendees: DS.hasMany   'App.User'
+  name:        DS.attr      'string'
+  starts_at:   DS.attr      'string'
+  ends_at:     DS.attr      'string'
+  location:    DS.belongsTo 'location'
+  attendances: DS.hasMany   'attendance', { async: true }
 
   is_this_week: (->
     date = moment(@get 'starts_at')

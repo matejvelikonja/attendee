@@ -9,9 +9,9 @@
 <h2>Attendees</h2>
 
 <div class="list-group">
-{{# each attendee in attendees }}
+{{# each a in attendances }}
     <div class="list-group-item">
-        {{attendee.name}}
+        {{a.status}}
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-ok"></span>
