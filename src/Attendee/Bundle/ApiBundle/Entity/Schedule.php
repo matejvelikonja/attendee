@@ -71,6 +71,13 @@ class Schedule
     private $defaultLocation;
 
     /**
+     * @var Team[]
+     *
+     * @ORM\ManyToMany(targetEntity="Team", inversedBy="schedules")
+     */
+    private $teams;
+
+    /**
      * @var string
      */
     private $frequency;
@@ -228,4 +235,25 @@ class Schedule
     {
         return $this->defaultLocation;
     }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Team[] $teams
+     *
+     * @return $this
+     */
+    public function setTeams($teams)
+    {
+        $this->teams = $teams;
+
+        return $this;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\Team[]
+     */
+    public function getTeams()
+    {
+        return $this->teams;
+    }
+
 }

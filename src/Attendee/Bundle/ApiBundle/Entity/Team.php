@@ -36,6 +36,13 @@ class Team
     private $users;
 
     /**
+     * @var Schedule[]
+     *
+     * @ORM\ManyToMany(targetEntity="Schedule", mappedBy="teams")
+     */
+    private $schedules;
+
+    /**
      * @return int
      */
     public function getId()
@@ -81,6 +88,26 @@ class Team
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Schedule[] $schedules
+     *
+     * @return $this
+     */
+    public function setSchedules($schedules)
+    {
+        $this->schedules = $schedules;
+
+        return $this;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\Schedule[]
+     */
+    public function getSchedules()
+    {
+        return $this->schedules;
     }
 
 }
