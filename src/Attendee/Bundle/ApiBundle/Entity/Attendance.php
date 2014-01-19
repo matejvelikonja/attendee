@@ -44,6 +44,17 @@ class Attendance extends AbstractEntity
     private $event;
 
     /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("user")
+     *
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->getUser()->getId();
+    }
+
+    /**
      * Set status
      *
      * @param int $status

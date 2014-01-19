@@ -6,11 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Attendee\Bundle\UserBundle\Entity\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * User
  *
  * @ORM\Table(name="users")
  * @ORM\Entity()
+ *
+ * @Serializer\ExclusionPolicy("all")
+ * @Serializer\AccessType("public_method")
  */
 class User extends BaseUser
 {
@@ -37,6 +42,17 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="users")
      */
     private $teams;
+
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("name")
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 
     /**
      * @param \Attendee\Bundle\ApiBundle\Entity\Attendance[] $attendances

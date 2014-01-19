@@ -35,6 +35,8 @@ class LoadUserData extends AbstractFixtures
     {
         $user = $this->createUser();
         $user
+            ->setFirstName('admin')
+            ->setLastName('admin')
             ->setUsername('admin')
             ->setPlainPassword('admin')
             ->setEmail('admin@example.com')
@@ -60,6 +62,8 @@ class LoadUserData extends AbstractFixtures
             $numbOfTeams = rand(1, $teamsCount); // how many groups user have
 
             $user
+                ->setFirstName($this->faker->firstName)
+                ->setLastName($this->faker->lastName)
                 ->setUsername($userName)
                 ->setPlainPassword('password')
                 ->setEmail($email)

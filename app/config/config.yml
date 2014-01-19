@@ -87,3 +87,10 @@ jms_di_extra:
         all_bundles: false
         bundles: [AttendeeApiBundle]
         directories: ["%kernel.root_dir%/../src"]
+
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/serializer/FOSUB"
