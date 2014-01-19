@@ -35,3 +35,7 @@ App.IndexRoute = Ember.Route.extend
 App.EventsRoute = Ember.Route.extend
   model: ->
     @store.find('event')
+
+App.LocationsRoute = Ember.Route.extend
+  model: ->
+    @store.find('location')

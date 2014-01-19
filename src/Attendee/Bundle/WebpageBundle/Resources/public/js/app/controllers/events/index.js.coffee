@@ -1,3 +1,3 @@
 App.EventsIndexController = Ember.ArrayController.extend
-  sortProperties: ['date']
+  sortProperties: ['starts_at']
   sortAscending: true

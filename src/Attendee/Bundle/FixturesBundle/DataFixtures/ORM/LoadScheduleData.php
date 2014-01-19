@@ -35,7 +35,7 @@ class LoadScheduleData extends AbstractFixtures
 
         foreach (range(1, $quantity) as $q) {
             /** @var \DateTime $startDate */
-            $startDate   = $this->faker->dateTimeThisYear;
+            $startDate   = $this->faker->dateTimeBetween('-6 months');
             $endDate     = clone $startDate;
             $endDate     = $endDate->add(new \DateInterval('P1Y'));
             $numbOfTeams = rand(1, count($teams)); // how many teams schedule has
