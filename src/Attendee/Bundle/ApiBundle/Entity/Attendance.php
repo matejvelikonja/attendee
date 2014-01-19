@@ -15,17 +15,18 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class Attendance extends AbstractEntity
 {
-    const STATUS_PRESENT = 1;
-    const STATUS_ABSENT  = 0;
+    const STATUS_PRESENT = 'present';
+    const STATUS_ABSENT  = 'absent';
+    const STATUS_EMPTY   = '';
 
     /**
      * @var int
      *
-     * @ORM\Column(name="status", type="smallint")
+     * @ORM\Column(name="status", type="string")
      *
      * @Serializer\Expose
      */
-    private $status;
+    private $status = self::STATUS_EMPTY;
 
     /**
      * @var User
@@ -88,13 +89,14 @@ class Attendance extends AbstractEntity
     }
 
     /**
-     * @return integer[]
+     * @return string[]
      */
     public static function getStatuses()
     {
         return array(
             self::STATUS_PRESENT,
-            self::STATUS_ABSENT
+            self::STATUS_ABSENT,
+            self::STATUS_EMPTY
         );
     }
 

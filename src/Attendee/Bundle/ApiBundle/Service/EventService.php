@@ -3,18 +3,18 @@
 namespace Attendee\Bundle\ApiBundle\Service;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
+use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use JMS\DiExtraBundle\Annotation\Service;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
+
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * Class EventService
  *
  * @package Attendee\Bundle\ApiBundle\Service
  *
- * @Service("attendee.event_service")
+ * @DI\Service("attendee.event_service")
  */
 class EventService
 {
@@ -24,8 +24,8 @@ class EventService
     private $repo;
 
     /**
-     * @InjectParams({
-     *      "em" = @Inject("doctrine.orm.entity_manager")
+     * @DI\InjectParams({
+     *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
      */
     public function __construct(EntityManager $em)
@@ -39,5 +39,25 @@ class EventService
     public function find()
     {
         return $this->repo->findAll();
+    }
+
+
+    /**
+     * @param Event $event
+     *
+     * @return User[]
+     */
+    public function getUsers(Event $event)
+    {
+        $teams = $event->getSchedule()->getTeams();
+        $users = array();
+
+        foreach ($teams as $team) {
+            foreach ($team->getUsers() as $user) {
+                $users[$user->getId()] = $user;
+            }
+        }
+
+        return array_values($users);
     }
 }

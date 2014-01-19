@@ -44,7 +44,7 @@ class LoadScheduleData extends AbstractFixtures
 
             $schedule = new Schedule();
             $schedule
-                ->setName($this->faker->sentence() . ' ' . $q)
+                ->setName($this->faker->company . ' ' . $q)
                 ->setStartsAt($startDate)
                 ->setEndsAt($endDate)
                 ->setFrequency(Schedule::MONTHLY)
