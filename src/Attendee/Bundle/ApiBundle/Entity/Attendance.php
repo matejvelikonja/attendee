@@ -53,6 +53,17 @@ class Attendance extends AbstractEntity
     }
 
     /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("user_name")
+     *
+     * @return string
+     */
+    public function getUserName()
+    {
+        return $this->getUser()->getName();
+    }
+
+    /**
      * Set status
      *
      * @param int $status
