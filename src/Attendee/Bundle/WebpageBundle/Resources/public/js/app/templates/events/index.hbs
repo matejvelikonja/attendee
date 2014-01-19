@@ -1,14 +1,14 @@
 <h1>Events</h1>
 <div class="list-group">
     {{#each event in controller}}
-        <a {{action showEvent event}} {{ bind-attr class=":list-group-item event.isDirty event.is_this_week" }}>
+        {{#link-to 'event' event classNameBindings=":list-group-item event.isDirty event.is_this_week"}}
             <h4 class="list-group-item-heading">{{event.name}}</h4>
             <p class="list-group-item-text">
                 <small>
                     {{ event.location.name }} <br>
-                    {{ humanizeDate event.date 'DD.MM.YYYY dddd, HH:mm' }}
+                    {{ humanizeDate event.starts_at 'DD.MM.YYYY dddd, HH:mm' }}
                 </small>
             </p>
-        </a>
+        {{/link-to}}
     {{/each}}
 </div>

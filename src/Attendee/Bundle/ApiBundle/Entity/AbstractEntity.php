@@ -3,7 +3,7 @@
 namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as SER;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class AbstractEntity
@@ -19,7 +19,7 @@ abstract class AbstractEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @SER\Expose
+     * @Serializer\Expose
      */
     protected $id;
 

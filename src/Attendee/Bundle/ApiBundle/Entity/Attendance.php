@@ -3,7 +3,7 @@
 namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as SER;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Attendance
@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as SER;
  * @ORM\Table(name="attendances")
  * @ORM\Entity
  *
- * @SER\ExclusionPolicy("all")
+ * @Serializer\ExclusionPolicy("all")
  */
 class Attendance extends AbstractEntity
 {
@@ -23,7 +23,7 @@ class Attendance extends AbstractEntity
      *
      * @ORM\Column(name="status", type="smallint")
      *
-     * @SER\Expose
+     * @Serializer\Expose
      */
     private $status;
 
@@ -32,7 +32,7 @@ class Attendance extends AbstractEntity
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="attendances")
      *
-     * SER\Expose
+     * Serializer\Expose
      */
     private $user;
 

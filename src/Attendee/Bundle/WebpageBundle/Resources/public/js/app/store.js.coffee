@@ -13,5 +13,4 @@ App.ApplicationAdapter = DS.RESTAdapter.extend
 #    normalURL + '.json'
 
 App.Store = DS.Store.extend
-  revision: 12
   adapter: App.ApplicationAdapter.create()

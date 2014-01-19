@@ -3,7 +3,7 @@
 namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as SER;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * EventOccurrence
@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as SER;
  * @ORM\Table(name="events")
  * @ORM\Entity
  *
- * @SER\ExclusionPolicy("all")
+ * @Serializer\ExclusionPolicy("all")
  */
 class Event extends AbstractEntity
 {
@@ -20,7 +20,7 @@ class Event extends AbstractEntity
      *
      * @ORM\Column(name="starts_at", type="datetimetz")
      *
-     * @SER\Expose
+     * @Serializer\Expose
      */
     private $startsAt;
 
@@ -29,7 +29,7 @@ class Event extends AbstractEntity
      *
      * @ORM\Column(name="ends_at", type="datetimetz")
      *
-     * @SER\Expose
+     * @Serializer\Expose
      */
     private $endsAt;
 
@@ -45,7 +45,7 @@ class Event extends AbstractEntity
      *
      * @ORM\OneToMany(targetEntity="Attendance", mappedBy="event")
      *
-     * @SER\Expose
+     * Serializer\Expose
      */
     private $attendances;
 
@@ -54,12 +54,24 @@ class Event extends AbstractEntity
      *
      * @ORM\ManyToOne(targetEntity="Location")
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
-     *
-     * @SER\Expose
      */
     private $location;
 
     /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("location_id")
+     *
+     * @return int
+     */
+    public function getLocationId()
+    {
+        return $this->getLocation()->getId();
+    }
+
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("name")
+     *
      * @return string
      */
     public function getName()
@@ -74,7 +86,7 @@ class Event extends AbstractEntity
      *
      * @return $this
      */
-    public function setStartsAt($startsAt)
+    public function setStartsAt(\DateTime $startsAt)
     {
         $this->startsAt = $startsAt;
 
@@ -98,7 +110,7 @@ class Event extends AbstractEntity
      *
      * @return $this
      */
-    public function setEndsAt($endsAt)
+    public function setEndsAt(\DateTime $endsAt)
     {
         $this->endsAt = $endsAt;
 
