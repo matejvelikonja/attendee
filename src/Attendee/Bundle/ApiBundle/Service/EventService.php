@@ -6,7 +6,6 @@ use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**

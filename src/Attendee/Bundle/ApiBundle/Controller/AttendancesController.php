@@ -3,13 +3,10 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
-use Attendee\Bundle\ApiBundle\Entity\Location;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AttendancesController
@@ -55,7 +52,7 @@ class AttendancesController extends AbstractController
      *  section="Attendances"
      * )
      *
-     * @return array
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function showAction(Attendance $attendance)
     {

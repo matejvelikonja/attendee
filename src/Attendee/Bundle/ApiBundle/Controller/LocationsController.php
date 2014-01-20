@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Location;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,7 +43,7 @@ class LocationsController extends AbstractController
      *  description="Location detail."
      * )
      *
-     * @return array
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function showAction(Location $location)
     {
