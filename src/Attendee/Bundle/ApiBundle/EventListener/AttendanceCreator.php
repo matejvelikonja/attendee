@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\EventListener;
 
 use JMS\DiExtraBundle\Annotation as DI;
-
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Service\EventService;

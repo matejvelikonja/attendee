@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
-use Attendee\Bundle\ApiBundle\Service\EventService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,7 +43,7 @@ class EventsController extends AbstractController
      *  description="Event detail."
      * )
      *
-     * @return array
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function showAction(Event $event)
     {

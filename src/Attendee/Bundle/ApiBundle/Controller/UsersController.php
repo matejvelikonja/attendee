@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\User;
-
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -51,7 +50,7 @@ class UsersController extends AbstractController
      *  section="User"
      * )
      *
-     * @return array
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function showAction(User $user)
     {
