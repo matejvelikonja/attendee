@@ -24,12 +24,18 @@ class AttendanceService
     private $repo;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
      * @InjectParams({
      *      "em" = @Inject("doctrine.orm.entity_manager")
      * })
      */
     public function __construct(EntityManager $em)
     {
+        $this->em   = $em;
         $this->repo = $em->getRepository('AttendeeApiBundle:Attendance');
     }
 
@@ -51,8 +57,22 @@ class AttendanceService
         return $qb->getQuery()->getResult();
     }
 
-    public function update(Attendance $attendance, $params)
+    /**
+     * @param Attendance $attendance
+     */
+    public function update(Attendance $attendance)
     {
-        var_dump($params);die;
+        $this->em->persist($attendance);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Attendance $attendance
+     * @param string     $status
+     */
+    public function changeStatus(Attendance $attendance, $status)
+    {
+        $attendance->setStatus($status);
+        $this->update($attendance);
     }
 }

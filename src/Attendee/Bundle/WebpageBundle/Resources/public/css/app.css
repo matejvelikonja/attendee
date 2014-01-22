@@ -5,3 +5,7 @@
 #the-app .btn.is-present {
     background-color: green;
 }
+
+#the-app .btn.is-absent {
+    background-color: red;
+}

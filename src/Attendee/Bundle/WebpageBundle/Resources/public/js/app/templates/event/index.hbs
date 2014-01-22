@@ -12,11 +12,12 @@
 {{# each a in attendances }}
     <div class="list-group-item">
         {{a.user_name}}
+        {{a.isPresent}}
         <div class="btn-group pull-right">
-            <button {{ action setStatus a 'present' }} type="button" class="btn btn-default" {{bind-attr class="a.isPresent"}}>
+            <button {{ action setStatus a 'present' }} type="button" {{bind-attr class="a.isPresent :btn :btn-default"}}>
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
-            <button {{ action setStatus a 'absent' }} type="button" class="btn btn-default" {{bind-attr class="a.isAbsent"}}>
+            <button {{ action setStatus a 'absent' }} type="button" {{bind-attr class="a.isAbsent :btn :btn-default"}}>
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>

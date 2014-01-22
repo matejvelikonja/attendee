@@ -67,6 +67,9 @@ class AttendancesController extends AbstractController
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param Attendance $attendance
      *
+     * This should be PATCH method, but EmberJS does not support it yet.
+     * Only changing status implemented for now.
+     *
      * @Route("/{id}", methods="PUT")
      *
      * @ApiDoc(
@@ -77,11 +80,12 @@ class AttendancesController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function updateAction(Request $request, Attendance $attendance)
+    public function updateAction(Attendance $attendance, Request $request)
     {
-//        $params = $this->deSerialize($request->getContent(), get_class($attendance));
-//var_dump($request->getContent(), $params);die;
-//        $this->getAttendanceService()->update($attendance, $params);
+        $data   = $request->request->get('attendance');
+        $status = $data['status'];
+
+        $this->getAttendanceService()->changeStatus($attendance, $status);
 
         return $this->createResponse(array());
     }

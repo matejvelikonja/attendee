@@ -73,8 +73,9 @@ class AbstractController extends Controller
         $keyName = $this->getKeyFromClassName($className);
 
         $data = json_decode($serialized, true);
+        $data = json_encode($data[$keyName]);
 
-        return $serializer->deserialize($serialized, $className, 'json');
+        return $serializer->deserialize($data, $className, 'json');
     }
 
     /**
