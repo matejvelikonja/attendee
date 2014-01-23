@@ -11,3 +11,7 @@
 
 * Fix events when editing schedules.
 * Fix attendances when editing events
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/matejvelikonja/attendee/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
