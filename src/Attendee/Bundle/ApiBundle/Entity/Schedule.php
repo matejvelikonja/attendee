@@ -14,9 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Schedule extends AbstractEntity
 {
-    const WEEKLY  = 'weekly';
-    const MONTHLY = 'monthly';
-    const YEARLY  = 'yearly';
+    const FREQ_WEEKLY  = 'weekly';
+    const FREQ_MONTHLY = 'monthly';
+    const FREQ_YEARLY  = 'yearly';
 
     /**
      * @var string
@@ -207,6 +207,18 @@ class Schedule extends AbstractEntity
         $this->frequency = $frequency;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getFrequencies()
+    {
+        return array(
+            self::FREQ_WEEKLY,
+            self::FREQ_MONTHLY,
+            self::FREQ_YEARLY
+        );
     }
 
     /**

@@ -47,7 +47,7 @@ class LoadScheduleData extends AbstractFixtures
                 ->setName($this->faker->company . ' ' . $q)
                 ->setStartsAt($startDate)
                 ->setEndsAt($endDate)
-                ->setFrequency(Schedule::MONTHLY)
+                ->setFrequency(Schedule::FREQ_MONTHLY)
                 ->setDefaultLocation($location);
 
             for ($i = 0; $i < $numbOfTeams; $i++) {
@@ -62,7 +62,6 @@ class LoadScheduleData extends AbstractFixtures
             $this->manager->persist($schedule);
         }
     }
-
 
     /**
      * @return Location
