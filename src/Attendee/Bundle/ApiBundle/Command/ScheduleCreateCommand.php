@@ -14,6 +14,8 @@ use Symfony\Component\Console\Helper\TableHelper;
 class ScheduleCreateCommand extends AbstractCommand
 {
     const DATE_TIME_FORMAT = 'd. F Y, H:i:s';
+    const DATE_FORMAT      = 'd. F Y';
+    const TIME_FORMAT      = 'H:i:s';
 
     /**
      * Configure command.
@@ -41,10 +43,20 @@ class ScheduleCreateCommand extends AbstractCommand
             'schedule' => $schedule
         ));
 
-        $this->output->writeln('<info>Successfully created following events:</info>');
+        /** @var TableHelper $table */
+        $table = $this->getApplication()->getHelperSet()->get('table');
+        $table->setHeaders(array('id', 'date', 'time'));
+
         foreach($events as $event) {
-            $this->output->writeln(sprintf('<info>%04d, %s</info>', $event->getId(), $event->getStartsAt()->format(self::DATE_TIME_FORMAT)));
+            $table->addRow(array(
+                $event->getId(),
+                $event->getStartsAt()->format(self::DATE_FORMAT),
+                $event->getStartsAt()->format(self::TIME_FORMAT)
+            ));
         }
+
+        $this->output->writeln('<info>Successfully created following events:</info>');
+        $table->render($this->output);
     }
 
     /**
@@ -74,6 +86,7 @@ class ScheduleCreateCommand extends AbstractCommand
             ));
 
             $table->render($this->output);
+            $table->setRows(array());
             $confirm = $this->dialog->askConfirmation(
                 $this->output,
                 '<question>Do you want to create this schedule?</question> [Y/n]',
