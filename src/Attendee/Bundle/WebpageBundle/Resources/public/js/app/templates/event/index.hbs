@@ -12,7 +12,6 @@
 {{# each a in attendances }}
     <div class="list-group-item">
         {{a.user_name}}
-        {{a.isPresent}}
         <div class="btn-group pull-right">
             <button {{ action setStatus a 'present' }} type="button" {{bind-attr class="a.isPresent :btn :btn-default"}}>
                 <span class="glyphicon glyphicon-ok"></span>

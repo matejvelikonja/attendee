@@ -9,5 +9,6 @@ App.EventController = Ember.ObjectController.extend
       @get("target").transitionTo "events"
 
     setStatus: (attendance, status) ->
-      attendance.set "status", status
-      attendance.save()
+      if attendance.get("status") != status
+        attendance.set "status", status
+        attendance.save()
