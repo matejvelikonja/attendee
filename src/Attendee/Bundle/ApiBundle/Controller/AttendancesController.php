@@ -87,6 +87,6 @@ class AttendancesController extends AbstractController
 
         $this->getAttendanceService()->changeStatus($attendance, $status);
 
-        return $this->createResponse(array());
+        return $this->createResponse(array(), 204);
     }
 }

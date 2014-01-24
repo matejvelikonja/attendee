@@ -21,12 +21,13 @@ class AbstractController extends Controller
 {
     /**
      * @param array $params
+     * @param int   $code
      *
      * @throws \RuntimeException
      *
      * @return JsonResponse
      */
-    protected function createResponse(array $params)
+    protected function createResponse(array $params, $code = 200)
     {
         $serialized = $this->serialize($params);
 
@@ -36,7 +37,7 @@ class AbstractController extends Controller
 
         return new Response(
             $serialized,
-            200,
+            $code,
             array(
                 'Content-Type' =>'text/javascript'
             )
