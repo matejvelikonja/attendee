@@ -1,15 +1,32 @@
 {% extends 'AttendeeWebpageBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    "@AttendeeWebpageBundle/Resources/public/css/home.css"
+    output="attendee_home.css"
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block container %}
     <div class="jumbotron">
         <h1 class="text-center">Attendee</h1>
-        <h4 class="text-center">Track'em!</h4>
-
+        <h4 class="text-center">
+            Track'em
         {% if app.user %}
-            Hello, {{ app.user.username }}
+            {{ app.user.username }}
+        {% endif %}
+            !
+        </h4>
+
+        <div class="login-area">
+        {% if app.user %}
             <a href="{{ path('app') }}" class="btn btn-primary btn-lg btn-block">{{ 'Enter' | trans }}</a>
         {% else %}
-            {{ render(controller('AttendeeUserBundle:Security:login')) }}
+                {{ render(controller('AttendeeUserBundle:Security:login')) }}
         {% endif %}
+        </div>
     </div>
 {% endblock %}
