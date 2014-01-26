@@ -31,7 +31,7 @@ class EventsController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $limit  = $request->get('limit', 10);
+        $limit  = $request->get('limit', 15);
         $offset = $request->get('offset');
         $events = $this->getEventService()->find(array(), $limit, $offset);
 
