@@ -15,6 +15,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  * @package Attendee\Bundle\ApiBundle\EventListener
  *
  * @DI\DoctrineListener(events = { "prePersist" })
+ * @DI\Service("attendee.attendance_creator")
  */
 class AttendanceCreator
 {

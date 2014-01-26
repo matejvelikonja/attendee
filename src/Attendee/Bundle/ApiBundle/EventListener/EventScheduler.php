@@ -7,14 +7,15 @@ use Attendee\Bundle\ApiBundle\Entity\Schedule;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Recurr\RecurrenceRuleTransformer;
 use Recurr\TransformerConfig;
-use JMS\DiExtraBundle\Annotation\DoctrineListener;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * Class EventScheduler
  *
  * @package Attendee\Bundle\ApiBundle\EventListener
  *
- * @DoctrineListener(events = { "prePersist" })
+ * @DI\DoctrineListener(events = { "prePersist" })
+ * @DI\Service("attendee.event_scheduler")
  */
 class EventScheduler
 {
@@ -32,14 +33,7 @@ class EventScheduler
 
         $events = $this->calculateEvents($schedule);
 
-        foreach ($events as $eventDate) {
-            $event = new Event();
-            $event
-                ->setStartsAt($eventDate)
-                ->setEndsAt($eventDate)
-                ->setSchedule($schedule)
-                ->setLocation($schedule->getDefaultLocation());
-
+        foreach ($events as $event) {
             $args->getEntityManager()->persist($event);
         }
     }
@@ -47,9 +41,9 @@ class EventScheduler
     /**
      * @param Schedule $schedule
      *
-     * @return \Datetime[]
+     * @return Event[]
      */
-    private function calculateEvents(Schedule $schedule)
+    public function calculateEvents(Schedule $schedule)
     {
         $transformer = new RecurrenceRuleTransformer($schedule->getRRule());
 
@@ -58,6 +52,18 @@ class EventScheduler
 
         $transformer->setTransformerConfig($transformerConfig);
 
-        return $transformer->getComputedArray();
+        $events = array();
+        foreach($transformer->getComputedArray() as $eventDate) {
+            $event = new Event();
+            $event
+                ->setStartsAt($eventDate)
+                ->setEndsAt($eventDate)
+                ->setSchedule($schedule)
+                ->setLocation($schedule->getDefaultLocation());
+
+            $events[] = $event;
+        }
+
+        return $events;
     }
 } 

@@ -38,26 +38,13 @@ class ScheduleCreateCommand extends AbstractCommand
         $this->getDoctrine()->getManager()->persist($schedule);
         $this->getDoctrine()->getManager()->flush();
 
-        $this->output->writeln(sprintf('<info>Successfully create schedule `%s`.</info>', $schedule->getName()));
-
-        $events = $this->getDoctrine()->getRepository('AttendeeApiBundle:Event')->findBy(array(
-            'schedule' => $schedule
-        ));
-
-        /** @var TableHelper $table */
-        $table = $this->getApplication()->getHelperSet()->get('table');
-        $table->setHeaders(array('id', 'date', 'time'));
-
-        foreach($events as $event) {
-            $table->addRow(array(
-                $event->getId(),
-                $event->getStartsAt()->format(self::DATE_FORMAT),
-                $event->getStartsAt()->format(self::TIME_FORMAT)
-            ));
-        }
-
-        $this->output->writeln('<info>Successfully created following events:</info>');
-        $table->render($this->output);
+        $this->output->writeln(
+            sprintf(
+                '<info>Successfully create schedule `%s` with %d events.</info>',
+                $schedule->getName(),
+                count($schedule->getEvents())
+            )
+        );
     }
 
     /**
@@ -74,20 +61,14 @@ class ScheduleCreateCommand extends AbstractCommand
             $data->endsAt    = $this->getEndDate($data->startsAt);
             $data->rRule     = $this->getRRule($data->startsAt, $data->endsAt);
 
-            /** @var TableHelper $table */
-            $table = $this->getApplication()->getHelperSet()->get('table');
-            $table->setHeaders(array('Property', 'Value'));
+            $schedule = new Schedule();
+            $schedule
+                ->setName($data->name)
+                ->setDefaultLocation($data->location)
+                ->setRRule($data->rRule);
 
-            $table->addRows(array(
-                    array('name',      $data->name),
-                    array('location',  $data->location->getName()),
-                    array('startsAt',  $data->startsAt->format(self::DATE_TIME_FORMAT)),
-                    array('endsAt',    $data->endsAt->format(self::DATE_TIME_FORMAT)),
-                    array('rRule',     $data->rRule->getString()),
-            ));
+            $this->printScheduleTables($schedule);
 
-            $table->render($this->output);
-            $table->setRows(array());
             $confirm = $this->dialog->askConfirmation(
                 $this->output,
                 '<question>Do you want to create this schedule?</question> [Y/n]',
@@ -96,13 +77,44 @@ class ScheduleCreateCommand extends AbstractCommand
 
         } while(! $confirm);
 
-        $schedule = new Schedule();
-        $schedule
-            ->setName($data->name)
-            ->setDefaultLocation($data->location)
-            ->setRRule($data->rRule);
-
         return $schedule;
+    }
+
+    /**
+     * @param Schedule $schedule
+     */
+    private function printScheduleTables(Schedule $schedule)
+    {
+        /** PRINT SCHEDULE DATA */
+        /** @var TableHelper $table */
+        $table = $this->getApplication()->getHelperSet()->get('table');
+        $table->setHeaders(array('Property', 'Value'));
+
+        $table->addRows(array(
+            array('name',      $schedule->getName()),
+            array('location',  $schedule->getDefaultLocation()->getName()),
+            array('startsAt',  $schedule->getRRule()->getStartDate()->format(self::DATE_TIME_FORMAT)),
+            array('endsAt',    $schedule->getRRule()->getUntil()->format(self::DATE_TIME_FORMAT)),
+            array('rRule',     $schedule->getRRule()->getString()),
+        ));
+
+        $table->render($this->output);
+        $table->setRows(array());
+
+        /** PRINT EVENTS DATA */
+        $events = $this->getContainer()->get('attendee.event_scheduler')->calculateEvents($schedule);
+
+        $table->setHeaders(array('date', 'time'));
+
+        foreach($events as $event) {
+            $table->addRow(array(
+                $event->getStartsAt()->format(self::DATE_FORMAT),
+                $event->getStartsAt()->format(self::TIME_FORMAT)
+            ));
+        }
+
+        $this->output->writeln('<info>Events created by schedule:</info>');
+        $table->render($this->output);
     }
 
     /**
