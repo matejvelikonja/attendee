@@ -6,6 +6,7 @@ use Attendee\Bundle\ApiBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class EventsController
@@ -20,12 +21,19 @@ class EventsController extends AbstractController
      * @Route("/", methods="GET")
      *
      * @ApiDoc(
-     *  description="Lists all events."
+     *  section="Events",
+     *  description="Lists all events.",
+     *  parameters={
+     *      {"name"="limit",  "dataType"="integer", "required"=false, "description"="Limit number of results."},
+     *      {"name"="offset", "dataType"="integer", "required"=false, "description"="Offset results."}
+     *  }
      * )
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $events = $this->getEventService()->find(array());
+        $limit  = $request->get('limit', 10);
+        $offset = $request->get('offset');
+        $events = $this->getEventService()->find(array(), $limit, $offset);
 
         return $this->createResponse(
             array(
@@ -40,6 +48,7 @@ class EventsController extends AbstractController
      * @Route("/{id}", methods="GET")
      *
      * @ApiDoc(
+     *  section="Events",
      *  description="Event detail."
      * )
      *

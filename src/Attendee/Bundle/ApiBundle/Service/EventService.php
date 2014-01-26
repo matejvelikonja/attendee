@@ -33,11 +33,15 @@ class EventService
     }
 
     /**
+     * @param array $query
+     * @param int   $limit
+     * @param int   $offset
+     *
      * @return Event[]
      */
-    public function find()
+    public function find($query = array(), $limit = null, $offset = null)
     {
-        return $this->repo->findAll();
+        return $this->repo->findBy($query, array(), $limit, $offset);
     }
 
 
