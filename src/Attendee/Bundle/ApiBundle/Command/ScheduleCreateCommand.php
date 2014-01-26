@@ -4,6 +4,7 @@ namespace Attendee\Bundle\ApiBundle\Command;
 
 use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
+use Recurr\RecurrenceRule;
 use Symfony\Component\Console\Helper\TableHelper;
 
 /**
@@ -71,7 +72,7 @@ class ScheduleCreateCommand extends AbstractCommand
             $data->location  = $this->getLocation();
             $data->startsAt  = $this->getStartDate();
             $data->endsAt    = $this->getEndDate($data->startsAt);
-            $data->frequency = $this->getFrequency();
+            $data->rRule     = $this->getRRule($data->startsAt, $data->endsAt);
 
             /** @var TableHelper $table */
             $table = $this->getApplication()->getHelperSet()->get('table');
@@ -82,7 +83,7 @@ class ScheduleCreateCommand extends AbstractCommand
                     array('location',  $data->location->getName()),
                     array('startsAt',  $data->startsAt->format(self::DATE_TIME_FORMAT)),
                     array('endsAt',    $data->endsAt->format(self::DATE_TIME_FORMAT)),
-                    array('frequency', $data->frequency),
+                    array('rRule',     $data->rRule->getString()),
             ));
 
             $table->render($this->output);
@@ -98,10 +99,8 @@ class ScheduleCreateCommand extends AbstractCommand
         $schedule = new Schedule();
         $schedule
             ->setName($data->name)
-            ->setStartsAt($data->startsAt)
-            ->setEndsAt($data->endsAt)
-            ->setFrequency($data->frequency)
-            ->setDefaultLocation($data->location);
+            ->setDefaultLocation($data->location)
+            ->setRRule($data->rRule);
 
         return $schedule;
     }
@@ -170,25 +169,21 @@ class ScheduleCreateCommand extends AbstractCommand
     }
 
     /**
-     * @return string
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     *
+     * @return RecurrenceRule
      */
-    private function getFrequency()
+    private function getRRule(\DateTime $startDate, \DateTime $endDate)
     {
-        $frequencies = Schedule::getFrequencies();
-
         return $this->dialog->askAndValidate(
             $this->output,
-            "Frequency: ",
-            function ($answer) use ($frequencies) {
-                if (! in_array($answer, $frequencies)) {
-                    throw new \RuntimeException(sprintf('Wrong frequency `%s` selected.', $answer));
-                }
+            "Recurrence Rule: ",
+            function ($answer) use($startDate, $endDate) {
+                $string = sprintf('%s;UNTIL=%s', $answer, $endDate->format('c'));
 
-                return $answer;
-            },
-            false,
-            null,
-            $frequencies
+                return new RecurrenceRule($string, $startDate);
+            }
         );
     }
 

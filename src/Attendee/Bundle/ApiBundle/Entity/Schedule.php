@@ -4,6 +4,7 @@ namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Recurr\RecurrenceRule;
 
 /**
  * Event
@@ -14,30 +15,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Schedule extends AbstractEntity
 {
-    const FREQ_WEEKLY  = 'weekly';
-    const FREQ_MONTHLY = 'monthly';
-    const FREQ_YEARLY  = 'yearly';
-
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="starts_at", type="datetimetz")
-     */
-    private $startsAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="ends_at", type="datetimetz")
-     */
-    private $endsAt;
 
     /**
      * @var Event[]
@@ -47,9 +30,21 @@ class Schedule extends AbstractEntity
     private $events;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="starts_at", type="datetimetz")
+     */
+    private $startsAt;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="r_rule", type="string", length=255)
+     */
+    private $rRuleText;
+
+    /**
+     * @var RecurrenceRule
      */
     private $rRule;
 
@@ -67,11 +62,6 @@ class Schedule extends AbstractEntity
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="schedules")
      */
     private $teams;
-
-    /**
-     * @var string
-     */
-    private $frequency;
 
     /**
      * Constructor.
@@ -106,72 +96,27 @@ class Schedule extends AbstractEntity
     }
 
     /**
-     * Set startsAt
-     *
-     * @param \DateTime $startsAt
+     * @param RecurrenceRule $rRule
      *
      * @return $this
      */
-    public function setStartsAt($startsAt)
+    public function setRRule(RecurrenceRule $rRule)
     {
-        $this->startsAt = $startsAt;
+        $this->rRule     = $rRule;
+        $this->rRuleText = $this->rRule->getString();
+        $this->startsAt  = $rRule->getStartDate();
 
         return $this;
     }
 
     /**
-     * Get startsAt
-     *
-     * @return \DateTime 
-     */
-    public function getStartsAt()
-    {
-        return $this->startsAt;
-    }
-
-    /**
-     * Set endsAt
-     *
-     * @param \DateTime $endsAt
-     *
-     * @return $this
-     */
-    public function setEndsAt($endsAt)
-    {
-        $this->endsAt = $endsAt;
-
-        return $this;
-    }
-
-    /**
-     * Get endsAt
-     *
-     * @return \DateTime 
-     */
-    public function getEndsAt()
-    {
-        return $this->endsAt;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function setRRule()
-    {
-        $this->rRule = sprintf('freq=%s;until=%s',
-            $this->frequency,
-            $this->endsAt->format('c')
-        );
-    }
-
-    /**
-     * @return string
+     * @return RecurrenceRule
      */
     public function getRRule()
     {
         if (! $this->rRule) {
-            $this->setRRule();
+            $this->rRule = new RecurrenceRule($this->rRuleText);
+            $this->rRule->setStartDate($this->startsAt);
         }
 
         return $this->rRule;
@@ -198,35 +143,15 @@ class Schedule extends AbstractEntity
     }
 
     /**
-     * @param string $frequency
+     * @param \Attendee\Bundle\ApiBundle\Entity\Location $defaultLocation
      *
      * @return $this
-     */
-    public function setFrequency($frequency)
-    {
-        $this->frequency = $frequency;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getFrequencies()
-    {
-        return array(
-            self::FREQ_WEEKLY,
-            self::FREQ_MONTHLY,
-            self::FREQ_YEARLY
-        );
-    }
-
-    /**
-     * @param \Attendee\Bundle\ApiBundle\Entity\Location $defaultLocation
      */
     public function setDefaultLocation(Location $defaultLocation = null)
     {
         $this->defaultLocation = $defaultLocation;
+
+        return $this;
     }
 
     /**

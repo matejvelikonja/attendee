@@ -5,6 +5,7 @@ namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
 use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
 use Attendee\Bundle\ApiBundle\Entity\Team;
+use Recurr\RecurrenceRule;
 
 /**
  * Class LoadScheduleData
@@ -19,11 +20,22 @@ class LoadScheduleData extends AbstractFixtures
     private $locations;
 
     /**
+     * @var string[]
+     */
+    private $rRuleStrings;
+
+    /**
      * Runs fixtures.
      */
     protected function run()
     {
-        $this->createRandomSchedules(2);
+        $this->rRuleStrings = array(
+            'FREQ=WEEKLY;INTERVAL=1;BYDAY=TH;UNTIL=%s;BYHOUR=20',
+            'FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH;UNTIL=%s;BYHOUR=17',
+            'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO;UNTIL=%s;BYHOUR=18',
+        );
+
+        $this->createRandomSchedules(count($this->rRuleStrings));
     }
 
     /**
@@ -35,20 +47,23 @@ class LoadScheduleData extends AbstractFixtures
 
         foreach (range(1, $quantity) as $q) {
             /** @var \DateTime $startDate */
-            $startDate   = $this->faker->dateTimeBetween('-6 months');
+            $startDate   = new \DateTime('first day of January this year');
             $endDate     = clone $startDate;
             $endDate     = $endDate->add(new \DateInterval('P1Y'));
             $numbOfTeams = rand(1, count($teams)); // how many teams schedule has
 
             $location = $this->getRandomLocation();
 
+            $rrule = new RecurrenceRule(
+                sprintf($this->getRandomRRuleString(), $endDate->format('c')),
+                $startDate
+            );
+
             $schedule = new Schedule();
             $schedule
                 ->setName($this->faker->company . ' ' . $q)
-                ->setStartsAt($startDate)
-                ->setEndsAt($endDate)
-                ->setFrequency(Schedule::FREQ_MONTHLY)
-                ->setDefaultLocation($location);
+                ->setDefaultLocation($location)
+                ->setRRule($rrule);
 
             for ($i = 0; $i < $numbOfTeams; $i++) {
                 do {
@@ -73,6 +88,14 @@ class LoadScheduleData extends AbstractFixtures
         }
 
         return $this->locations[array_rand($this->locations)];
+    }
+
+    /**
+     * @return string
+     */
+    private function getRandomRRuleString()
+    {
+        return $this->faker->unique()->randomElement($this->rRuleStrings);
     }
 
     /**

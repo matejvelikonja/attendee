@@ -5,7 +5,6 @@ namespace Attendee\Bundle\ApiBundle\EventListener;
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Recurr\RecurrenceRule;
 use Recurr\RecurrenceRuleTransformer;
 use Recurr\TransformerConfig;
 use JMS\DiExtraBundle\Annotation\DoctrineListener;
@@ -52,12 +51,7 @@ class EventScheduler
      */
     private function calculateEvents(Schedule $schedule)
     {
-        $transformer = new RecurrenceRuleTransformer(
-            new RecurrenceRule(
-                $schedule->getRRule(),
-                $schedule->getStartsAt()
-            )
-        );
+        $transformer = new RecurrenceRuleTransformer($schedule->getRRule());
 
         $transformerConfig = new TransformerConfig();
         $transformerConfig->enableLastDayOfMonthFix();
