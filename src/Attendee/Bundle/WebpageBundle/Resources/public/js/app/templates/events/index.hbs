@@ -1,9 +1,10 @@
 <h1>Events</h1>
-<div class="list-group">
+<div class="list-group events">
     {{#each event in controller}}
         {{#link-to 'event' event classNameBindings=":list-group-item event.isDirty event.is_this_week"}}
             <h4 class="list-group-item-heading">{{event.name}}</h4>
-            <span>{{ event.present_count }} / {{ event.absent_count }}</span>
+            <span class="badge is-present">{{ event.present_count }}</span>
+            <span class="badge is-absent">{{ event.absent_count }}</span>
             <p class="list-group-item-text">
                 <small>
                     {{ event.location.name }} <br>

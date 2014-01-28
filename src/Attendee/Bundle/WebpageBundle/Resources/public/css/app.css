@@ -2,10 +2,10 @@
     overflow: auto;
 }
 
-#the-app .btn.is-present {
+#the-app .is-present {
     background-color: green;
 }
 
-#the-app .btn.is-absent {
+#the-app .is-absent {
     background-color: red;
 }
