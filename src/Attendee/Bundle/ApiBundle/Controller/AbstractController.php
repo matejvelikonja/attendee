@@ -4,6 +4,7 @@ namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Service\AttendanceService;
 use Attendee\Bundle\ApiBundle\Service\EventService;
+use Attendee\Bundle\ApiBundle\Service\LocationService;
 use Attendee\Bundle\ApiBundle\Service\UserService;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -107,6 +108,14 @@ class AbstractController extends Controller
     protected function getAttendanceService()
     {
         return $this->container->get('attendee.attendance_service');
+    }
+
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService()
+    {
+        return $this->container->get('attendee.location_service');
     }
 
     /**
