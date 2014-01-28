@@ -31,13 +31,15 @@ class EventsController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $limit  = $request->get('limit', 15);
-        $offset = $request->get('offset');
-        $events = $this->getEventService()->find(array(), $limit, $offset);
+        $limit       = $request->get('limit', 15);
+        $offset      = $request->get('offset');
+        $events      = $this->getEventService()->find(array(), $limit, $offset);
+        $attendances = $this->getAttendanceService()->findByEvents($events);
 
         return $this->createResponse(
             array(
-                'events' => $events
+                'events'      => $events,
+                'attendances' => $attendances
             )
         );
     }
@@ -56,9 +58,12 @@ class EventsController extends AbstractController
      */
     public function showAction(Event $event)
     {
+        $attendances = $this->getAttendanceService()->findByEvent($event);
+
         return $this->createResponse(
             array(
-                'event' => $event
+                'event'       => $event,
+                'attendances' => $attendances
             )
         );
     }

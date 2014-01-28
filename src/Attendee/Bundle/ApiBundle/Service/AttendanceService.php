@@ -3,18 +3,17 @@
 namespace Attendee\Bundle\ApiBundle\Service;
 
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
+use Attendee\Bundle\ApiBundle\Entity\Event;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use JMS\DiExtraBundle\Annotation\Service;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * Class AttendanceService
  *
  * @package Attendee\Bundle\ApiBundle\Service
  *
- * @Service("attendee.attendance_service")
+ * @DI\Service("attendee.attendance_service")
  */
 class AttendanceService
 {
@@ -29,8 +28,8 @@ class AttendanceService
     private $em;
 
     /**
-     * @InjectParams({
-     *      "em" = @Inject("doctrine.orm.entity_manager")
+     * @DI\InjectParams({
+     *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
      */
     public function __construct(EntityManager $em)
@@ -74,5 +73,38 @@ class AttendanceService
     {
         $attendance->setStatus($status);
         $this->update($attendance);
+    }
+
+    /**
+     * @param Event[] $events
+     *
+     * @return Attendance[]
+     */
+    public function findByEvents($events)
+    {
+        $all = array();
+
+        foreach ($events as $event) {
+            $byEvent = $this->findByEvent($event);
+            $all = array_merge($all, $byEvent);
+        }
+
+        return $all;
+    }
+
+    /**
+     * @param $event Event
+     *
+     * @return Attendance[]
+     */
+    public function findByEvent(Event $event)
+    {
+        $attendances = array();
+
+        foreach ($event->getAttendances() as $attendance) {
+            $attendances[] = $attendance;
+        }
+
+        return $attendances;
     }
 }

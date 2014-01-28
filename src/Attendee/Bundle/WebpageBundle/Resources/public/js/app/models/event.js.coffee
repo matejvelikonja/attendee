@@ -10,3 +10,11 @@ App.Event = DS.Model.extend
     now  = moment()
     date.year() == now.year() && date.week() == now.week()
   ).property('starts_at')
+
+  present_count: (->
+    @get('attendances').filterBy('isPresent', true).get('length')
+  ).property('attendances.@each.isPresent')
+
+  absent_count: (->
+    @get('attendances').filterBy('isAbsent', true).get('length')
+  ).property('attendances.@each.isAbsent')
