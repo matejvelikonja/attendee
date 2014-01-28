@@ -37,10 +37,10 @@ class LoadUserData extends AbstractFixtures
         $user
             ->setFirstName('admin')
             ->setLastName('admin')
-            ->setUsername('admin')
             ->setPlainPassword('admin')
             ->setEmail('admin@example.com')
-            ->setEnabled(true);
+            ->setEnabled(true)
+            ->setSuperAdmin(true);
 
         $this->userManager->updateUser($user);
     }
@@ -64,7 +64,6 @@ class LoadUserData extends AbstractFixtures
             $user
                 ->setFirstName($this->faker->firstName)
                 ->setLastName($this->faker->lastName)
-                ->setUsername($userName)
                 ->setPlainPassword('password')
                 ->setEmail($email)
                 ->setEnabled(true);

@@ -73,5 +73,35 @@ abstract class User extends BaseUser
         return $this->lastName;
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getEmail();
+    }
 
+    /**
+     * @param string $email
+     *
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->username = $email;
+
+        return parent::setEmail($email);
+    }
+
+    /**
+     * @param string $emailCanonical
+     *
+     * @return $this
+     */
+    public function setEmailCanonical($emailCanonical)
+    {
+        $this->usernameCanonical = $emailCanonical;
+
+        return parent::setEmailCanonical($emailCanonical);
+    }
 }
