@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 class AttendancesController extends AbstractController
 {
     /**
-     * @Route("/", methods="GET")
+     * @param Request $request
+     *
+     * @Route("/", methods="GET", name="api_attendances_index")
      *
      * @ApiDoc(
      *  description="Lists all attendances.",
@@ -27,10 +28,12 @@ class AttendancesController extends AbstractController
      *      {"name"="ids[]", "dataType"="integer", "required"=false}
      *  }
      * )
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $ids = $this->getRequest()->get('ids');
+        $ids = $request->get('ids');
 
         $attendances = $this->getAttendanceService()->find($ids);
 
@@ -44,7 +47,7 @@ class AttendancesController extends AbstractController
     /**
      * @param Attendance $attendance
      *
-     * @Route("/{id}", methods="GET")
+     * @Route("/{id}", methods="GET", name="api_attendances_show")
      *
      * @ApiDoc(
      *  resource=true,

@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -68,5 +69,35 @@ abstract class BaseTestCase extends WebTestCase
         }
 
         return $this->container->get('router')->generate($route, $parameters, true);
+    }
+
+    /**
+     * @param string $entityName
+     *
+     * @return \Doctrine\ORM\EntityRepository
+     * @throws \RuntimeException
+     */
+    protected function getRepo($entityName)
+    {
+        if (! $this->container) {
+            throw new \RuntimeException('Container not set.');
+        }
+
+        /** @var EntityManager $em */
+        $em = $this->container->get('doctrine.orm.entity_manager');
+
+        return $em->getRepository($entityName);
+    }
+
+
+    /**
+     * @param array $keys
+     * @param array $array
+     */
+    protected  function assertArrayHasKeys($keys, $array)
+    {
+        foreach ($keys as $key) {
+            $this->assertArrayHasKey($key, $array, sprintf('Array response should contain %s.', $key));
+        }
     }
 } 
