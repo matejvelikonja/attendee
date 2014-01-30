@@ -73,7 +73,7 @@ class AttendancesController extends AbstractController
      * This should be PATCH method, but EmberJS does not support it yet.
      * Only changing status implemented for now.
      *
-     * @Route("/{id}", methods="PUT")
+     * @Route("/{id}", methods="PUT", name="api_attendances_update")
      *
      * @ApiDoc(
      *  resource=true,

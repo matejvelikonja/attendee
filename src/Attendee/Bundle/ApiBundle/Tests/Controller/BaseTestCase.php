@@ -29,6 +29,7 @@ abstract class BaseTestCase extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
+
         $this->container = $container;
 
         $session = $container->get('session');
@@ -75,9 +76,18 @@ abstract class BaseTestCase extends WebTestCase
      * @param string $entityName
      *
      * @return \Doctrine\ORM\EntityRepository
-     * @throws \RuntimeException
      */
     protected function getRepo($entityName)
+    {
+        return $this->em()->getRepository($entityName);
+    }
+
+    /**
+     * @return EntityManager
+     *
+     * @throws \RuntimeException
+     */
+    protected function em()
     {
         if (! $this->container) {
             throw new \RuntimeException('Container not set.');
@@ -86,9 +96,8 @@ abstract class BaseTestCase extends WebTestCase
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
 
-        return $em->getRepository($entityName);
+        return $em;
     }
-
 
     /**
      * @param array $keys

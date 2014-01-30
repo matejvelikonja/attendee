@@ -1,6 +1,7 @@
 <?php
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
+use Attendee\Bundle\ApiBundle\Entity\Attendance;
 
 /**
  * Class AttendanceControllerTest
@@ -50,5 +51,40 @@ class AttendanceControllerTest extends BaseTestCase
             array('id', 'status', 'user', 'user_name', 'event'),
             $attendance
         );
+    }
+
+    /**
+     * Tests if changing of status works.
+     */
+    public function testUpdate()
+    {
+        $client = $this->createAuthorizedClient();
+
+        $statusBefore  = Attendance::STATUS_EMPTY;
+        $statusChanged = Attendance::STATUS_PRESENT;
+
+        /** @var Attendance $attendance */
+        $attendance = $this->getRepo('AttendeeApiBundle:Attendance')->findOneBy(array());
+        $attendance->setStatus($statusBefore);
+        $this->em()->persist($attendance);
+        $this->em()->flush();
+
+        $requestContent = json_encode(
+            array('attendance' => array(
+                'status'    => $statusChanged
+            )));
+
+        $client->request('PUT', $this->url(
+            'api_attendances_update', array('id' => $attendance->getId())),
+            array(), array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            $requestContent
+        );
+
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+
+        $attendance = $this->getRepo('AttendeeApiBundle:Attendance')->findOneBy(array('id' => $attendance->getId()));
+
+        $this->assertEquals($statusChanged, $attendance->getStatus(), 'Status was not changed.');
     }
 }
