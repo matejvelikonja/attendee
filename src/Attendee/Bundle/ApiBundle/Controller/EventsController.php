@@ -3,7 +3,6 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class EventsController extends AbstractController
 {
     /**
-     * @Route("/", methods="GET")
+     * @Route("/", methods="GET", name="api_events_index")
      *
      * @ApiDoc(
      *  section="Events",
@@ -49,7 +48,7 @@ class EventsController extends AbstractController
     /**
      * @param Event $event
      *
-     * @Route("/{id}", methods="GET")
+     * @Route("/{id}", methods="GET", name="api_events_show")
      *
      * @ApiDoc(
      *  section="Events",
