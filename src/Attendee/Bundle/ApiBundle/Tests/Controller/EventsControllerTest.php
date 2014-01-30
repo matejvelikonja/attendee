@@ -2,6 +2,8 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
 
+use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
+
 /**
  * Class EventsControllerTest
  *

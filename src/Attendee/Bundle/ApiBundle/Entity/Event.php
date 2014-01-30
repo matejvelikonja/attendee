@@ -181,7 +181,7 @@ class Event extends AbstractEntity
     /**
      * @param \Attendee\Bundle\ApiBundle\Entity\Location $location
      */
-    public function setLocation(Location $location)
+    public function setLocation(Location $location = null)
     {
         $this->location = $location;
     }

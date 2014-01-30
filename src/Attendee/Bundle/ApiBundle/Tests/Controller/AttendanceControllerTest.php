@@ -1,7 +1,9 @@
 <?php
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
+
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
+use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
 
 /**
  * Class AttendanceControllerTest
