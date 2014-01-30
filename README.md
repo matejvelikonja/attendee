@@ -13,4 +13,8 @@
 * Fix events when editing schedules.
 * Fix attendances when editing events
 
+# Tests
 
+```bash
+$ phpunit
+```

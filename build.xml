@@ -15,8 +15,6 @@
             >
         <exec executable="phpunit"
               passthru="true">
-            <arg value="-c" />
-            <arg path="${dir.app}" />
         </exec>
     </target>
 
