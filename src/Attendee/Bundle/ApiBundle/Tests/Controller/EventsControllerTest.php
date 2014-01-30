@@ -25,7 +25,7 @@ class EventsControllerTest extends BaseTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $decoded = json_decode($content, true);
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error(), json_last_error_msg());
+        $this->assertEquals(JSON_ERROR_NONE, json_last_error(), 'JSON decoding failed with code ' . json_last_error());
         $this->assertArrayHasKey('events', $decoded, 'Response should contain events.');
         $this->assertArrayHasKey('locations', $decoded, 'Response should contain locations.');
         $this->assertArrayHasKey('attendances', $decoded, 'Response should contain attendances.');
@@ -46,7 +46,7 @@ class EventsControllerTest extends BaseTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $decoded = json_decode($content, true);
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error(), json_last_error_msg());
+        $this->assertEquals(JSON_ERROR_NONE, json_last_error(), 'JSON decoding failed with code ' . json_last_error());
         $this->assertArrayHasKey('event', $decoded, 'Response should contain event.');
         $this->assertArrayHasKey('location', $decoded, 'Response should contain location.');
         $this->assertArrayHasKey('attendances', $decoded, 'Response should contain attendances.');
