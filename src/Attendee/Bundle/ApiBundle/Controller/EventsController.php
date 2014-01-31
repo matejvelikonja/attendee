@@ -21,7 +21,7 @@ class EventsController extends AbstractController
      *
      * @ApiDoc(
      *  section="Events",
-     *  description="Lists all events.",
+     *  description="Lists all events of current user.",
      *  parameters={
      *      {"name"="limit",  "dataType"="integer", "required"=false, "description"="Limit number of results."},
      *      {"name"="offset", "dataType"="integer", "required"=false, "description"="Offset results."}

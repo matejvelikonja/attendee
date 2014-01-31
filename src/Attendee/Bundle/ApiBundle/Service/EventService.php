@@ -65,14 +65,28 @@ class EventService
     }
 
     /**
+     * Finds events that user manages.
+     * User manages event if (s)he is a manager of event or of event's schedule.
+     *
      * @param User $user
      * @param int  $limit
      * @param int  $offset
      *
      * @return \Attendee\Bundle\ApiBundle\Entity\Event[]
      */
-    public function findForUser(User $user, $limit, $offset)
+    public function findForUser(User $user, $limit = null, $offset = 0)
     {
-        return $this->find(array(), $limit, $offset);
+        $events = $this->repo->createQueryBuilder('e')
+            ->leftJoin('e.schedule', 's')
+            ->leftJoin('s.managers', 'sm')
+            ->leftJoin('e.managers', 'em')
+            ->where('sm.user   = :user')
+            ->orWhere('em.user = :user')
+            ->setParameter('user', $user)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery()->getResult();
+
+        return $events;
     }
 }

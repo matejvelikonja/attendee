@@ -14,6 +14,7 @@ use FOS\UserBundle\Doctrine\UserManager;
 class LoadUserData extends AbstractFixtures
 {
     const ADMIN_REF = 'admin';
+    const USER_REF  = 'user';
 
     /**
      * @var UserManager
@@ -28,6 +29,7 @@ class LoadUserData extends AbstractFixtures
         $this->userManager = $this->container->get('fos_user.user_manager');
 
         $this->createAdmin();
+        $this->createTestUser();
         $this->createRandomUsers(10);
     }
     /**
@@ -50,6 +52,24 @@ class LoadUserData extends AbstractFixtures
     }
 
     /**
+     * Creates normal user.
+     */
+    private function createTestUser()
+    {
+        $user = $this->createUser();
+        $user
+            ->setFirstName($this->faker->name)
+            ->setLastName($this->faker->lastName)
+            ->setPlainPassword('user')
+            ->setEmail('user@example.com')
+            ->setEnabled(true);
+
+        $this->userManager->updateUser($user);
+
+        $this->addReference(self::USER_REF, $user);
+    }
+
+    /**
      * Creates random users.
      *
      * @param int $quantity
@@ -68,9 +88,8 @@ class LoadUserData extends AbstractFixtures
             $user
                 ->setFirstName($this->faker->firstName)
                 ->setLastName($this->faker->lastName)
-                ->setPlainPassword('password')
-                ->setEmail($email)
-                ->setEnabled(true);
+                ->setPlainPassword($this->faker->uuid)
+                ->setEmail($email);
 
             for ($i = 0; $i < $numbOfTeams; $i++) {
                 do {

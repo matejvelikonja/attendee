@@ -1,6 +1,7 @@
 <?php
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
+use Attendee\Bundle\ApiBundle\Entity\EventManager;
 use Attendee\Bundle\ApiBundle\Entity\ScheduleManager;
 use Attendee\Bundle\ApiBundle\Entity\User;
 
@@ -17,18 +18,27 @@ class LoadManagerData extends AbstractFixtures
     protected function run()
     {
         /** @var User $admin */
-        $admin     = $this->getReference(LoadUserData::ADMIN_REF);
-        $users     = $this->getRandomUsers(5);
+        $admin = $this->getReference(LoadUserData::ADMIN_REF);
+        /** @var User $user */
+        $user  = $this->getReference(LoadUserData::USER_REF);
+
+        $this->createScheduleManagers($user, $admin);
+        $this->createEventManagers($user, $admin);
+    }
+
+    /**
+     * @param User $user
+     * @param User $admin
+     */
+    protected function createScheduleManagers(User $user, User $admin)
+    {
         $schedules = $this->manager->getRepository('AttendeeApiBundle:Schedule')->findAll();
 
         foreach ($schedules as $schedule) {
-            if (rand(0, 2) === 0) {
-                /** @var User $randomUser */
-                $randomUser = $this->faker->randomElement($users);
-
+            if ($schedule->getId() === 2) {
                 $scheduleManager = new ScheduleManager();
                 $scheduleManager
-                    ->setUser($randomUser)
+                    ->setUser($user)
                     ->setSchedule($schedule);
 
                 $this->manager->persist($scheduleManager);
@@ -44,6 +54,21 @@ class LoadManagerData extends AbstractFixtures
     }
 
     /**
+     * @param User $user
+     */
+    protected function createEventManagers(User $user)
+    {
+        $event = $this->manager->getRepository('AttendeeApiBundle:Event')->find(2);
+
+        $manager = new EventManager();
+        $manager
+            ->setUser($user)
+            ->setEvent($event);
+
+        $this->manager->persist($manager);
+    }
+
+    /**
      * Get the order of this fixture
      *
      * @return integer
@@ -51,18 +76,5 @@ class LoadManagerData extends AbstractFixtures
     public function getOrder()
     {
         return 150;
-    }
-
-    /**
-     * @param $limit
-     *
-     * @return User[]
-     */
-    private function getRandomUsers($limit)
-    {
-        $all = $this->manager->getRepository('AttendeeApiBundle:User')->findAll();
-        shuffle($all);
-
-        return array_slice($all, 0, $limit);
     }
 }
