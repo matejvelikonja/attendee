@@ -2,7 +2,12 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
 
+use Attendee\Bundle\ApiBundle\Entity\Event;
+use Attendee\Bundle\ApiBundle\Entity\Schedule;
+use Attendee\Bundle\ApiBundle\Entity\ScheduleManager;
+use Attendee\Bundle\ApiBundle\Entity\User;
 use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 /**
  * Class EventsControllerTest
@@ -23,11 +28,8 @@ class EventsControllerTest extends BaseTestCase
             'limit' => $limit
         ));
 
-        $content = $client->getResponse()->getContent();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $decoded = $this->getResponseData($client);
 
-        $decoded = json_decode($content, true);
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error(), 'JSON decoding failed with code ' . json_last_error());
         $this->assertArrayHasKeys(
             array('events', 'locations', 'attendances'),
             $decoded
@@ -45,14 +47,35 @@ class EventsControllerTest extends BaseTestCase
 
         $client->request('GET', $this->url("api_events_show", array('id' => 1)));
 
-        $content = $client->getResponse()->getContent();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $decoded = $this->getResponseData($client);
 
-        $decoded = json_decode($content, true);
-        $this->assertEquals(JSON_ERROR_NONE, json_last_error(), 'JSON decoding failed with code ' . json_last_error());
         $this->assertArrayHasKeys(
             array('event', 'location', 'attendances'),
             $decoded
         );
+    }
+
+    /**
+     * @param Client $client
+     *
+     * @return mixed
+     */
+    private function getResponseData(Client $client)
+    {
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $decoded = json_decode($content, true);
+
+        $this->assertEquals(
+            JSON_ERROR_NONE,
+            json_last_error(),
+            sprintf('JSON decoding failed for url `%s` with code %d.',
+                json_last_error(),
+                $client->getRequest()->getRequestUri()
+            )
+        );
+
+        return $decoded;
     }
 }

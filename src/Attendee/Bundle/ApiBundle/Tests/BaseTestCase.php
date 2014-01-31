@@ -67,18 +67,12 @@ abstract class BaseTestCase extends WebTestCase
      * @param string $route The name of the route
      * @param mixed $parameters An array of parameters
      *
-     * @throws \RuntimeException
-     *
      * @return string The generated URL
      *
      * @see UrlGeneratorInterface
      */
     protected function url($route, $parameters = array())
     {
-        if (! $this->container) {
-            throw new \RuntimeException('Container not set.');
-        }
-
         return $this->container->get('router')->generate($route, $parameters, true);
     }
 
@@ -94,19 +88,23 @@ abstract class BaseTestCase extends WebTestCase
 
     /**
      * @return EntityManager
-     *
-     * @throws \RuntimeException
      */
     protected function em()
     {
-        if (! $this->container) {
-            throw new \RuntimeException('Container not set.');
-        }
-
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
 
         return $em;
+    }
+
+    /**
+     * @param string $service
+     *
+     * @return mixed
+     */
+    protected function get($service)
+    {
+        return $this->container->get($service);
     }
 
     /**

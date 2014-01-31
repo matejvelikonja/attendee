@@ -23,10 +23,14 @@ class ScheduleManager extends Manager
 
     /**
      * @param \Attendee\Bundle\ApiBundle\Entity\Schedule $schedule
+     *
+     * @return $this
      */
     public function setSchedule($schedule)
     {
         $this->schedule = $schedule;
+
+        return $this;
     }
 
     /**
