@@ -7,13 +7,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture as BaseFixture;
 
 /**
  * Class AbstractFixtures
  *
  * @package   Attendee\Bundle\FixturesBundle\DataFixtures\ORM
  */
-abstract class AbstractFixtures implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+abstract class AbstractFixtures extends BaseFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface

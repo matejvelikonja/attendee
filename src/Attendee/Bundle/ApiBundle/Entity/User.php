@@ -36,6 +36,13 @@ class User extends BaseUser
     private $attendances;
 
     /**
+     * @var EventManager[]
+     *
+     * @ORM\OneToMany(targetEntity="EventManager", mappedBy="user")
+     */
+    private $eventManagers;
+
+    /**
      * @var Team[] | ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="users")
@@ -67,6 +74,22 @@ class User extends BaseUser
     public function getAttendances()
     {
         return $this->attendances;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\EventManager[] $eventManagers
+     */
+    public function setEventManagers($eventManagers)
+    {
+        $this->eventManagers = $eventManagers;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\EventManager[]
+     */
+    public function getEventManagers()
+    {
+        return $this->eventManagers;
     }
 
     /**

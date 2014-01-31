@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Recurr\RecurrenceRule;
 
 /**
- * Event
+ * Schedule
  *
  * @ORM\Table(name="schedules")
  * @ORM\Entity
@@ -62,6 +62,13 @@ class Schedule extends AbstractEntity
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="schedules")
      */
     private $teams;
+
+    /**
+     * @var ScheduleManager[]
+     *
+     * @ORM\OneToMany(targetEntity="ScheduleManager", mappedBy="schedule")
+     */
+    private $managers;
 
     /**
      * Constructor.
@@ -180,6 +187,22 @@ class Schedule extends AbstractEntity
     public function getTeams()
     {
         return $this->teams;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\ScheduleManager[] $managers
+     */
+    public function setManagers($managers)
+    {
+        $this->managers = $managers;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\ScheduleManager[]
+     */
+    public function getManagers()
+    {
+        return $this->managers;
     }
 
     /**

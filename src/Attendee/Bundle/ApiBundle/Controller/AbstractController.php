@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Controller;
 
+use Attendee\Bundle\ApiBundle\Entity\User;
 use Attendee\Bundle\ApiBundle\Service\AttendanceService;
 use Attendee\Bundle\ApiBundle\Service\EventService;
 use Attendee\Bundle\ApiBundle\Service\LocationService;
@@ -124,5 +125,13 @@ class AbstractController extends Controller
     protected function getUserService()
     {
         return $this->container->get('attendee.user_service');
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return parent::getUser();
     }
 } 

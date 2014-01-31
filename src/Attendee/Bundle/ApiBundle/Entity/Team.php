@@ -5,7 +5,7 @@ namespace Attendee\Bundle\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Location
+ * Team
  *
  * @ORM\Table(name="teams")
  * @ORM\Entity

@@ -39,7 +39,7 @@ class EventService
      *
      * @return Event[]
      */
-    public function find($query = array(), $limit = null, $offset = null)
+    private function find($query = array(), $limit = null, $offset = null)
     {
         return $this->repo->findBy($query, array(), $limit, $offset);
     }
@@ -62,5 +62,17 @@ class EventService
         }
 
         return array_values($users);
+    }
+
+    /**
+     * @param User $user
+     * @param int  $limit
+     * @param int  $offset
+     *
+     * @return \Attendee\Bundle\ApiBundle\Entity\Event[]
+     */
+    public function findForUser(User $user, $limit, $offset)
+    {
+        return $this->find(array(), $limit, $offset);
     }
 }

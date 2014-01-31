@@ -13,6 +13,8 @@ use FOS\UserBundle\Doctrine\UserManager;
  */
 class LoadUserData extends AbstractFixtures
 {
+    const ADMIN_REF = 'admin';
+
     /**
      * @var UserManager
      */
@@ -43,6 +45,8 @@ class LoadUserData extends AbstractFixtures
             ->setSuperAdmin(true);
 
         $this->userManager->updateUser($user);
+
+        $this->addReference(self::ADMIN_REF, $user);
     }
 
     /**

@@ -32,7 +32,7 @@ class EventsController extends AbstractController
     {
         $limit       = $request->get('limit', 15);
         $offset      = $request->get('offset');
-        $events      = $this->getEventService()->find(array(), $limit, $offset);
+        $events      = $this->getEventService()->findForUser($this->getUser(), $limit, $offset);
         $locations   = $this->getLocationService()->findByEvents($events);
         $attendances = $this->getAttendanceService()->findByEvents($events);
 
