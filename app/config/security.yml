@@ -1,4 +1,7 @@
 security:
+    access_decision_manager:
+        strategy: affirmative # affirmative, unanimous or consensus
+
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
 

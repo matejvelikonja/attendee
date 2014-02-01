@@ -6,6 +6,7 @@ use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -88,5 +89,34 @@ class EventService
             ->getQuery()->getResult();
 
         return $events;
+    }
+
+    /**
+     * @param User  $user
+     * @param Event $event
+     *
+     * @return bool
+     */
+    public function isManager(User $user, Event $event)
+    {
+        $qb = $this->repo->createQueryBuilder('e');
+        try {
+            $qb
+                ->leftJoin('e.schedule', 's')
+                ->leftJoin('s.managers', 'sm')
+                ->leftJoin('e.managers', 'em')
+                ->where('e.id       = :id')
+                ->andWhere($qb->expr()->orX(
+                    $qb->expr()->eq('sm.user', ':user'),
+                    $qb->expr()->eq('em.user', ':user')
+                ))
+                ->setParameter('user', $user)
+                ->setParameter('id', $event->getId())
+                ->getQuery()->getSingleResult();
+        } catch(NoResultException $e) {
+            return false;
+        }
+
+        return true;
     }
 }

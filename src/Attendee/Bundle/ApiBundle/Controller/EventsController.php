@@ -5,6 +5,7 @@ namespace Attendee\Bundle\ApiBundle\Controller;
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use JMS\SecurityExtraBundle\Annotation\SecureParam;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -49,6 +50,7 @@ class EventsController extends AbstractController
      * @param Event $event
      *
      * @Route("/{id}", methods="GET", name="api_events_show")
+     * @SecureParam(name="event", permissions="MANAGER")
      *
      * @ApiDoc(
      *  section="Events",

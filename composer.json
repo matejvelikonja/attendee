@@ -30,6 +30,7 @@
 
         "jms/di-extra-bundle": "~1.4",
         "jms/serializer-bundle": "~0.13",
+        "jms/security-extra-bundle": "~1.5",
 
         "nelmio/api-doc-bundle": "~2.4",
 
