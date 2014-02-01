@@ -12,6 +12,7 @@
 
     <target name="test"
             description="Runs all tests."
+            depends="setup-db, fixtures"
             >
         <exec executable="phpunit"
               passthru="true">
@@ -53,6 +54,4 @@
             <arg path="${dir.src}" />
         </exec>
     </target>
-
-
 </project>
