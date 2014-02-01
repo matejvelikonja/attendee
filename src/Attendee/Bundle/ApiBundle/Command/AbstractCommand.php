@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Command;
 
+use Attendee\Bundle\ApiBundle\Service\ScheduleService;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,5 +47,13 @@ abstract class AbstractCommand extends ContainerAwareCommand
     protected function getDoctrine()
     {
         return $this->getContainer()->get('doctrine');
+    }
+
+    /**
+     * @return ScheduleService
+     */
+    protected function getScheduleService()
+    {
+        return $this->getContainer()->get('attendee.schedule_service');
     }
 }

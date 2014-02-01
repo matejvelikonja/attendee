@@ -4,6 +4,7 @@ namespace Attendee\Bundle\ApiBundle\Command;
 
 use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
+use Attendee\Bundle\ApiBundle\Entity\Team;
 use Recurr\RecurrenceRule;
 use Symfony\Component\Console\Helper\TableHelper;
 
@@ -35,16 +36,21 @@ class ScheduleCreateCommand extends AbstractCommand
     {
         $schedule = $this->getSchedule();
 
-        $this->getDoctrine()->getManager()->persist($schedule);
-        $this->getDoctrine()->getManager()->flush();
+        if ($schedule) {
+            $this->getDoctrine()->getManager()->persist($schedule);
+            $this->getDoctrine()->getManager()->flush();
 
-        $this->output->writeln(
-            sprintf(
-                '<info>Successfully create schedule `%s` with %d events.</info>',
-                $schedule->getName(),
-                count($schedule->getEvents())
-            )
-        );
+            $this->output->writeln(
+                sprintf(
+                    '<info>Successfully create schedule `%s.</info>',
+                    $schedule->getName()
+                )
+            );
+        } else {
+            $this->output->writeln(
+                sprintf('<info>Creating of event canceled.</info>')
+            );
+        }
     }
 
     /**
@@ -52,32 +58,35 @@ class ScheduleCreateCommand extends AbstractCommand
      */
     private function getSchedule()
     {
-        do {
-            $data = new \StdClass();
+        $data = new \StdClass();
 
-            $data->name      = $this->getScheduleName();
-            $data->location  = $this->getLocation();
-            $data->startsAt  = $this->getStartDate();
-            $data->endsAt    = $this->getEndDate($data->startsAt);
-            $data->rRule     = $this->getRRule($data->startsAt, $data->endsAt);
+        $data->teams     = $this->getTeams();
+        $data->name      = $this->getScheduleName();
+        $data->location  = $this->getLocation();
+        $data->startsAt  = $this->getStartDate();
+        $data->endsAt    = $this->getEndDate($data->startsAt);
+        $data->rRule     = $this->getRRule($data->startsAt, $data->endsAt);
 
-            $schedule = new Schedule();
-            $schedule
-                ->setName($data->name)
-                ->setDefaultLocation($data->location)
-                ->setRRule($data->rRule);
+        $schedule = new Schedule();
+        $schedule
+            ->setName($data->name)
+            ->setDefaultLocation($data->location)
+            ->setRRule($data->rRule)
+            ->setTeams($data->teams);
 
-            $this->printScheduleTables($schedule);
+        $this->printScheduleTables($schedule);
 
-            $confirm = $this->dialog->askConfirmation(
-                $this->output,
-                '<question>Do you want to create this schedule?</question> [Y/n]',
-                true
-            );
+        $confirm = $this->dialog->askConfirmation(
+            $this->output,
+            '<question>Do you want to create this schedule?</question> [Y/n]',
+            true
+        );
 
-        } while(! $confirm);
-
-        return $schedule;
+        if ($confirm) {
+            return $schedule;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -85,10 +94,12 @@ class ScheduleCreateCommand extends AbstractCommand
      */
     private function printScheduleTables(Schedule $schedule)
     {
-        /** PRINT SCHEDULE DATA */
         /** @var TableHelper $table */
         $table = $this->getApplication()->getHelperSet()->get('table');
         $table->setHeaders(array('Property', 'Value'));
+
+        $teams = $schedule->getTeams();
+        $users = $this->getScheduleService()->getUsers($schedule);
 
         $table->addRows(array(
             array('name',      $schedule->getName()),
@@ -96,6 +107,8 @@ class ScheduleCreateCommand extends AbstractCommand
             array('startsAt',  $schedule->getRRule()->getStartDate()->format(self::DATE_TIME_FORMAT)),
             array('endsAt',    $schedule->getRRule()->getUntil()->format(self::DATE_TIME_FORMAT)),
             array('rRule',     $schedule->getRRule()->getString()),
+            array('teams',     implode(', ', $teams)),
+            array('users',     implode(', ', $users))
         ));
 
         $table->render($this->output);
@@ -137,6 +150,48 @@ class ScheduleCreateCommand extends AbstractCommand
     }
 
     /**
+     * @return Team[]
+     */
+    private function getTeams()
+    {
+        $teamsNames = $this->getTeamsNames();
+        $teams      = array();
+        $selected   = array();
+
+        do {
+            $name = $this->dialog->askAndValidate(
+                $this->output,
+                "Team: ",
+                function ($answer) use ($teamsNames) {
+                    if (! in_array($answer, $teamsNames) && strlen($answer) > 0) {
+                        throw new \RuntimeException(sprintf('Wrong location `%s` selected.', $answer));
+                    }
+
+                    return $answer;
+                },
+                false,
+                null,
+                $teamsNames
+            );
+
+            if ($name) {
+                $selected[] = $name;
+            }
+
+        } while($name !== null);
+
+        foreach ($selected as $teamName) {
+            $team = $this->getDoctrine()->getRepository('AttendeeApiBundle:Team')->findOneBy(array(
+                'name' => $teamName
+            ));
+
+            $teams[] = $team;
+        }
+
+        return $teams;
+    }
+
+    /**
      * @return Location
      */
     private function getLocation()
@@ -175,6 +230,21 @@ class ScheduleCreateCommand extends AbstractCommand
 
         foreach ($locations as $location) {
             $names[] = $location->getName();
+        }
+
+        return $names;
+    }
+
+    /**
+     * @return array
+     */
+    private function getTeamsNames()
+    {
+        $teams = $this->getDoctrine()->getRepository('AttendeeApiBundle:Team')->findAll();
+        $names = array();
+
+        foreach ($teams as $team) {
+            $names[] = $team->getName();
         }
 
         return $names;

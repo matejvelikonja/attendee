@@ -93,4 +93,11 @@ class Team extends AbstractEntity
         return $this->schedules;
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
