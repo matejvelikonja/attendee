@@ -53,6 +53,10 @@ class EventService
      */
     public function getUsers(Event $event)
     {
+        if (!$event->getSchedule()) {
+            return array();
+        }
+
         $teams = $event->getSchedule()->getTeams();
         $users = array();
 

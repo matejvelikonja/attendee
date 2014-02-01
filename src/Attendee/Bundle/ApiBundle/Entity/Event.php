@@ -87,7 +87,9 @@ class Event extends AbstractEntity
      */
     public function getLocationId()
     {
-        return $this->getLocation()->getId();
+        if ($this->getLocation()) {
+            return $this->getLocation()->getId();
+        }
     }
 
     /**
@@ -98,7 +100,9 @@ class Event extends AbstractEntity
      */
     public function getName()
     {
-        return $this->getSchedule()->getName();
+        if ($this->getSchedule()) {
+            return $this->getSchedule()->getName();
+        }
     }
 
     /**

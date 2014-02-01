@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests;
 
+use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -36,11 +37,11 @@ abstract class BaseTestCase extends WebTestCase
     }
 
     /**
-     * @param string $email
+     * @param User $user If not specified admin is used.
      *
      * @return \Symfony\Bundle\FrameworkBundle\Client
      */
-    protected function createAuthorizedClient($email = 'admin@example.com')
+    protected function createAuthorizedClient(User $user = null)
     {
         $session = $this->container->get('session');
         /** @var $userManager \FOS\UserBundle\Doctrine\UserManager */
@@ -49,7 +50,11 @@ abstract class BaseTestCase extends WebTestCase
         $loginManager = $this->container->get('fos_user.security.login_manager');
         $firewallName = $this->container->getParameter('fos_user.firewall_name');
 
-        $user = $userManager->findUserBy(array('email' => $email));
+        if (!$user) {
+            $email = 'admin@example.com';
+            $user = $userManager->findUserBy(array('email' => $email));
+        }
+
         $loginManager->loginUser($firewallName, $user);
 
         // save the login token into the session and put it in a cookie
