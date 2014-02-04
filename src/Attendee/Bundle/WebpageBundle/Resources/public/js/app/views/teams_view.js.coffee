@@ -1,2 +1,2 @@
 App.TeamsView = Ember.View.extend
-  templateName: 'teams'
+  templateName: 'teams/index'

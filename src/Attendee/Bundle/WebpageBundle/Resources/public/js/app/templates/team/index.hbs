@@ -1,0 +1,13 @@
+<div class="btn-group pull-right">
+    {{#link-to 'teams' class="btn btn-default"}} <span class="glyphicon glyphicon-arrow-left"></span> {{/link-to}}
+</div>
+
+<h1>{{ name }}</h1>
+
+<h2>Team members</h2>
+
+<ul class="list-group">
+    {{#each user in users}}
+        <li class="list-group-item">{{user.name}}</li>
+    {{/each}}
+</ul>

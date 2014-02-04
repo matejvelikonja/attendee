@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Controller;
 
+use Attendee\Bundle\ApiBundle\Entity\Team;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,10 +33,37 @@ class TeamsController extends AbstractController
         $limit  = $request->get('limit', 15);
         $offset = $request->get('offset');
         $teams  = $this->getTeamService()->findForUser($this->getUser(), $limit, $offset);
+        $users  = $this->getUserService()->findByTeams($teams);
 
         return $this->createResponse(
             array(
-                'teams' => $teams
+                'teams' => $teams,
+                'users' => $users
+            )
+        );
+    }
+
+    /**
+     * @param Team $team
+     *
+     * @Route("/{id}", methods="GET", name="api_teams_show")
+     * SecureParam(name="team", permissions="MANAGER")
+     *
+     * @ApiDoc(
+     *  section="Teams",
+     *  description="Team detail."
+     * )
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function showAction(Team $team)
+    {
+        $users = $this->getUserService()->findByTeam($team);
+
+        return $this->createResponse(
+            array(
+                'team'  => $team,
+                'users' => $users
             )
         );
     }

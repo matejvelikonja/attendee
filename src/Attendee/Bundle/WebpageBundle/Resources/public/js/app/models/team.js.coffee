@@ -1,3 +1,7 @@
 App.Team = DS.Model.extend
   name:    DS.attr    'string'
-  members: DS.hasMany 'user'
+  users:   DS.hasMany 'user',  { async: true }
+
+  users_count: (->
+    @get('users').get('length')
+  ).property('users.@each')

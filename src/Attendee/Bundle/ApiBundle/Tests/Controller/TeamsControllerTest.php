@@ -27,11 +27,28 @@ class TeamsControllerTest extends BaseTestCase
         $decoded = $this->getResponseData($client);
 
         $this->assertArrayHasKeys(
-            array('teams'),
+            array('teams', 'users'),
             $decoded
         );
 
         $this->assertCount($limit, $decoded['teams'], "API should return exactly $limit events.");
+    }
+
+    /**
+     * Test team detail.
+     */
+    public function testShow()
+    {
+        $client = $this->createAuthorizedClient();
+
+        $client->request('GET', $this->url("api_teams_show", array('id' => 1)));
+
+        $decoded = $this->getResponseData($client);
+
+        $this->assertArrayHasKeys(
+            array('team', 'users'),
+            $decoded
+        );
     }
 
     /**

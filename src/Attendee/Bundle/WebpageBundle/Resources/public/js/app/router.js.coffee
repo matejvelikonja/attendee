@@ -17,11 +17,9 @@ App.Router.map ()->
 
   @resource 'teams', ->
     @route 'new',
-      path: 'new'
-    @route 'show',
-      path: '/show/:team_id'
+
+  @resource 'team', path: '/teams/:team_id', ->
     @route 'edit',
-      path: '/edit/:team_id'
 
 App.ApplicationRoute = Ember.Route.extend
   actions:
