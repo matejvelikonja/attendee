@@ -2,9 +2,11 @@
 
 namespace Attendee\Bundle\ApiBundle\Service;
 
+use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -55,6 +57,29 @@ class TeamService
             ->getQuery()->getResult();
 
         return array_slice($teams, $offset, $limit);
+    }
+
+    /**
+     * @param User $user
+     * @param Team $team
+     *
+     * @return bool
+     */
+    public function isManager(User $user, Team $team)
+    {
+        try {
+            $this->repo->createQueryBuilder('t')
+                ->leftJoin('t.teamManagers', 'm')
+                ->where('m.user  = :user')
+                ->andWhere('t.id = :id')
+                ->setParameter('user', $user)
+                ->setParameter('id',   $team->getId())
+                ->getQuery()->getSingleResult();
+        } catch(NoResultException $e) {
+            return false;
+        }
+
+        return true;
     }
 
 }

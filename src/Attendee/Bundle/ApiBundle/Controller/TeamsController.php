@@ -5,6 +5,7 @@ namespace Attendee\Bundle\ApiBundle\Controller;
 use Attendee\Bundle\ApiBundle\Entity\Team;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use JMS\SecurityExtraBundle\Annotation\SecureParam;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -47,7 +48,7 @@ class TeamsController extends AbstractController
      * @param Team $team
      *
      * @Route("/{id}", methods="GET", name="api_teams_show")
-     * SecureParam(name="team", permissions="MANAGER")
+     * @SecureParam(name="team", permissions="MANAGER")
      *
      * @ApiDoc(
      *  section="Teams",
