@@ -1,11 +1,13 @@
-#the-app .list-group-item {
+#the-app {
+  .list-group-item {
     overflow: auto;
-}
+  }
 
-#the-app .is-present {
+  .is-present {
     background-color: green;
-}
+  }
 
-#the-app .is-absent {
+  .is-absent {
     background-color: red;
+  }
 }

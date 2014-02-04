@@ -39,6 +39,8 @@ assetic:
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
+        scssphp:
+          apply_to: "\.scss"
         coffee:
           bin:      %kernel.root_dir%/../node_modules/coffee-script/bin/coffee
           apply_to: "\.coffee$"
