@@ -7,6 +7,7 @@ use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -24,12 +25,18 @@ class EventService
     private $repo;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
      */
     public function __construct(EntityManager $em)
     {
+        $this->em   = $em;
         $this->repo = $em->getRepository('AttendeeApiBundle:Event');
     }
 
@@ -71,7 +78,7 @@ class EventService
 
     /**
      * Finds events that user manages.
-     * User manages event if (s)he is a manager of event or of event's schedule.
+     * User manages event if (s)he is a manager of team of event's schedule.
      *
      * @param User $user
      * @param int  $limit
@@ -81,18 +88,24 @@ class EventService
      */
     public function findForUser(User $user, $limit = null, $offset = 0)
     {
+        /**
+         * The code here is not optimal. We are always fetching
+         * all the events and than slicing them with php.
+         * I could not figure out how to make a Doctrine query with
+         * joins and limiting and offsetting.
+         *
+         * http://docs.doctrine-project.org/en/latest/tutorials/pagination.html
+         */
+
         $events = $this->repo->createQueryBuilder('e')
-            ->leftJoin('e.schedule', 's')
-            ->leftJoin('s.managers', 'sm')
-            ->leftJoin('e.managers', 'em')
-            ->where('sm.user   = :user')
-            ->orWhere('em.user = :user')
+            ->leftJoin('e.schedule',     's')
+            ->leftJoin('s.teams',        't')
+            ->leftJoin('t.teamManagers', 'm')
+            ->where('m.user = :user')
             ->setParameter('user', $user)
-            ->setMaxResults($limit)
-            ->setFirstResult($offset)
             ->getQuery()->getResult();
 
-        return $events;
+        return array_slice($events, $offset, $limit);
     }
 
     /**
@@ -106,16 +119,13 @@ class EventService
         $qb = $this->repo->createQueryBuilder('e');
         try {
             $qb
-                ->leftJoin('e.schedule', 's')
-                ->leftJoin('s.managers', 'sm')
-                ->leftJoin('e.managers', 'em')
-                ->where('e.id       = :id')
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->eq('sm.user', ':user'),
-                    $qb->expr()->eq('em.user', ':user')
-                ))
-                ->setParameter('user', $user)
+                ->leftJoin('e.schedule',     's')
+                ->leftJoin('s.teams',        't')
+                ->leftJoin('t.teamManagers', 'm')
+                ->where('e.id = :id')
+                ->andWhere('m.user = :user')
                 ->setParameter('id', $event->getId())
+                ->setParameter('user', $user)
                 ->getQuery()->getSingleResult();
         } catch(NoResultException $e) {
             return false;

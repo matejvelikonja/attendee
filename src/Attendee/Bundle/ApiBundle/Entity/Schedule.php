@@ -59,16 +59,9 @@ class Schedule extends AbstractEntity
     /**
      * @var Team[]
      *
-     * @ORM\ManyToMany(targetEntity="Team", inversedBy="schedules")
+     * @ORM\ManyToMany(targetEntity="Team", mappedBy="schedules")
      */
     private $teams;
-
-    /**
-     * @var ScheduleManager[]
-     *
-     * @ORM\OneToMany(targetEntity="ScheduleManager", mappedBy="schedule")
-     */
-    private $managers;
 
     /**
      * Constructor.
@@ -190,28 +183,13 @@ class Schedule extends AbstractEntity
     }
 
     /**
-     * @param \Attendee\Bundle\ApiBundle\Entity\ScheduleManager[] $managers
-     */
-    public function setManagers($managers)
-    {
-        $this->managers = $managers;
-    }
-
-    /**
-     * @return \Attendee\Bundle\ApiBundle\Entity\ScheduleManager[]
-     */
-    public function getManagers()
-    {
-        return $this->managers;
-    }
-
-    /**
      * @param Team $team
      *
      * @return $this
      */
     public function addTeam(Team $team)
     {
+        $team->addSchedule($this);
         $this->teams->add($team);
 
         return $this;

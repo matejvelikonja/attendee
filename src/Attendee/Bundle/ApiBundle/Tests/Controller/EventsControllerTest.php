@@ -22,7 +22,7 @@ class EventsControllerTest extends BaseTestCase
     public function testIndex()
     {
         $client = $this->createAuthorizedClient();
-        $limit  = 5;
+        $limit  = 15;
 
         $client->request('GET', $this->url("api_events_index"), array(
             'limit' => $limit

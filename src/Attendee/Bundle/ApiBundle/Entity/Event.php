@@ -48,13 +48,6 @@ class Event extends AbstractEntity
     private $attendances;
 
     /**
-     * @var EventManager[]
-     *
-     * @ORM\OneToMany(targetEntity="EventManager", mappedBy="event")
-     */
-    private $managers;
-
-    /**
      * @var Location
      *
      * @ORM\ManyToOne(targetEntity="Location")
@@ -203,21 +196,5 @@ class Event extends AbstractEntity
     public function getLocation()
     {
         return $this->location;
-    }
-
-    /**
-     * @param \Attendee\Bundle\ApiBundle\Entity\EventManager[] $managers
-     */
-    public function setManagers($managers)
-    {
-        $this->managers = $managers;
-    }
-
-    /**
-     * @return \Attendee\Bundle\ApiBundle\Entity\EventManager[]
-     */
-    public function getManagers()
-    {
-        return $this->managers;
     }
 }

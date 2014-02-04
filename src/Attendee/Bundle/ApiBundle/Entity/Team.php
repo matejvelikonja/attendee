@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,11 +28,28 @@ class Team extends AbstractEntity
     private $users;
 
     /**
-     * @var Schedule[]
+     * @var TeamManager[]
      *
-     * @ORM\ManyToMany(targetEntity="Schedule", mappedBy="teams")
+     * @ORM\OneToMany(targetEntity="TeamManager", mappedBy="team")
+     */
+    private $teamManagers;
+
+    /**
+     * @var Schedule[] | ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Schedule", inversedBy="teams", cascade={"persist"})
      */
     private $schedules;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->schedules    = new ArrayCollection();
+        $this->teamManagers = new ArrayCollection();
+        $this->users        = new ArrayCollection();
+    }
 
     /**
      * @param string $name
@@ -71,6 +89,38 @@ class Team extends AbstractEntity
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\TeamManager[] $teamManagers
+     *
+     * @return $this
+     */
+    public function setTeamManagers($teamManagers)
+    {
+        $this->teamManagers = $teamManagers;
+
+        return $this;
+    }
+
+    /**
+     * @return \Attendee\Bundle\ApiBundle\Entity\TeamManager[]
+     */
+    public function getTeamManagers()
+    {
+        return $this->teamManagers;
+    }
+
+    /**
+     * @param Schedule $schedule
+     *
+     * @return $this
+     */
+    public function addSchedule(Schedule $schedule)
+    {
+        $this->schedules->add($schedule);
+
+        return $this;
     }
 
     /**

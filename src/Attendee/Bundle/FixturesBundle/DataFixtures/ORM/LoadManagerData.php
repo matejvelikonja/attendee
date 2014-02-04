@@ -1,8 +1,8 @@
 <?php
 
 namespace Attendee\Bundle\FixturesBundle\DataFixtures\ORM;
-use Attendee\Bundle\ApiBundle\Entity\EventManager;
-use Attendee\Bundle\ApiBundle\Entity\ScheduleManager;
+
+use Attendee\Bundle\ApiBundle\Entity\TeamManager;
 use Attendee\Bundle\ApiBundle\Entity\User;
 
 /**
@@ -22,50 +22,34 @@ class LoadManagerData extends AbstractFixtures
         /** @var User $user */
         $user  = $this->getReference(LoadUserData::USER_REF);
 
-        $this->createScheduleManagers($user, $admin);
-        $this->createEventManagers($user, $admin);
+        $this->createTeamManagers($user, $admin);
     }
 
     /**
      * @param User $user
      * @param User $admin
      */
-    protected function createScheduleManagers(User $user, User $admin)
+    protected function createTeamManagers(User $user, User $admin)
     {
-        $schedules = $this->manager->getRepository('AttendeeApiBundle:Schedule')->findAll();
+        $teams = $this->manager->getRepository('AttendeeApiBundle:Team')->findAll();
 
-        foreach ($schedules as $schedule) {
-            if ($schedule->getId() === 2) {
-                $scheduleManager = new ScheduleManager();
-                $scheduleManager
+        foreach ($teams as $team) {
+            if ($team->getId() === 2) {
+                $teamManager = new TeamManager();
+                $teamManager
                     ->setUser($user)
-                    ->setSchedule($schedule);
+                    ->setTeam($team);
 
-                $this->manager->persist($scheduleManager);
+                $this->manager->persist($teamManager);
             }
 
-            $scheduleManager = new ScheduleManager();
-            $scheduleManager
+            $teamManager = new TeamManager();
+            $teamManager
                 ->setUser($admin)
-                ->setSchedule($schedule);
+                ->setTeam($team);
 
-            $this->manager->persist($scheduleManager);
+            $this->manager->persist($teamManager);
         }
-    }
-
-    /**
-     * @param User $user
-     */
-    protected function createEventManagers(User $user)
-    {
-        $event = $this->manager->getRepository('AttendeeApiBundle:Event')->find(2);
-
-        $manager = new EventManager();
-        $manager
-            ->setUser($user)
-            ->setEvent($event);
-
-        $this->manager->persist($manager);
     }
 
     /**
