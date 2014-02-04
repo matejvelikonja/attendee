@@ -7,7 +7,6 @@ use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**

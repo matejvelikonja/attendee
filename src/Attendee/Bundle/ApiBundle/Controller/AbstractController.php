@@ -6,6 +6,7 @@ use Attendee\Bundle\ApiBundle\Entity\User;
 use Attendee\Bundle\ApiBundle\Service\AttendanceService;
 use Attendee\Bundle\ApiBundle\Service\EventService;
 use Attendee\Bundle\ApiBundle\Service\LocationService;
+use Attendee\Bundle\ApiBundle\Service\TeamService;
 use Attendee\Bundle\ApiBundle\Service\UserService;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -101,6 +102,14 @@ class AbstractController extends Controller
     protected function getEventService()
     {
         return $this->container->get('attendee.event_service');
+    }
+
+    /**
+     * @return TeamService
+     */
+    protected function getTeamService()
+    {
+        return $this->container->get('attendee.team_service');
     }
 
     /**

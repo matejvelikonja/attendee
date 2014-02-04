@@ -15,13 +15,13 @@ App.Router.map ()->
   @resource 'event', path: '/events/:event_id', ->
     @route 'edit'
 
-  @resource 'groups', ->
+  @resource 'teams', ->
     @route 'new',
       path: 'new'
     @route 'show',
-      path: '/show/:group_id'
+      path: '/show/:team_id'
     @route 'edit',
-      path: '/edit/:group_id'
+      path: '/edit/:team_id'
 
 App.ApplicationRoute = Ember.Route.extend
   actions:
@@ -35,6 +35,10 @@ App.IndexRoute = Ember.Route.extend
 App.EventsRoute = Ember.Route.extend
   model: ->
     @store.find('event')
+
+App.TeamsRoute = Ember.Route.extend
+  model: ->
+    @store.find('team')
 
 App.LocationsRoute = Ember.Route.extend
   model: ->

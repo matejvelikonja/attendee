@@ -4,12 +4,15 @@ namespace Attendee\Bundle\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Team
  *
  * @ORM\Table(name="teams")
  * @ORM\Entity
+ *
+ * @Serializer\ExclusionPolicy("all")
  */
 class Team extends AbstractEntity
 {
@@ -17,6 +20,8 @@ class Team extends AbstractEntity
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Serializer\Expose
      */
     private $name;
 
@@ -40,6 +45,24 @@ class Team extends AbstractEntity
      * @ORM\ManyToMany(targetEntity="Schedule", inversedBy="teams", cascade={"persist"})
      */
     private $schedules;
+
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("users")
+     *
+     * @return int[]
+     */
+    public function getUsersIds()
+    {
+        $ids = array();
+
+        foreach ($this->users as $user) {
+            $ids[] = $user->getId();
+        }
+
+        return $ids;
+    }
+
 
     /**
      * Constructor.
