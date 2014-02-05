@@ -2,10 +2,10 @@ parameters:
     database_driver: pdo_sqlite
     database_host: 127.0.0.1
     database_port: null
-    database_name: attendee
-    database_path: %kernel.root_dir%/data/%database_name%.db3
-    database_user: root
-    database_password: root
+    database_name: ~
+    database_path: ~
+    database_user: ~
+    database_password: ~
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1

@@ -6,9 +6,9 @@ php:
   - 5.5
 
 env:
-  - DB_DRIVER=pdo_sqlite
-  - DB_DRIVER=pdo_mysql DB_USER=travis DB_PASSWORD="" DB_NAME=attendee_test DB_PATH=""
-  - DB_DRIVER=postgres DB_USER=postgres DB_PASSWORD="" DB_NAME=attendee_test DB_PATH=""
+  - DB_DRIVER=pdo_sqlite DB_PATH="%kernel.root_dir%/data/%database_name%.db3"
+  - DB_DRIVER=pdo_mysql DB_USER=travis DB_NAME=attendee_test
+  - DB_DRIVER=postgres DB_USER=postgres DB_NAME=attendee_test
 
 before_script:
   - composer install -n
