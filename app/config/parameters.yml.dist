@@ -3,8 +3,9 @@ parameters:
     database_host: 127.0.0.1
     database_port: null
     database_name: attendee
-    database_user: ~
-    database_password: ~
+    database_path: %kernel.root_dir%/data/%database_name%.db3
+    database_user: root
+    database_password: root
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1
@@ -12,4 +13,4 @@ parameters:
     mailer_password: null
 
     locale: en
-    secret: ChangeThisSecretItTokenIsNotSo
+    secret: ThisTokenIsNotSoSecretChangeIt
