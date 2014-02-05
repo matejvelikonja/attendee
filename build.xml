@@ -15,7 +15,8 @@
             depends="setup-db, fixtures"
             >
         <exec executable="phpunit"
-              passthru="true">
+              passthru="true"
+              checkreturn="true">
         </exec>
     </target>
 
