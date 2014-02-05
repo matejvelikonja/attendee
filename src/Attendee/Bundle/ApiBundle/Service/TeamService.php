@@ -46,7 +46,7 @@ class TeamService
      * @param int  $limit
      * @param int  $offset
      *
-     * @return \Attendee\Bundle\ApiBundle\Entity\Event[]
+     * @return \Attendee\Bundle\ApiBundle\Entity\Team[]
      */
     public function findForUser(User $user, $limit = null, $offset = 0)
     {

@@ -7,8 +7,8 @@ php:
 
 env:
   - DB_DRIVER=pdo_sqlite
-  - DB_DRIVER=pdo_mysql DB_USER=travis DB_PASSWORD= DB_NAME=attendee_test DB_PATH=
-  - DB_DRIVER=postgres DB_USER=postgres DB_PASSWORD= DB_NAME=attendee_test DB_PATH=
+  - DB_DRIVER=pdo_mysql DB_USER=travis DB_PASSWORD="" DB_NAME=attendee_test DB_PATH=""
+  - DB_DRIVER=postgres DB_USER=postgres DB_PASSWORD="" DB_NAME=attendee_test DB_PATH=""
 
 before_script:
   - composer install -n
