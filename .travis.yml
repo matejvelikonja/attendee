@@ -5,7 +5,13 @@ php:
   - 5.4
   - 5.5
 
+env:
+  - DB_DRIVER=pdo_sqlite DB_PATH="%kernel.root_dir%/data/attendee_test.db3"
+  - DB_DRIVER=pdo_mysql DB_USER=travis DB_NAME=attendee_test
+  - DB_DRIVER=pdo_pgsql DB_USER=postgres DB_NAME=attendee_test
+
 before_script:
+  - composer self-update
   - composer install -n
   - app/console doctrine:database:create --env=test
   - app/console doctrine:schema:create --env=test

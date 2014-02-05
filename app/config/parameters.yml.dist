@@ -2,7 +2,8 @@ parameters:
     database_driver: pdo_sqlite
     database_host: 127.0.0.1
     database_port: null
-    database_name: attendee
+    database_name: ~
+    database_path: ~
     database_user: ~
     database_password: ~
 
@@ -12,4 +13,4 @@ parameters:
     mailer_password: null
 
     locale: en
-    secret: ChangeThisSecretItTokenIsNotSo
+    secret: ThisTokenIsNotSoSecretChangeIt

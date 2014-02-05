@@ -70,7 +70,14 @@
         "symfony-web-dir": "web",
         "symfony-assets-install": "symlink",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "env-map": {
+                "database_driver":   "DB_DRIVER",
+                "database_user":     "DB_USER",
+                "database_password": "DB_PASSWORD",
+                "database_name":     "DB_NAME",
+                "database_path":     "DB_PATH"
+            }
         },
         "branch-alias": {
             "dev-master": "2.4-dev"
