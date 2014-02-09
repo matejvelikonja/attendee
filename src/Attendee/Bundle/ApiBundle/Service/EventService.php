@@ -40,17 +40,13 @@ class EventService
     }
 
     /**
-     * @param array $query
-     * @param int   $limit
-     * @param int   $offset
-     *
-     * @return Event[]
+     * @param Event $event
      */
-    private function find($query = array(), $limit = null, $offset = null)
+    public function update(Event $event)
     {
-        return $this->repo->findBy($query, array(), $limit, $offset);
+        $this->em->persist($event);
+        $this->em->flush();
     }
-
 
     /**
      * @param Event $event

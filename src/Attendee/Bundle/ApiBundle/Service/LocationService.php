@@ -4,6 +4,7 @@ namespace Attendee\Bundle\ApiBundle\Service;
 
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
 use Attendee\Bundle\ApiBundle\Entity\Event;
+use Attendee\Bundle\ApiBundle\Entity\Location;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -46,6 +47,16 @@ class LocationService
         }
 
         return array_values($locations);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Location
+     */
+    public function find($id)
+    {
+        return $this->repo->find($id);
     }
 
 

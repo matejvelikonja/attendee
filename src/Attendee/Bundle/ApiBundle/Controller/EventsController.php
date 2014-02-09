@@ -71,4 +71,30 @@ class EventsController extends AbstractController
             )
         );
     }
+
+    /**
+     * @param Event   $event
+     * @param Request $request
+     *
+     * @Route("/{id}", methods="PUT", name="api_events_update")
+     * @SecureParam(name="event", permissions="MANAGER")
+     *
+     * @ApiDoc(
+     *  section="Events",
+     *  description="Update event."
+     * )
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function updateAction(Event $event, Request $request)
+    {
+        $data       = $request->request->get('event');
+        $locationId = $data['location'];
+        $location   = $this->getLocationService()->find($locationId);
+
+        $event->setLocation($location);
+        $this->getEventService()->update($event);
+
+        return $this->createResponse(array(), 204);
+    }
 }
