@@ -34,6 +34,10 @@ App.EventsRoute = Ember.Route.extend
   model: ->
     @store.find('event')
 
+App.EventEditRoute = Ember.Route.extend
+  renderTemplate: ->
+    @render { controller: 'event.index' }
+
 App.TeamsRoute = Ember.Route.extend
   model: ->
     @store.find('team')

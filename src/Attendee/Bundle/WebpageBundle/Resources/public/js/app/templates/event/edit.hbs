@@ -1,24 +1,20 @@
 <div class="btn-group pull-right">
-    {{#link-to 'event.show' content.id class="btn btn-primary"}} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
-    <a {{ action goBack }} class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    {{#link-to 'event.index' event.id class="btn btn-default"}} <span class="glyphicon glyphicon-chevron-left"></span> {{/link-to}}
 </div>
 
-<div class="form-group">
-    {{view Ember.TextField valueBinding="name" class="form-control" placeholder="Name"}}
-</div>
-<div class="form-group">
-    {{view App.DatePickerField valueBinding="date" class="form-control"}}
-</div>
+<h1>{{event.name}} @ {{ event.location.name }}</h1>
+
 <div class="form-group">
     {{view Ember.Select
         content=locations
         optionValuePath="content"
         optionLabelPath="content.name"
-        selection=location
+        selection=event.location
         prompt="Select location"
+        classNames="form-control"
     }}
 </div>
 
 <p>
-    <button {{action updateItem this}} class="btn btn-primary btn-lg">Update record</button>
+    <img {{ bind-attr src=event.location.mapsLink }} class="img-rounded" width="100%">
 </p>
