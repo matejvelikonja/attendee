@@ -17,7 +17,8 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
-        "@AttendeeWebpageBundle/Resources/public/css/app/*"
+        "@AttendeeWebpageBundle/Resources/public/css/app/menu.scss"
+        "@AttendeeWebpageBundle/Resources/public/css/app/app.scss"
         output="attendee.css"
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />

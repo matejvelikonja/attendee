@@ -1,3 +1,5 @@
+@import "mixins";
+
 #the-app {
   .list-group-item {
     overflow: auto;
@@ -9,5 +11,14 @@
 
   .is-absent {
     background-color: red;
+  }
+
+  .rotate {
+    display: none;
+    @include spin(2000ms);
+
+    &.is-saving {
+      display: inline-block;
+    }
   }
 }
