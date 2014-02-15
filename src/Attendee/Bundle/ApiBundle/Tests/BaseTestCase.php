@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Class BaseTestCase
  *
- * @package   Attendee\Bundle\WebpageBundle\Tests
+ * @package Attendee\Bundle\WebpageBundle\Tests
  */
 abstract class BaseTestCase extends WebTestCase
 {
@@ -69,8 +69,8 @@ abstract class BaseTestCase extends WebTestCase
     /**
      * Generates a URL from the given parameters.
      *
-     * @param string $route The name of the route
-     * @param mixed $parameters An array of parameters
+     * @param string $route      The name of the route
+     * @param mixed  $parameters An array of parameters
      *
      * @return string The generated URL
      *
@@ -121,5 +121,54 @@ abstract class BaseTestCase extends WebTestCase
         foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $array, sprintf('Array response should contain %s.', $key));
         }
+    }
+
+    /**
+     * @param Client $client
+     *
+     * @return mixed
+     */
+    protected function getResponseData(Client $client)
+    {
+        $content = $client->getResponse()->getContent();
+
+        $this->assertEquals(
+            200,
+            $client->getResponse()->getStatusCode(),
+            $this->tryToGetException($client->getResponse()->getContent())
+        );
+
+        $decoded = json_decode($content, true);
+
+        $this->assertEquals(
+            JSON_ERROR_NONE,
+            json_last_error(),
+            sprintf('JSON decoding failed for url `%s` with code %d.',
+                json_last_error(),
+                $client->getRequest()->getRequestUri()
+            )
+        );
+
+        return $decoded;
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return string
+     */
+    private function tryToGetException($content)
+    {
+        $decoded = json_decode($content);
+
+        if (is_array($decoded)) {
+            $first = reset($decoded);
+            if (is_object($first) && property_exists($first, 'message')) {
+                return $first->message;
+            }
+        }
+
+
+        return '';
     }
 } 

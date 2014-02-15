@@ -1,0 +1,14 @@
+<div class="btn-group pull-right">
+    {{#link-to 'teams.index' class="btn btn-default"}} <span class="glyphicon glyphicon-arrow-left"></span> {{/link-to}}
+</div>
+
+<h1>Create new team</h1>
+
+<form role="form">
+    <div class="form-group">
+        {{view Ember.TextField valueBinding="name" class="form-control" placeholder="Name"}}
+    </div>
+    <div class="form-group">
+    <p><button {{action createItem this}} type="button" class="btn btn-primary btn-lg btn-block">Save</button></p>
+    </div>
+</form>

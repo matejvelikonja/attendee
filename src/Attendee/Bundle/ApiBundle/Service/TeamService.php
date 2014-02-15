@@ -3,6 +3,7 @@
 namespace Attendee\Bundle\ApiBundle\Service;
 
 use Attendee\Bundle\ApiBundle\Entity\Team;
+use Attendee\Bundle\ApiBundle\Entity\TeamManager;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -29,6 +30,8 @@ class TeamService
     private $em;
 
     /**
+     * @param EntityManager $em
+     *
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
@@ -37,6 +40,15 @@ class TeamService
     {
         $this->em   = $em;
         $this->repo = $em->getRepository('AttendeeApiBundle:Team');
+    }
+
+    /**
+     * @param Team $team
+     */
+    public function save(Team $team)
+    {
+        $this->em->persist($team);
+        $this->em->flush();
     }
 
     /**
@@ -73,13 +85,35 @@ class TeamService
                 ->where('m.user  = :user')
                 ->andWhere('t.id = :id')
                 ->setParameter('user', $user)
-                ->setParameter('id',   $team->getId())
+                ->setParameter('id', $team->getId())
                 ->getQuery()->getSingleResult();
-        } catch(NoResultException $e) {
+        } catch (NoResultException $e) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * @param string $name
+     * @param User   $user
+     *
+     * @return Team
+     */
+    public function create($name, User $user)
+    {
+        $team = new Team();
+        $team->setName($name);
+
+        $teamManager = new TeamManager();
+        $teamManager
+            ->setUser($user)
+            ->setTeam($team);
+
+        $this->em->persist($team);
+        $this->em->flush();
+
+        return $team;
     }
 
 }

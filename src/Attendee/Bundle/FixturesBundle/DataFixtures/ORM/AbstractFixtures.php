@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture as BaseFixture;
 /**
  * Class AbstractFixtures
  *
- * @package   Attendee\Bundle\FixturesBundle\DataFixtures\ORM
+ * @package Attendee\Bundle\FixturesBundle\DataFixtures\ORM
  */
 abstract class AbstractFixtures extends BaseFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {

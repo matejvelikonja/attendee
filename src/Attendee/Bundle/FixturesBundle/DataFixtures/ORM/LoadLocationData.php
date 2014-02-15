@@ -6,7 +6,7 @@ use Attendee\Bundle\ApiBundle\Entity\Location;
 /**
  * Class LoadLocationData
  *
- * @package   Attendee\Bundle\FixturesBundle\DataFixtures\ORM
+ * @package Attendee\Bundle\FixturesBundle\DataFixtures\ORM
  */
 class LoadLocationData extends AbstractFixtures
 {
@@ -15,7 +15,7 @@ class LoadLocationData extends AbstractFixtures
      */
     protected function run()
     {
-        foreach(range(0, 10) as $i) {
+        foreach (range(0, 10) as $i) {
             $location = new Location();
             $location
                 ->setName($this->faker->city)

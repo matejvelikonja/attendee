@@ -28,6 +28,8 @@ class AttendanceService
     private $em;
 
     /**
+     * @param EntityManager $em
+     *
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
@@ -93,7 +95,7 @@ class AttendanceService
     }
 
     /**
-     * @param $event Event
+     * @param Event $event
      *
      * @return Attendance[]
      */

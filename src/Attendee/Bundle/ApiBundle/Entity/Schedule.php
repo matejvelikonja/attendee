@@ -202,7 +202,7 @@ class Schedule extends AbstractEntity
      */
     public function belongsTo(Team $team)
     {
-        foreach($this->teams as $existingTeam) {
+        foreach ($this->teams as $existingTeam) {
             if ($team === $existingTeam) {
                 return true;
             }

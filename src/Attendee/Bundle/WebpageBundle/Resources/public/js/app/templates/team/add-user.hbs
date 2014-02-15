@@ -1,0 +1,27 @@
+<div class="btn-group pull-right">
+    {{#link-to 'team.index' team class="btn btn-default"}} <span class="glyphicon glyphicon-arrow-left"></span> {{/link-to}}
+</div>
+
+<h1>Add user to {{ team.name }}</h1>
+
+<div class="form-group">
+    {{view Ember.Select
+    content=users
+    optionValuePath="content"
+    optionLabelPath="content.name"
+    selection=content
+    prompt="Select existing user"
+    classNames="form-control"
+    }}
+</div>
+
+{{#if content }}
+    <div class="form-group">
+        <p><button {{action addUser content}} type="button" class="btn btn-primary btn-lg btn-block">Add</button></p>
+    </div>
+{{else}}
+    <div class="form-group center-content">
+        <h4>or</h4>
+        {{#link-to 'team.add-new-user' team class="btn btn-default"}}create new one{{/link-to}}
+    </div>
+{{/if}}

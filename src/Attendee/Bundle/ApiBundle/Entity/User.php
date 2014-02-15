@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Attendee\Bundle\UserBundle\Entity\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as Serializer;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
@@ -14,10 +15,26 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity()
  *
  * @Serializer\ExclusionPolicy("all")
- * @Serializer\AccessType("public_method")
+ * Serializer\AccessType("public_method")
  */
 class User extends BaseUser
 {
+    /**
+     * @var \Datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @var \Datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated;
+
     /**
      * Constructor.
      */
@@ -48,17 +65,6 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="users")
      */
     private $teams;
-
-    /**
-     * @Serializer\VirtualProperty
-     * @Serializer\SerializedName("name")
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getFirstName() . ' ' . $this->getLastName();
-    }
 
     /**
      * @param \Attendee\Bundle\ApiBundle\Entity\Attendance[] $attendances
@@ -125,13 +131,33 @@ class User extends BaseUser
     }
 
     /**
+     * @param Team $existingTeam
+     *
+     * @return $this
+     */
+    public function removeTeam(Team $existingTeam)
+    {
+        foreach ($this->teams as $key => $team) {
+            if ($team === $existingTeam) {
+                $this->teams->remove($key);
+                if ($existingTeam->hasUser($this)) {
+                    $existingTeam->removeUser($this);
+                }
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @param Team $team
      *
      * @return bool
      */
     public function belongsTo(Team $team)
     {
-        foreach($this->teams as $existingTeam) {
+        foreach ($this->teams as $existingTeam) {
             if ($team === $existingTeam) {
                 return true;
             }
@@ -140,4 +166,19 @@ class User extends BaseUser
         return false;
     }
 
+    /**
+     * @return \Datetime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
 }

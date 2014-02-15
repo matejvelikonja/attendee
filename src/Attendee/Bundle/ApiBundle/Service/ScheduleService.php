@@ -23,6 +23,8 @@ class ScheduleService
     private $repo;
 
     /**
+     * @param EntityManager $em
+     *
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })

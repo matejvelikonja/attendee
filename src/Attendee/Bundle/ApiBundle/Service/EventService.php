@@ -29,6 +29,8 @@ class EventService
     private $em;
 
     /**
+     * @param EntityManager $em
+     *
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
@@ -93,8 +95,8 @@ class EventService
          */
 
         $events = $this->repo->createQueryBuilder('e')
-            ->leftJoin('e.schedule',     's')
-            ->leftJoin('s.teams',        't')
+            ->leftJoin('e.schedule', 's')
+            ->leftJoin('s.teams', 't')
             ->leftJoin('t.teamManagers', 'm')
             ->where('m.user = :user')
             ->setParameter('user', $user)
@@ -114,15 +116,15 @@ class EventService
         $qb = $this->repo->createQueryBuilder('e');
         try {
             $qb
-                ->leftJoin('e.schedule',     's')
-                ->leftJoin('s.teams',        't')
+                ->leftJoin('e.schedule', 's')
+                ->leftJoin('s.teams', 't')
                 ->leftJoin('t.teamManagers', 'm')
                 ->where('e.id = :id')
                 ->andWhere('m.user = :user')
                 ->setParameter('id', $event->getId())
                 ->setParameter('user', $user)
                 ->getQuery()->getSingleResult();
-        } catch(NoResultException $e) {
+        } catch (NoResultException $e) {
             return false;
         }
 

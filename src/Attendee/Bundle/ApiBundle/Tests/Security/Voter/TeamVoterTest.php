@@ -10,7 +10,7 @@ use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
 /**
  * Class TeamVoterTest
  *
- * @package   Attendee\Bundle\ApiBundle\Security\Voter
+ * @package Attendee\Bundle\ApiBundle\Security\Voter
  */
 class TeamVoterTest  extends BaseTestCase
 {

@@ -1,0 +1,1 @@
+App.EventController = Ember.ObjectController.extend({})

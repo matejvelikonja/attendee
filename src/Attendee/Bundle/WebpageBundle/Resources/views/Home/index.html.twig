@@ -11,22 +11,24 @@
 {% endblock %}
 
 {% block container %}
-    <div class="jumbotron">
-        <h1 class="text-center">Attendee</h1>
-        <h4 class="text-center">
-            Track'em
-        {% if app.user %}
-            {{ app.user.username }}
-        {% endif %}
-            !
-        </h4>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">Attendee</h1>
+            <h4 class="text-center">
+                Track'em
+            {% if app.user %}
+                {{ app.user.username }}
+            {% endif %}
+                !
+            </h4>
 
-        <div class="login-area">
-        {% if app.user %}
-            <a href="{{ path('app') }}" class="btn btn-primary btn-lg btn-block">{{ 'Enter' | trans }}</a>
-        {% else %}
-                {{ render(controller('AttendeeUserBundle:Security:login')) }}
-        {% endif %}
+            <div class="login-area">
+            {% if app.user %}
+                <a href="{{ path('app') }}" class="btn btn-primary btn-lg btn-block">{{ 'Enter' | trans }}</a>
+            {% else %}
+                    {{ render(controller('AttendeeUserBundle:Security:login')) }}
+            {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

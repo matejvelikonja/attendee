@@ -1,55 +1,52 @@
-//$menu-width: 240px;
-//$height: 100%;
-//$background: transparent;
-//$button-width: 30px;
-//
-//@mixin translate($x: 0, $y: 0, $z: 0) {
-//  -webkit-transform: translate3d($x, $y, $z);
-//  -moz-transform: translate3d($x, $y, $z);
-//  -ms-transform: translate3d($x, $y, $z);
-//  transform: translate3d($x, $y, $z);
-//}
-//
-//@mixin transition($params: all 0.3s ease) {
-//  -webkit-transition: $params;
-//  -moz-transition: $params;
-//  transition: $params;
-//}
-//
-//.menu {
-//  background: $background;
-//  position: fixed;
-//  // animation
-//  @include transition;
-//  &.vertical {
-//    width: $menu-width;
-//    height: $height;
-//    z-index: 1000;
-//  }
-//  &.left {
-//    @include translate(-$menu-width, 0, 0);
-//    &.opened {
-//      @include translate;
-//    }
-//  }
-//  button {
-//    float: right;
-//    width: $button-width;
-//    margin-right: -$button-width;
-//  }
-//}
-//
-///* Push classes applied to the body */
-//
-//#container {
-//  width: 100%;
-//  position: absolute;
-//  left: 0;
-//  top: 0;
-//  margin-top: $button-width / 2;
-//  @include translate;
-//  @include transition;
-//  &.go-right {
-//    @include translate($menu-width, 0, 0);
-//  }
-//}
+$menu-width: 240px;
+$height: 100%;
+$background: white;
+$button-width: 30px;
+
+@mixin translate($x: 0, $y: 0, $z: 0) {
+  -webkit-transform: translate3d($x, $y, $z);
+  -moz-transform:    translate3d($x, $y, $z);
+  -ms-transform:     translate3d($x, $y, $z);
+  transform:         translate3d($x, $y, $z);
+}
+
+@mixin transition($params: all 0.3s ease) {
+  -webkit-transition: $params;
+  -moz-transition:    $params;
+  transition:         $params;
+}
+
+.navbar-left {
+  background: $background;
+  position: fixed;
+  // animation
+  @include transition;
+  @include translate(-$menu-width - 15, 0, 0);
+  width: $menu-width;
+  height: $height;
+  z-index: 1000;
+
+  &.menu-opened {
+    @include translate;
+  }
+
+  .navbar-brand {
+    float: none;
+  }
+
+  button {
+    float: right;
+    width: $button-width;
+    margin-right: -$button-width;
+  }
+}
+
+/* Push classes applied to the body */
+
+#container {
+  @include translate;
+  @include transition;
+  &.menu-opened {
+    @include translate($menu-width, 0, 0);
+  }
+}

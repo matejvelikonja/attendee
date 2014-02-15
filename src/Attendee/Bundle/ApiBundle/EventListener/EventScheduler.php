@@ -53,7 +53,7 @@ class EventScheduler
         $transformer->setTransformerConfig($transformerConfig);
 
         $events = array();
-        foreach($transformer->getComputedArray() as $eventDate) {
+        foreach ($transformer->getComputedArray() as $eventDate) {
             $event = new Event();
             $event
                 ->setStartsAt($eventDate)

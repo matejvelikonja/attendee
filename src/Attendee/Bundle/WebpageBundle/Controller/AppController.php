@@ -7,12 +7,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-
+/**
+ * Class AppController
+ *
+ * @package Attendee\Bundle\WebpageBundle\Controller
+ */
 class AppController extends BaseController
 {
     /**
      * @Route("/app", name="app")
      * @Template()
+     *
+     * @return array
      */
     public function indexAction()
     {
@@ -22,6 +28,8 @@ class AppController extends BaseController
     /**
      * @Route("/templates")
      * @Template()
+     *
+     * @return array
      */
     public function templatesAction()
     {

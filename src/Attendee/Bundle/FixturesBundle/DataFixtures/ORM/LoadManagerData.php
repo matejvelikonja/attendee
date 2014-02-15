@@ -8,7 +8,7 @@ use Attendee\Bundle\ApiBundle\Entity\User;
 /**
  * Class LoadManagerData
  *
- * @package   Attendee\Bundle\FixturesBundle\DataFixtures\ORM
+ * @package Attendee\Bundle\FixturesBundle\DataFixtures\ORM
  */
 class LoadManagerData extends AbstractFixtures
 {

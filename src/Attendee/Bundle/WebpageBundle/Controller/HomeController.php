@@ -13,6 +13,8 @@ class HomeController extends BaseController
     /**
      * @Route("/", name="home")
      * @Template()
+     *
+     * @return array
      */
     public function indexAction()
     {

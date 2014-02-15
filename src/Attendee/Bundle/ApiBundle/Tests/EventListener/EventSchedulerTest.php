@@ -11,7 +11,7 @@ use Recurr\RecurrenceRule;
 /**
  * Class EventSchedulerTest
  *
- * @package   Attendee\Bundle\ApiBundle\Tests\EventListener
+ * @package Attendee\Bundle\ApiBundle\Tests\EventListener
  */
 class EventSchedulerTest extends BaseTestCase
 {

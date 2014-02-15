@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class AbstractCommand
  *
- * @package   Attendee\Bundle\ApiBundle\Command
+ * @package Attendee\Bundle\ApiBundle\Command
  */
 abstract class AbstractCommand extends ContainerAwareCommand
 {
@@ -25,10 +25,13 @@ abstract class AbstractCommand extends ContainerAwareCommand
      */
     protected $output;
 
+    /**
+     * Use instead of execute.
+     */
     abstract protected function executeCommand();
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return void

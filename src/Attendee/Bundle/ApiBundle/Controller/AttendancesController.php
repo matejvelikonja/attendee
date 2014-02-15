@@ -3,23 +3,25 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Attendance;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Class AttendancesController
  *
  * @Route("/attendances")
  *
- * @package   Attendee\Bundle\ApiBundle\Controller
+ * @package Attendee\Bundle\ApiBundle\Controller
  */
 class AttendancesController extends AbstractController
 {
     /**
      * @param Request $request
      *
-     * @Route("/", methods="GET", name="api_attendances_index")
+     * @Rest\View
+     * @Rest\Get("/", name="api_attendances_index")
      *
      * @ApiDoc(
      *  description="Lists all attendances.",
@@ -29,7 +31,7 @@ class AttendancesController extends AbstractController
      *  }
      * )
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return array
      */
     public function indexAction(Request $request)
     {
@@ -37,17 +39,16 @@ class AttendancesController extends AbstractController
 
         $attendances = $this->getAttendanceService()->find($ids);
 
-        return $this->createResponse(
-            array(
-                'attendances' => $attendances
-            )
+        return array(
+            'attendances' => $attendances
         );
     }
 
     /**
      * @param Attendance $attendance
      *
-     * @Route("/{id}", methods="GET", name="api_attendances_show")
+     * @Rest\View
+     * @Rest\Get("/{id}", name="api_attendances_show")
      *
      * @ApiDoc(
      *  resource=true,
@@ -55,33 +56,30 @@ class AttendancesController extends AbstractController
      *  section="Attendances"
      * )
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return array
      */
     public function showAction(Attendance $attendance)
     {
-        return $this->createResponse(
-            array(
-                'attendance' => $attendance
-            )
+        return array(
+            'attendance' => $attendance
         );
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param Attendance $attendance
+     * @param \Attendee\Bundle\ApiBundle\Entity\Attendance $attendance
+     * @param \Symfony\Component\HttpFoundation\Request    $request
      *
      * This should be PATCH method, but EmberJS does not support it yet.
      * Only changing status implemented for now.
      *
-     * @Route("/{id}", methods="PUT", name="api_attendances_update")
+     * @Rest\View(statusCode=204)
+     * @Rest\Put("/{id}", name="api_attendances_update")
      *
      * @ApiDoc(
      *  resource=true,
      *  description="Update attendance.",
      *  section="Attendances"
      * )
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function updateAction(Attendance $attendance, Request $request)
     {
@@ -89,7 +87,5 @@ class AttendancesController extends AbstractController
         $status = $data['status'];
 
         $this->getAttendanceService()->changeStatus($attendance, $status);
-
-        return $this->createResponse(array(), 204);
     }
 }

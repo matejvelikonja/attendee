@@ -1,6 +1,10 @@
+<div class="btn-group pull-right">
+    {{#link-to 'teams.create' class="btn btn-default"}} <span class="glyphicon glyphicon-plus"></span> {{/link-to}}
+</div>
+
 <h1>Teams</h1>
 <div class="list-group events">
-    {{#each team in controller}}
+    {{#each team in teams}}
         {{#link-to 'team' team classNameBindings=":list-group-item team.isDirty"}}
             <h4 class="list-group-item-heading">{{team.name}}</h4>
             <span class="badge">{{ team.users_count }}</span>

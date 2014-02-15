@@ -37,7 +37,8 @@ class Location extends AbstractEntity
      * Set name
      *
      * @param string $name
-     * @return Location
+     *
+     * @return $this
      */
     public function setName($name)
     {
@@ -60,7 +61,8 @@ class Location extends AbstractEntity
      * Set lat
      *
      * @param string $lat
-     * @return Location
+     *
+     * @return $this
      */
     public function setLat($lat)
     {
@@ -83,7 +85,8 @@ class Location extends AbstractEntity
      * Set lng
      *
      * @param string $lng
-     * @return Location
+     *
+     * @return $this
      */
     public function setLng($lng)
     {

@@ -35,7 +35,7 @@ class Team extends AbstractEntity
     /**
      * @var TeamManager[]
      *
-     * @ORM\OneToMany(targetEntity="TeamManager", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="TeamManager", mappedBy="team", cascade={"persist"})
      */
     private $teamManagers;
 
@@ -95,15 +95,54 @@ class Team extends AbstractEntity
     }
 
     /**
-     * @param \Attendee\Bundle\ApiBundle\Entity\User[] $users
+     * @param User $user
      *
      * @return $this
      */
-    public function setUsers($users)
+    public function addUser(User $user)
     {
-        $this->users = $users;
+        $user->addTeam($this);
+        $this->users->add($user);
 
         return $this;
+    }
+
+    /**
+     * @param User $newUser
+     *
+     * @return $this
+     */
+    public function removeUser(User $newUser)
+    {
+        foreach ($this->users as $key => $user) {
+            if ($user === $newUser) {
+                $this->users->remove($key);
+
+                if ($newUser->belongsTo($this)) {
+                    $newUser->removeTeam($this);
+                }
+
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function hasUser(User $user)
+    {
+        foreach ($this->users as $existingUser) {
+            if ($user === $existingUser) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -132,6 +171,18 @@ class Team extends AbstractEntity
     public function getTeamManagers()
     {
         return $this->teamManagers;
+    }
+
+    /**
+     * @param TeamManager $manager
+     *
+     * @return $this
+     */
+    public function addTeamManager(TeamManager $manager)
+    {
+        $this->teamManagers->add($manager);
+
+        return $this;
     }
 
     /**

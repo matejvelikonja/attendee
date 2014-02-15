@@ -16,10 +16,12 @@ App.Router.map ()->
     @route 'edit'
 
   @resource 'teams', ->
-    @route 'new',
+    @route 'create',
 
   @resource 'team', path: '/teams/:team_id', ->
     @route 'edit',
+    @route 'add-user',
+    @route 'add-new-user',
 
 App.ApplicationRoute = Ember.Route.extend
   actions:
@@ -41,6 +43,23 @@ App.EventEditRoute = Ember.Route.extend
 App.TeamsRoute = Ember.Route.extend
   model: ->
     @store.find('team')
+
+App.TeamsCreateRoute = Ember.Route.extend
+  model: ->
+    @store.createRecord('team')
+  deactivate: ->
+    # cleanup after user leaves the route
+    model = @get('currentModel')
+    model.rollback() if model and not model.get('isSaving')
+
+App.TeamAddNewUserRoute = Ember.Route.extend
+  controllerName: 'TeamAddUser'
+  model: ->
+    @store.createRecord('user')
+  deactivate: ->
+    # cleanup after user leaves the route
+    content = @controllerFor('TeamAddUser').get('content')
+    content.rollback() if content and not content.get('isSaving')
 
 App.LocationsRoute = Ember.Route.extend
   model: ->

@@ -6,51 +6,52 @@ use Attendee\Bundle\ApiBundle\Entity\Location;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Class LocationsController
  *
  * @Route("/locations")
  *
- * @package   Attendee\Bundle\ApiBundle\Controller
+ * @package Attendee\Bundle\ApiBundle\Controller
  */
 class LocationsController extends AbstractController
 {
     /**
-     * @Route("/", methods="GET")
+     * @Rest\View
+     * @Rest\Get("/")
      *
      * @ApiDoc(
      *  description="Lists all locations."
      * )
+     *
+     * @return array
      */
     public function indexAction()
     {
         $locations = $this->getDoctrine()->getRepository('AttendeeApiBundle:Location')->findAll();
 
-        return $this->createResponse(
-            array(
-                'locations' => $locations
-            )
+        return array(
+            'locations' => $locations
         );
     }
 
     /**
      * @param Location $location
      *
-     * @Route("/{id}", methods="GET")
+     * @Rest\View
+     * @Rest\Get("/{id}")
      *
      * @ApiDoc(
      *  description="Location detail."
      * )
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return array
      */
     public function showAction(Location $location)
     {
-        return $this->createResponse(
-            array(
-                'location' => $location
-            )
+        return array(
+            'location' => $location
         );
     }
 }

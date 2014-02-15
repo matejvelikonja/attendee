@@ -1,3 +1,1 @@
-App.LocationsController = Ember.ArrayController.extend
-  dummy: ->
-    ''
+App.LocationsController = Ember.ArrayController.extend({})

@@ -13,7 +13,7 @@ use Recurr\RecurrenceRule;
 /**
  * Class EventVoterTest
  *
- * @package   Attendee\Bundle\ApiBundle\Security\Voter
+ * @package Attendee\Bundle\ApiBundle\Security\Voter
  */
 class EventVoterTest  extends BaseTestCase
 {

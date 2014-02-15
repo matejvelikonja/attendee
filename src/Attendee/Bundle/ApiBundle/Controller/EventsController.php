@@ -3,22 +3,28 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Event;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use JMS\SecurityExtraBundle\Annotation\SecureParam;
-use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Class EventsController
  *
  * @Route("/events")
  *
- * @package   Attendee\Bundle\ApiBundle\Controller
+ * @package Attendee\Bundle\ApiBundle\Controller
  */
 class EventsController extends AbstractController
 {
     /**
-     * @Route("/", methods="GET", name="api_events_index")
+     * @param Request $request
+     *
+     * @return array
+     *
+     * @Rest\View
+     * @Rest\Get("/", name="api_events_index")
      *
      * @ApiDoc(
      *  section="Events",
@@ -37,19 +43,18 @@ class EventsController extends AbstractController
         $locations   = $this->getLocationService()->findByEvents($events);
         $attendances = $this->getAttendanceService()->findByEvents($events);
 
-        return $this->createResponse(
-            array(
-                'events'      => $events,
-                'locations'   => $locations,
-                'attendances' => $attendances
-            )
+        return array(
+            'events'      => $events,
+            'locations'   => $locations,
+            'attendances' => $attendances
         );
     }
 
     /**
      * @param Event $event
      *
-     * @Route("/{id}", methods="GET", name="api_events_show")
+     * @Rest\View
+     * @Rest\Get("/{id}", name="api_events_show")
      * @SecureParam(name="event", permissions="MANAGER")
      *
      * @ApiDoc(
@@ -63,12 +68,10 @@ class EventsController extends AbstractController
     {
         $attendances = $this->getAttendanceService()->findByEvent($event);
 
-        return $this->createResponse(
-            array(
-                'event'       => $event,
-                'location'    => $event->getLocation(),
-                'attendances' => $attendances
-            )
+        return array(
+            'event'       => $event,
+            'location'    => $event->getLocation(),
+            'attendances' => $attendances
         );
     }
 
@@ -76,15 +79,14 @@ class EventsController extends AbstractController
      * @param Event   $event
      * @param Request $request
      *
-     * @Route("/{id}", methods="PUT", name="api_events_update")
+     * @Rest\View(statusCode=204)
+     * @Rest\Put("/{id}", name="api_events_update")
      * @SecureParam(name="event", permissions="MANAGER")
      *
      * @ApiDoc(
      *  section="Events",
      *  description="Update event."
      * )
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function updateAction(Event $event, Request $request)
     {
@@ -94,7 +96,5 @@ class EventsController extends AbstractController
 
         $event->setLocation($location);
         $this->getEventService()->update($event);
-
-        return $this->createResponse(array(), 204);
     }
 }

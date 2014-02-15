@@ -2,12 +2,27 @@
     {{#link-to 'teams' class="btn btn-default"}} <span class="glyphicon glyphicon-arrow-left"></span> {{/link-to}}
 </div>
 
-<h1>{{ name }}</h1>
+<h1>{{ team.name }}</h1>
+
+<div class="btn-group pull-right">
+    {{#link-to 'team.add-user' team class="btn btn-default"}} <span class="glyphicon glyphicon-plus"></span> {{/link-to}}
+</div>
 
 <h2>Team members</h2>
 
 <ul class="list-group">
-    {{#each user in users}}
-        <li class="list-group-item">{{user.name}}</li>
+    {{#each user in team.users}}
+        <li class="list-group-item">
+            {{user.name}}
+            <div class="btn-group pull-right">
+                <button {{ action removeUser user }} type="button" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </div>
+        </li>
+    {{else}}
+        <li class="list-group-item">
+            No users in team.
+        </li>
     {{/each}}
 </ul>

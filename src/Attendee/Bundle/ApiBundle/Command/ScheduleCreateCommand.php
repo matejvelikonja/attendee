@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\TableHelper;
 /**
  * Class ScheduleCreateCommand
  *
- * @package   Attendee\Bundle\ApiBundle\Command
+ * @package Attendee\Bundle\ApiBundle\Command
  */
 class ScheduleCreateCommand extends AbstractCommand
 {
@@ -119,7 +119,7 @@ class ScheduleCreateCommand extends AbstractCommand
 
         $table->setHeaders(array('date', 'time'));
 
-        foreach($events as $event) {
+        foreach ($events as $event) {
             $table->addRow(array(
                 $event->getStartsAt()->format(self::DATE_FORMAT),
                 $event->getStartsAt()->format(self::TIME_FORMAT)
@@ -178,7 +178,7 @@ class ScheduleCreateCommand extends AbstractCommand
                 $selected[] = $name;
             }
 
-        } while($name !== null);
+        } while ($name !== null);
 
         foreach ($selected as $teamName) {
             $team = $this->getDoctrine()->getRepository('AttendeeApiBundle:Team')->findOneBy(array(

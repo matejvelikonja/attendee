@@ -1,17 +1,24 @@
-{{!--
-{{#menu-main path=currentPath container="#container"}}-->
-    <nav class="navbar navbar-default">
-        <h1 class="navbar-brand">Menu</h1>
-        <ul class="nav nav-pills nav-stacked">
-            {{#linkTo "events"    tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Events</a>{{/linkTo}}
-            {{#linkTo "locations" tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Locations</a>{{/linkTo}}
-            {{#linkTo "users"     tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Users</a>{{/linkTo}}
-            {{#linkTo "teams"     tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Teams</a>{{/linkTo}}
-        </ul>
-    </nav>
-{{/menu-main}}
---}}
+<nav {{bind-attr class=":navbar :navbar-default :navbar-left menuOpened"}}>
+    <h1 class="navbar-brand">Menu</h1>
+    <ul class="nav nav-pills nav-stacked">
+        {{#link-to "events"    tagName="li" href=false}}<a {{bind-attr href="view.href"}}>Events</a>{{/link-to}}
+        {{#link-to "teams"     tagName="li" href=false}}<a {{bind-attr href="view.href"}}>Teams</a>{{/link-to}}
+        <li><a href="/">Exit</a></li>
+        <!--{{#link-to "locations" tagName="li" href=false}}<a {{bind-attr href="view.href"}}>Locations</a>{{/link-to}}-->
+        <!--{{#link-to "users"     tagName="li" href=false}}<a {{bind-attr href="view.href"}}>Users</a>{{/link-to}}-->
+    </ul>
+</nav>
 
-<div id="container" class="container">
+<div id="container" {{bind-attr class="menuOpened :container"}}>
+    <nav class="navbar navbar-default" role="navigation">
+        <button {{ action toggleMenu }} type="button" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!--<a class="navbar-brand" href="#">Brand</a>-->
+    </nav>
+
     {{outlet name="main"}}
 </div>

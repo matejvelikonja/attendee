@@ -3,3 +3,5 @@ FOS\UserBundle\Model\User:
     properties:
         id:
           expose: true
+        email:
+          expose: true

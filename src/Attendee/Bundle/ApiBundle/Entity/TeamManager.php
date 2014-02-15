@@ -56,6 +56,7 @@ class TeamManager extends AbstractEntity
      */
     public function setTeam(Team $team)
     {
+        $team->addTeamManager($this);
         $this->team = $team;
 
         return $this;

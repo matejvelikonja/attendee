@@ -17,6 +17,5 @@ App.EventIndexController = Ember.ObjectController.extend
         attendance.save()
 
   persistOnChange: (->
-    console.log('observed')
     @get('event').get('content').save()
   ).observes('event.location')

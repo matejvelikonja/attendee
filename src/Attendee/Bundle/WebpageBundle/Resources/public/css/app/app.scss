@@ -1,6 +1,13 @@
 @import "mixins";
+@import "navigation";
 
 #the-app {
+  overflow: hidden;
+
+  .navbar-toggle {
+    display: block;
+  }
+
   .list-group-item {
     overflow: auto;
   }
@@ -20,5 +27,19 @@
     &.is-saving {
       display: inline-block;
     }
+  }
+
+  .loading {
+    margin-top:       25%;
+
+    .spinner {
+      position:     relative;
+      margin-left:  auto;
+      margin-right: auto;
+    }
+  }
+
+  .center-content {
+    text-align: center;
   }
 }

@@ -10,7 +10,7 @@ use Recurr\RecurrenceRule;
 /**
  * Class LoadScheduleData
  *
- * @package   Attendee\Bundle\FixturesBundle\DataFixtures\ORM
+ * @package Attendee\Bundle\FixturesBundle\DataFixtures\ORM
  */
 class LoadScheduleData extends AbstractFixtures
 {
@@ -69,7 +69,7 @@ class LoadScheduleData extends AbstractFixtures
                 do {
                     /** @var Team $team */
                     $team = $this->faker->randomElement($teams);
-                } while($schedule->belongsTo($team));
+                } while ($schedule->belongsTo($team));
 
                 $schedule->addTeam($team);
             }

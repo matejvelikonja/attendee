@@ -24,6 +24,8 @@ class LocationService
     private $repo;
 
     /**
+     * @param EntityManager $em
+     *
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
@@ -42,7 +44,7 @@ class LocationService
     {
         $locations = array();
 
-        foreach($events as $event) {
+        foreach ($events as $event) {
             $locations[$event->getLocation()->getId()] = $event->getLocation();
         }
 

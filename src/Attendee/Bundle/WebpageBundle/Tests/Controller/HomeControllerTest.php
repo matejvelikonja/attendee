@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Class HomeControllerTest
  *
- * @package   Attendee\Bundle\WebpageBundle\Tests\Controller
+ * @package Attendee\Bundle\WebpageBundle\Tests\Controller
  */
 class HomeControllerTest extends WebTestCase
 {

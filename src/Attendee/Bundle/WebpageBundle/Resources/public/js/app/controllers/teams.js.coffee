@@ -1,3 +1,1 @@
-App.TeamsController = Ember.ArrayController.extend
-  dummy: ->
-    ''
+App.TeamsController = Ember.ArrayController.extend({})

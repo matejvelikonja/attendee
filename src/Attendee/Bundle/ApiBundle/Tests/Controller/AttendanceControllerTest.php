@@ -8,7 +8,7 @@ use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
 /**
  * Class AttendanceControllerTest
  *
- * @package   Attendee\Bundle\ApiBundle\Tests\Controller
+ * @package Attendee\Bundle\ApiBundle\Tests\Controller
  */
 class AttendanceControllerTest extends BaseTestCase
 {

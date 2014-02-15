@@ -2,13 +2,14 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
 
+use Attendee\Bundle\ApiBundle\Entity\Team;
+use Attendee\Bundle\ApiBundle\Entity\User;
 use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
 
 /**
  * Class TeamsControllerTest
  *
- * @package   Attendee\Bundle\ApiBundle\Tests\Controller
+ * @package Attendee\Bundle\ApiBundle\Tests\Controller
  */
 class TeamsControllerTest extends BaseTestCase
 {
@@ -19,9 +20,6 @@ class TeamsControllerTest extends BaseTestCase
     {
         $client = $this->createAuthorizedClient();
 
-        $teams = $this->getRepo('AttendeeApiBundle:Team')->findBy(array());
-        $limit = count($teams);
-
         $client->request('GET', $this->url("api_teams_index"));
 
         $decoded = $this->getResponseData($client);
@@ -30,8 +28,6 @@ class TeamsControllerTest extends BaseTestCase
             array('teams', 'users'),
             $decoded
         );
-
-        $this->assertCount($limit, $decoded['teams'], "API should return exactly $limit events.");
     }
 
     /**
@@ -52,26 +48,49 @@ class TeamsControllerTest extends BaseTestCase
     }
 
     /**
-     * @param Client $client
+     * Test updating of team.
      *
-     * @return mixed
+     * Test tries to update name and users of team.
      */
-    private function getResponseData(Client $client)
+    public function testUpdate()
     {
-        $content = $client->getResponse()->getContent();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        /** @var User[] $users */
+        $users       = $this->getRepo('AttendeeApiBundle:User')->findBy(array(), array(), 5);
+        /** @var Team $team */
+        $team        = $this->getRepo('AttendeeApiBundle:Team')->findOneBy(array());
+        $userIds     = array();
+        $newTeamName = 'Some random name ' . time();
 
-        $decoded = json_decode($content, true);
+        foreach ($users as $user) {
+            $userIds[] = $user->getId();
+        }
 
-        $this->assertEquals(
-            JSON_ERROR_NONE,
-            json_last_error(),
-            sprintf('JSON decoding failed for url `%s` with code %d.',
-                json_last_error(),
-                $client->getRequest()->getRequestUri()
-            )
+        $requestContent = json_encode(
+            array('team' => array(
+                'name'  => $newTeamName,
+                'users' => $userIds
+            )));
+
+        $client = $this->createAuthorizedClient();
+
+        $client->request('PUT', $this->url(
+            'api_teams_update', array('id' => $team->getId())),
+            array(), array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            $requestContent
         );
 
-        return $decoded;
+        $decoded = $this->getResponseData($client);
+
+        $this->assertArrayHasKeys(
+            array('team', 'users'),
+            $decoded
+        );
+
+        /** @var Team $newTeam */
+        $newTeam = $this->getRepo('AttendeeApiBundle:Team')->find($team->getId());
+
+        $this->assertEquals($newTeamName, $newTeam->getName(), 'Name of team should be changed.');
+        $this->assertCount(count($users), $newTeam->getUsers(), 'Users were not changed.');
     }
 }

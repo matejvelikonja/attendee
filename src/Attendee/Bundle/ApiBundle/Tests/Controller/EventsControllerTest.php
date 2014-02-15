@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 /**
  * Class EventsControllerTest
  *
- * @package   Attendee\Bundle\ApiBundle\Tests\Controller
+ * @package Attendee\Bundle\ApiBundle\Tests\Controller
  */
 class EventsControllerTest extends BaseTestCase
 {
@@ -53,29 +53,5 @@ class EventsControllerTest extends BaseTestCase
             array('event', 'location', 'attendances'),
             $decoded
         );
-    }
-
-    /**
-     * @param Client $client
-     *
-     * @return mixed
-     */
-    private function getResponseData(Client $client)
-    {
-        $content = $client->getResponse()->getContent();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        $decoded = json_decode($content, true);
-
-        $this->assertEquals(
-            JSON_ERROR_NONE,
-            json_last_error(),
-            sprintf('JSON decoding failed for url `%s` with code %d.',
-                json_last_error(),
-                $client->getRequest()->getRequestUri()
-            )
-        );
-
-        return $decoded;
     }
 }

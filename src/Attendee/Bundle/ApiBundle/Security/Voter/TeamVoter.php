@@ -11,7 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 /**
  * Class TeamVoter
  *
- * @package   Attendee\Bundle\ApiBundle\Security\Voter
+ * @package Attendee\Bundle\ApiBundle\Security\Voter
  *
  * @DI\Service("attendee.security.voters.team", public=false)
  * @DI\Tag("security.voter")
@@ -65,8 +65,8 @@ class TeamVoter implements VoterInterface
      * This method must return one of the following constants:
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
-     * @param TokenInterface $token A TokenInterface instance
-     * @param Team           $team The object to secure
+     * @param TokenInterface $token      A TokenInterface instance
+     * @param Team           $team       The object to secure
      * @param array          $attributes An array of attributes associated with the method being invoked
      *
      * @return integer either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
@@ -78,7 +78,7 @@ class TeamVoter implements VoterInterface
             return $result;
         }
 
-        foreach($attributes as $attribute) {
+        foreach ($attributes as $attribute) {
             if (!$this->supportsAttribute($attribute)) {
                 continue;
             }

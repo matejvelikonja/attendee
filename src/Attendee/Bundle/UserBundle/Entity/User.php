@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
+ * User
+ *
  * @ORM\MappedSuperclass
  * @Serializer\ExclusionPolicy("all")
  */
@@ -23,6 +25,8 @@ abstract class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255)
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("firstName")
      */
     private $firstName = "";
 
@@ -30,6 +34,8 @@ abstract class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255)
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("lastName")
      */
     private $lastName = "";
 
@@ -71,6 +77,16 @@ abstract class User extends BaseUser
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    /**
+     * Get user's full name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
     /**

@@ -6,6 +6,7 @@ use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use FOS\UserBundle\Entity\UserManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -23,13 +24,36 @@ class UserService
     private $repo;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * @param EntityManager $em
+     *
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager")
      * })
      */
     public function __construct(EntityManager $em)
     {
+        $this->em   = $em;
         $this->repo = $em->getRepository('AttendeeApiBundle:User');
+    }
+
+    /**
+     * @param User $user
+     */
+    public function save(User $user)
+    {
+        if (! $user->getPassword()) {
+            $user
+                ->setPlainPassword('blank')
+                ->setEnabled(false);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
     }
 
     /**
@@ -59,8 +83,8 @@ class UserService
     {
         $users = array();
 
-        foreach($teams as $team) {
-            foreach($team->getUsers() as $user) {
+        foreach ($teams as $team) {
+            foreach ($team->getUsers() as $user) {
                 $users[$user->getId()] = $user;
             }
         }
@@ -68,11 +92,16 @@ class UserService
         return array_values($users);
     }
 
+    /**
+     * @param Team $team
+     *
+     * @return User[]
+     */
     public function findByTeam(Team $team)
     {
         $users = array();
 
-        foreach($team->getUsers() as $user) {
+        foreach ($team->getUsers() as $user) {
             $users[$user->getId()] = $user;
         }
 

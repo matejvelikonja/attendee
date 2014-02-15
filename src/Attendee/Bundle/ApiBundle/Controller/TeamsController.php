@@ -3,10 +3,11 @@
 namespace Attendee\Bundle\ApiBundle\Controller;
 
 use Attendee\Bundle\ApiBundle\Entity\Team;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use JMS\SecurityExtraBundle\Annotation\SecureParam;
-use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Class TeamsController
@@ -18,7 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 class TeamsController extends AbstractController
 {
     /**
-     * @Route("/", methods="GET", name="api_teams_index")
+     * @param Request $request
+     *
+     * @Rest\View
+     * @Rest\Get("/", name="api_teams_index")
      *
      * @ApiDoc(
      *  section="Teams",
@@ -28,6 +32,8 @@ class TeamsController extends AbstractController
      *      {"name"="offset", "dataType"="integer", "required"=false, "description"="Offset results."}
      *  }
      * )
+     *
+     * @return array
      */
     public function indexAction(Request $request)
     {
@@ -36,18 +42,44 @@ class TeamsController extends AbstractController
         $teams  = $this->getTeamService()->findForUser($this->getUser(), $limit, $offset);
         $users  = $this->getUserService()->findByTeams($teams);
 
-        return $this->createResponse(
-            array(
-                'teams' => $teams,
-                'users' => $users
-            )
+        return array(
+            'teams' => $teams,
+            'users' => $users
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @Rest\View
+     * @Rest\Post("", name="api_teams_create")
+     *
+     * @ApiDoc(
+     *  section="Teams",
+     *  description="Create event.",
+     *  parameters={
+     *      {"name"="name",  "dataType"="string", "required"=true, "description"="Name of the newly created team."},
+     *  }
+     * )
+     *
+     * @return array
+     */
+    public function createAction(Request $request)
+    {
+        $data = $request->request->get('team');
+        $name = $data['name'];
+        $team = $this->getTeamService()->create($name, $this->getUser());
+
+        return array(
+            'team' => $team
         );
     }
 
     /**
      * @param Team $team
      *
-     * @Route("/{id}", methods="GET", name="api_teams_show")
+     * @Rest\View
+     * @Rest\Get("/{id}", name="api_teams_show")
      * @SecureParam(name="team", permissions="MANAGER")
      *
      * @ApiDoc(
@@ -55,17 +87,40 @@ class TeamsController extends AbstractController
      *  description="Team detail."
      * )
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return array
      */
     public function showAction(Team $team)
     {
         $users = $this->getUserService()->findByTeam($team);
 
-        return $this->createResponse(
-            array(
-                'team'  => $team,
-                'users' => $users
-            )
+        return array(
+            'team'  => $team,
+            'users' => $users
         );
+    }
+
+    /**
+     * @param \Attendee\Bundle\ApiBundle\Entity\Team    $team
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @Rest\View
+     * @Rest\Put("/{id}", name="api_teams_update")
+     *
+     * @ApiDoc(
+     *  section="Teams",
+     *  description="Update event."
+     * )
+     *
+     * @return array
+     */
+    public function updateAction(Team $team, Request $request)
+    {
+        $data = $request->request->get('team');
+        $form = $this->createForm('team', $team);
+        $form->submit($data);
+
+        $this->getTeamService()->save($team);
+
+        return $this->showAction($team);
     }
 }

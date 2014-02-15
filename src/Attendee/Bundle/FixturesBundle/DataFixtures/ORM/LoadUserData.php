@@ -9,7 +9,7 @@ use FOS\UserBundle\Doctrine\UserManager;
 /**
  * Class LoadUserData
  *
- * @package   Attendee\Bundle\UserBundle\DataFixtures\ORM
+ * @package Attendee\Bundle\UserBundle\DataFixtures\ORM
  */
 class LoadUserData extends AbstractFixtures
 {
@@ -95,7 +95,7 @@ class LoadUserData extends AbstractFixtures
                 do {
                     /** @var Team $team */
                     $team = $this->faker->randomElement($teams);
-                } while($user->belongsTo($team));
+                } while ($user->belongsTo($team));
 
                 $user->addTeam($team);
             }

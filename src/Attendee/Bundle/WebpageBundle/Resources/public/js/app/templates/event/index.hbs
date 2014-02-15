@@ -1,6 +1,6 @@
 <div class="btn-group pull-right">
     {{# link-to 'event.edit' event.id class="btn btn-default" }} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
-    <a {{ action goBack }} class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    {{# link-to 'events.index' class="btn btn-default"}} <span class="glyphicon glyphicon-chevron-left"></span> {{/link-to}}
 </div>
 
 <h1>{{ event.name }} @ {{ event.location.name }}</h1>
