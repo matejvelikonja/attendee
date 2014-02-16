@@ -13,4 +13,4 @@ parameters:
     mailer_password: null
 
     locale: en
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: SomeRandomSecretThatShouldBeChanged
