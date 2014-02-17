@@ -4,7 +4,6 @@ namespace Attendee\Bundle\ApiBundle\Form\Transformer;
 
 use Attendee\Bundle\ApiBundle\Service\UserService;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * Class UsersTransformer

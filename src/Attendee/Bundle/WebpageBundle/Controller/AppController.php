@@ -15,7 +15,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class AppController extends BaseController
 {
     /**
-     * @Route("/app", name="app")
+     * @Route("/app", name="app", methods="GET")
      * @Template()
      *
      * @return array
@@ -26,7 +26,7 @@ class AppController extends BaseController
     }
 
     /**
-     * @Route("/templates")
+     * @Route("/templates", methods="GET")
      * @Template()
      *
      * @return array
@@ -34,7 +34,8 @@ class AppController extends BaseController
     public function templatesAction()
     {
         $templates = array();
-        $templatesPath = realpath(__DIR__ . '/../Resources/public/js/app/templates');
+        $kernel = $this->container->get('kernel');
+        $templatesPath = realpath($kernel->locateResource('@AttendeeWebpageBundle') . 'Resources/public/js/app/templates');
 
         $finder = new Finder();
         $finder->files()->in($templatesPath);

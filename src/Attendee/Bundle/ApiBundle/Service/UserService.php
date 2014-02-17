@@ -6,7 +6,6 @@ use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use FOS\UserBundle\Entity\UserManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
