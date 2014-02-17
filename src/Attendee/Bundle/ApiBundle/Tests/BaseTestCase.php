@@ -113,8 +113,8 @@ abstract class BaseTestCase extends WebTestCase
     }
 
     /**
-     * @param array $keys
-     * @param array $array
+     * @param string[] $keys
+     * @param array    $array
      */
     protected  function assertArrayHasKeys($keys, $array)
     {

@@ -2,7 +2,10 @@ tools:
     external_code_coverage: true
     php_code_sniffer: true
     php_cs_fixer: true
+    php_mess_detector: true
     php_analyzer: true
+    php_pdepend:  true
+    sensiolabs_security_checker: true
     php_cpd:
         # A list of excluded directories.
         excluded_dirs:        []

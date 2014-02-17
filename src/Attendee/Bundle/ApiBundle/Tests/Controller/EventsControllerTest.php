@@ -2,12 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
 
-use Attendee\Bundle\ApiBundle\Entity\Event;
-use Attendee\Bundle\ApiBundle\Entity\Schedule;
-use Attendee\Bundle\ApiBundle\Entity\ScheduleManager;
-use Attendee\Bundle\ApiBundle\Entity\User;
 use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
 
 /**
  * Class EventsControllerTest
