@@ -40,6 +40,7 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 
             new Attendee\Bundle\ApiBundle\AttendeeApiBundle(),
+            new Attendee\Bundle\ConsoleBundle\AttendeeConsoleBundle(),
             new Attendee\Bundle\UserBundle\AttendeeUserBundle(),
             new Attendee\Bundle\WebpageBundle\AttendeeWebpageBundle(),
             new Attendee\Bundle\FixturesBundle\AttendeeFixturesBundle(),

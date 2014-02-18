@@ -104,7 +104,7 @@ nelmio_api_doc: ~
 jms_di_extra:
     locations:
         all_bundles: false
-        bundles: [AttendeeApiBundle]
+        bundles: [AttendeeApiBundle, AttendeeConsoleBundle]
         directories: ["%kernel.root_dir%/../src"]
 
 jms_serializer:

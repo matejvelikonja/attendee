@@ -1,6 +1,6 @@
 <?php
 
-namespace Attendee\Bundle\ApiBundle\Command;
+namespace Attendee\Bundle\ConsoleBundle\Command;
 
 use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\TableHelper;
 /**
  * Class ScheduleCreateCommand
  *
- * @package Attendee\Bundle\ApiBundle\Command
+ * @package Attendee\Bundle\ConsoleBundle\Command
  */
 class ScheduleCreateCommand extends AbstractCommand
 {

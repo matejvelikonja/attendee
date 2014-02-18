@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Location
  *
- * @ORM\Table(name="locations")
+ * @ORM\Table(name="locations", uniqueConstraints={@ORM\UniqueConstraint(name="lat_lng_idx", columns={"lat", "lng"})})
  * @ORM\Entity
  */
 class Location extends AbstractEntity

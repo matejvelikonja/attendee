@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+<Document>
+  <name>Test locations</name>
+  <description><![CDATA[]]></description>
+  <Placemark>
+    <name>Test location 1</name>
+    <description><![CDATA[]]></description>
+    <Point>
+      <coordinates>14.445819,46.052701,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Test location 2</name>
+    <description><![CDATA[]]></description>
+    <Point>
+      <coordinates>14.408133,45.998584,0.000000</coordinates>
+    </Point>
+  </Placemark>
+</Document>
+</kml>

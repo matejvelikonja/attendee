@@ -1,6 +1,6 @@
 <?php
 
-namespace Attendee\Bundle\ApiBundle\Command;
+namespace Attendee\Bundle\ConsoleBundle\Command;
 
 use Attendee\Bundle\ApiBundle\Service\ScheduleService;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class AbstractCommand
  *
- * @package Attendee\Bundle\ApiBundle\Command
+ * @package Attendee\Bundle\ConsoleBundle\Command
  */
 abstract class AbstractCommand extends ContainerAwareCommand
 {
@@ -19,6 +19,11 @@ abstract class AbstractCommand extends ContainerAwareCommand
      * @var DialogHelper $dialog
      */
     protected $dialog;
+
+    /**
+     * @var InputInterface
+     */
+    protected $input;
 
     /**
      * @var OutputInterface
@@ -39,6 +44,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->dialog = $this->getHelperSet()->get('dialog');
+        $this->input  = $input;
         $this->output = $output;
 
         $this->executeCommand();
