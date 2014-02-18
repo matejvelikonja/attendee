@@ -26,7 +26,7 @@ class EventsControllerTest extends BaseTestCase
         $decoded = $this->getResponseData($client);
 
         $this->assertArrayHasKeys(
-            array('events', 'locations', 'attendances'),
+            array('events', 'locations', 'attendances', 'users'),
             $decoded
         );
 
@@ -45,7 +45,7 @@ class EventsControllerTest extends BaseTestCase
         $decoded = $this->getResponseData($client);
 
         $this->assertArrayHasKeys(
-            array('event', 'location', 'attendances'),
+            array('event', 'location', 'attendances', 'users'),
             $decoded
         );
     }

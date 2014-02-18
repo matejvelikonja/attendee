@@ -1,6 +1,6 @@
 App.Attendance = DS.Model.extend
   status:    DS.attr      'string'
-  user_name: DS.attr      'string'
+  user:      DS.belongsTo 'user'
   event:     DS.belongsTo 'event'
 
   isPresent: (->

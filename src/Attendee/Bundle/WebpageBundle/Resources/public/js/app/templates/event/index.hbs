@@ -11,7 +11,7 @@
 {{# each a in event.attendances }}
     <div class="list-group-item">
         <span {{bind-attr class="a.isSaving :glyphicon :glyphicon-repeat :rotate"}}></span>
-        {{a.user_name}}
+        {{a.user.name}}
         <div class="btn-group pull-right">
             <button {{ action setStatus a 'present' }} type="button" {{bind-attr class="a.isPresent :btn :btn-default"}}>
                 <span class="glyphicon glyphicon-ok"></span>

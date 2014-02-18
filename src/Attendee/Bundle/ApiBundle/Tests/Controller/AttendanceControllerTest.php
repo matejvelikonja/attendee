@@ -50,7 +50,7 @@ class AttendanceControllerTest extends BaseTestCase
 
         $attendance = $decoded['attendance'];
         $this->assertArrayHasKeys(
-            array('id', 'status', 'user', 'user_name', 'event'),
+            array('id', 'status', 'user', 'event'),
             $attendance
         );
     }

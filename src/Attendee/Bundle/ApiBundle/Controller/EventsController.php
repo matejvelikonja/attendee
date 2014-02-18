@@ -42,11 +42,13 @@ class EventsController extends AbstractController
         $events      = $this->getEventService()->findForUser($this->getUser(), $limit, $offset);
         $locations   = $this->getLocationService()->findByEvents($events);
         $attendances = $this->getAttendanceService()->findByEvents($events);
+        $users       = $this->getUserService()->findByAttendances($attendances);
 
         return array(
             'events'      => $events,
             'locations'   => $locations,
-            'attendances' => $attendances
+            'attendances' => $attendances,
+            'users'       => $users
         );
     }
 
@@ -67,11 +69,13 @@ class EventsController extends AbstractController
     public function showAction(Event $event)
     {
         $attendances = $this->getAttendanceService()->findByEvent($event);
+        $users       = $this->getUserService()->findByAttendances($attendances);
 
         return array(
             'event'       => $event,
             'location'    => $event->getLocation(),
-            'attendances' => $attendances
+            'attendances' => $attendances,
+            'users'       => $users
         );
     }
 

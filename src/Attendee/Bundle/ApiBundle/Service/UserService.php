@@ -2,6 +2,7 @@
 
 namespace Attendee\Bundle\ApiBundle\Service;
 
+use Attendee\Bundle\ApiBundle\Entity\Attendance;
 use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
@@ -102,6 +103,22 @@ class UserService
 
         foreach ($team->getUsers() as $user) {
             $users[$user->getId()] = $user;
+        }
+
+        return array_values($users);
+    }
+
+    /**
+     * @param Attendance[] $attendances
+     *
+     * @return User[]
+     */
+    public function findByAttendances($attendances)
+    {
+        $users = array();
+
+        foreach ($attendances as $attendance) {
+            $users[$attendance->getUser()->getId()] = $attendance->getUser();
         }
 
         return array_values($users);

@@ -6,10 +6,6 @@ App.EventIndexController = Ember.ObjectController.extend
     @store.find('location')
   ).property()
 
-  isPersisted: (->
-    ! @get("event").get "id"
-  ).property()
-
   actions:
     setStatus: (attendance, status) ->
       if attendance.get("status") != status
