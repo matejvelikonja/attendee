@@ -20,16 +20,16 @@ class Location extends AbstractEntity
     private $name;
 
     /**
-     * @var string
+     * @var double
      *
-     * @ORM\Column(name="lat", type="decimal")
+     * @ORM\Column(name="lat", type="decimal", scale=7)
      */
     private $lat;
 
     /**
-     * @var string
+     * @var double
      *
-     * @ORM\Column(name="lng", type="decimal")
+     * @ORM\Column(name="lng", type="decimal", scale=7)
      */
     private $lng;
 
@@ -60,7 +60,7 @@ class Location extends AbstractEntity
     /**
      * Set lat
      *
-     * @param string $lat
+     * @param double $lat
      *
      * @return $this
      */
@@ -74,7 +74,7 @@ class Location extends AbstractEntity
     /**
      * Get lat
      *
-     * @return string 
+     * @return double
      */
     public function getLat()
     {
@@ -84,7 +84,7 @@ class Location extends AbstractEntity
     /**
      * Set lng
      *
-     * @param string $lng
+     * @param double $lng
      *
      * @return $this
      */
@@ -98,7 +98,7 @@ class Location extends AbstractEntity
     /**
      * Get lng
      *
-     * @return string 
+     * @return double
      */
     public function getLng()
     {
