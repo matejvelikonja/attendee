@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class HomeController extends BaseController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="home", methods="GET")
      * @Template()
      *
      * @return array

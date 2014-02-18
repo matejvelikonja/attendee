@@ -17,7 +17,7 @@ class SecurityController extends BaseSecurityController
     /**
      * @return Response
      *
-     * @Route("/login", name="attendee_login")
+     * @Route("/login", name="attendee_login", methods="POST")
      * @Template()
      */
     public function loginAction()
