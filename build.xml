@@ -50,7 +50,8 @@
     <target name="phpcs"
             description="Finds coding standard violations using PHP_CodeSniffer and prints out human readable output.">
         <exec executable="phpcs"
-              passthru="true">
+              passthru="true"
+              checkreturn="true">
             <arg value="--standard=Symfony2" />
             <arg path="${dir.src}" />
         </exec>

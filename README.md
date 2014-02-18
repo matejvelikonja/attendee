@@ -6,6 +6,17 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/matejvelikonja/attendee/badges/coverage.png?s=725e5c1ed511243ac7f1fd1aec5f46fe6d917c77)](https://scrutinizer-ci.com/g/matejvelikonja/attendee/)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/matejvelikonja/attendee/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+## Console
+
+### List of commands
+
+#### Schedule create command
+
+Example:
+```bash
+$ app/console attendee:schedule:create --teams="Team name" --name="Schedule name" --startsAt="now" --endsAt="+1 month" --rRule="FREQ=WEEKLY;BYDAY=TH;BYHOUR=18"
+```
+
 ## Development
 
 # Tests

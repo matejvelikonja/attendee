@@ -169,13 +169,15 @@ class Schedule extends AbstractEntity
      */
     public function setTeams($teams)
     {
-        $this->teams = $teams;
+        foreach ($teams as $team) {
+            $this->addTeam($team);
+        }
 
         return $this;
     }
 
     /**
-     * @return \Attendee\Bundle\ApiBundle\Entity\Team[]
+     * @return \Attendee\Bundle\ApiBundle\Entity\Team[] | ArrayCollection
      */
     public function getTeams()
     {

@@ -7,6 +7,7 @@ use Attendee\Bundle\ApiBundle\Entity\Schedule;
 use Attendee\Bundle\ApiBundle\Entity\Team;
 use Recurr\RecurrenceRule;
 use Symfony\Component\Console\Helper\TableHelper;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class ScheduleCreateCommand
@@ -26,7 +27,13 @@ class ScheduleCreateCommand extends AbstractCommand
     {
         $this
             ->setName('attendee:schedule:create')
-            ->setDescription('Create schedule.');
+            ->setDescription('Create schedule.')
+            ->addOption('teams', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'List of team names.')
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Name of schedule')
+            ->addOption('location', null, InputOption::VALUE_OPTIONAL, 'Default location of schedule.')
+            ->addOption('startsAt', null, InputOption::VALUE_OPTIONAL, 'Start date of schedule.')
+            ->addOption('endsAt', null, InputOption::VALUE_OPTIONAL, 'End date of schedule.')
+            ->addOption('rRule', null, InputOption::VALUE_OPTIONAL, 'RRule of schedule.');
     }
 
     /**
@@ -98,12 +105,13 @@ class ScheduleCreateCommand extends AbstractCommand
         $table = $this->getApplication()->getHelperSet()->get('table');
         $table->setHeaders(array('Property', 'Value'));
 
-        $teams = $schedule->getTeams();
-        $users = $this->getScheduleService()->getUsers($schedule);
+        $teams    = $schedule->getTeams()->toArray();
+        $users    = $this->getScheduleService()->getUsers($schedule);
+        $location = $schedule->getDefaultLocation() ? $schedule->getDefaultLocation()->getName() : 'none';
 
         $table->addRows(array(
             array('name',      $schedule->getName()),
-            array('location',  $schedule->getDefaultLocation()->getName()),
+            array('location',  $location),
             array('startsAt',  $schedule->getRRule()->getStartDate()->format(self::DATE_TIME_FORMAT)),
             array('endsAt',    $schedule->getRRule()->getUntil()->format(self::DATE_TIME_FORMAT)),
             array('rRule',     $schedule->getRRule()->getString()),
@@ -135,55 +143,56 @@ class ScheduleCreateCommand extends AbstractCommand
      */
     private function getScheduleName()
     {
-        return $this->dialog->askAndValidate(
-            $this->output,
-            "Name: ",
-            function ($answer) {
-                if (strlen($answer) == 0) {
-                    throw new \RuntimeException('Please enter name of the schedule.');
-                }
+        $name = $this->input->getOption('name');
 
-                return $answer;
-            },
-            false
-        );
-    }
-
-    /**
-     * @return Team[]
-     */
-    private function getTeams()
-    {
-        $teamsNames = $this->getTeamsNames();
-        $teams      = array();
-        $selected   = array();
-
-        do {
+        if (! $name) {
             $name = $this->dialog->askAndValidate(
                 $this->output,
-                "Team: ",
-                function ($answer) use ($teamsNames) {
-                    if (! in_array($answer, $teamsNames) && strlen($answer) > 0) {
-                        throw new \RuntimeException(sprintf('Wrong location `%s` selected.', $answer));
+                "Name: ",
+                function ($answer) {
+                    if (strlen($answer) == 0) {
+                        throw new \RuntimeException('Please enter name of the schedule.');
                     }
 
                     return $answer;
                 },
-                false,
-                null,
-                $teamsNames
+                false
             );
+        }
 
-            if ($name) {
-                $selected[] = $name;
-            }
+        return $name;
+    }
 
-        } while ($name !== null);
+    /**
+     * @throws \RuntimeException
+     *
+     * @return Team[]
+     */
+    private function getTeams()
+    {
+        $teams      = array();
+        $selected   = $this->input->getOption('teams');
+
+        // if we don't get any team names from options, then we ask user
+        if (empty($selected)) {
+            do {
+                $name = $this->getTeamName();
+
+                if ($name) {
+                    $selected[] = $name;
+                }
+
+            } while ($name !== null);
+        }
 
         foreach ($selected as $teamName) {
             $team = $this->getDoctrine()->getRepository('AttendeeApiBundle:Team')->findOneBy(array(
                 'name' => $teamName
             ));
+
+            if (! $team instanceof Team) {
+                throw new \RuntimeException("Team $teamName not found.");
+            }
 
             $teams[] = $team;
         }
@@ -192,17 +201,17 @@ class ScheduleCreateCommand extends AbstractCommand
     }
 
     /**
-     * @return Location
+     * @return string | null
      */
-    private function getLocation()
+    private function getTeamName()
     {
-        $locations = $this->getLocationNames();
+        $teamsNames = $this->getTeamsNames();
 
-        $name = $this->dialog->askAndValidate(
+        return $this->dialog->askAndValidate(
             $this->output,
-            "Location: ",
-            function ($answer) use ($locations) {
-                if (! in_array($answer, $locations)) {
+            "Team: ",
+            function ($answer) use ($teamsNames) {
+                if (! in_array($answer, $teamsNames) && strlen($answer) > 0) {
                     throw new \RuntimeException(sprintf('Wrong location `%s` selected.', $answer));
                 }
 
@@ -210,14 +219,51 @@ class ScheduleCreateCommand extends AbstractCommand
             },
             false,
             null,
-            $locations
+            $teamsNames
         );
+    }
 
-        $location = $this->getDoctrine()->getRepository('AttendeeApiBundle:Location')->findOneBy(array(
-            'name' => $name
-        ));
+    /**
+     * @throws \RuntimeException
+     *
+     * @return Location
+     */
+    private function getLocation()
+    {
+        $name = $this->input->getOption('location');
 
-        return $location;
+        if (! $name) {
+            $locations = $this->getLocationNames();
+
+            $name = $this->dialog->askAndValidate(
+                $this->output,
+                "Location: ",
+                function ($answer) use ($locations) {
+                    if (! in_array($answer, $locations) && strlen($answer) > 0) {
+                        throw new \RuntimeException(sprintf('Wrong location `%s` selected.', $answer));
+                    }
+
+                    return $answer;
+                },
+                false,
+                null,
+                $locations
+            );
+        }
+
+        if ($name) {
+            $location = $this->getDoctrine()->getRepository('AttendeeApiBundle:Location')->findOneBy(array(
+                'name' => $name
+            ));
+
+            if (! $location instanceof Location) {
+                throw new \RuntimeException("Location $name not found.");
+            }
+
+            return $location;
+        }
+
+        return null;
     }
 
     /**
@@ -258,14 +304,22 @@ class ScheduleCreateCommand extends AbstractCommand
      */
     private function getRRule(\DateTime $startDate, \DateTime $endDate)
     {
+        $rRuleOption = $this->input->getOption('rRule');
+
+        $createRRule = function ($answer) use($startDate, $endDate) {
+            $string = sprintf('%s;UNTIL=%s', $answer, $endDate->format('c'));
+
+            return new RecurrenceRule($string, $startDate);
+        };
+
+        if ($rRuleOption) {
+            return $createRRule($rRuleOption);
+        }
+
         return $this->dialog->askAndValidate(
             $this->output,
             "Recurrence Rule: ",
-            function ($answer) use($startDate, $endDate) {
-                $string = sprintf('%s;UNTIL=%s', $answer, $endDate->format('c'));
-
-                return new RecurrenceRule($string, $startDate);
-            }
+            $createRRule
         );
     }
 
@@ -274,27 +328,51 @@ class ScheduleCreateCommand extends AbstractCommand
      */
     private function getStartDate()
     {
-        return $this->getDate("Starts at: ");
+        $defaultDate = $this->input->getOption('startsAt');
+
+        return $this->getDate("Starts at: ", $defaultDate);
     }
 
     /**
      * @param \DateTime $startDate
+     *
+     * @throws \RuntimeException
      *
      * @return \DateTime
      */
     private function getEndDate(\DateTime $startDate)
     {
-        return $this->getDate("Ends at: ", $startDate);
+        $defaultDateOption = $this->input->getOption('endsAt');
+
+        if ($defaultDateOption) {
+            $defaultDate = new \DateTime($defaultDateOption);
+
+            if ($startDate > $defaultDate) {
+                throw new \RuntimeException(
+                    sprintf('Date %s must be bigger than %s.',
+                        $defaultDate->format(self::DATE_TIME_FORMAT),
+                        $startDate->format(self::DATE_TIME_FORMAT)
+                    )
+                );
+            }
+        }
+
+        return $this->getDate("Ends at: ", $defaultDateOption, $startDate);
     }
 
     /**
      * @param string    $question
+     * @param string    $defaultDate
      * @param \DateTime $startDate
      *
      * @return \DateTime
      */
-    private function getDate($question, \DateTime $startDate = null)
+    private function getDate($question, $defaultDate = null, \DateTime $startDate = null)
     {
+        if ($defaultDate) {
+            return new \DateTime($defaultDate);
+        }
+
         $dateString = $this->dialog->askAndValidate(
             $this->output,
             $question,
