@@ -45,7 +45,9 @@ class LocationService
         $locations = array();
 
         foreach ($events as $event) {
-            $locations[$event->getLocation()->getId()] = $event->getLocation();
+            if ($event->getLocation()) {
+                $locations[$event->getLocation()->getId()] = $event->getLocation();
+            }
         }
 
         return array_values($locations);
