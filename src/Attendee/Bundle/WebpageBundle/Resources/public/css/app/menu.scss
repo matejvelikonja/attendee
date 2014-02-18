@@ -16,6 +16,11 @@ $button-width: 30px;
   transition:         $params;
 }
 
+html, body {
+  overflow-x: hidden;
+  height: 100%;
+}
+
 .navbar-left {
   background: $background;
   position: fixed;

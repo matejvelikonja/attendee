@@ -2,8 +2,6 @@
 @import "navigation";
 
 #the-app {
-  overflow: hidden;
-
   .navbar-toggle {
     display: block;
   }
@@ -30,7 +28,7 @@
   }
 
   .loading {
-    margin-top:       25%;
+    margin-top:       40%;
 
     .spinner {
       position:     relative;
