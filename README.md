@@ -14,7 +14,12 @@
 
 Example:
 ```bash
-$ app/console attendee:schedule:create --teams="Team name" --name="Schedule name" --startsAt="now" --endsAt="+1 month" --rRule="FREQ=WEEKLY;BYDAY=TH;BYHOUR=18"
+$ app/console attendee:schedule:create \
+--teams="Team name" \
+--name="Schedule name" \
+--startsAt="now" \
+--endsAt="+1 month" \
+--rRule="FREQ=WEEKLY;BYDAY=TH;BYHOUR=18"
 ```
 
 ## Development
