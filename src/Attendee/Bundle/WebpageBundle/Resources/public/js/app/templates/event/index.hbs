@@ -12,14 +12,16 @@
     <div class="list-group-item">
         <span {{bind-attr class="a.isSaving :glyphicon :glyphicon-repeat :rotate"}}></span>
         {{a.user.name}}
+        {{#if a.is_editable }}
         <div class="btn-group pull-right">
-            <button {{ action "setStatus" a 'present' }} type="button" {{bind-attr class="a.isPresent :btn :btn-default"}}>
+            <button {{ action "setStatus" a 'present' }} type="button" {{bind-attr class="a.is_present :btn :btn-default"}}>
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
-            <button {{ action "setStatus" a 'absent' }} type="button" {{bind-attr class="a.isAbsent :btn :btn-default"}}>
+            <button {{ action "setStatus" a 'absent' }} type="button" {{bind-attr class="a.is_absent :btn :btn-default"}}>
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>
+        {{/if}}
     </div>
 {{/each}}
 </div>

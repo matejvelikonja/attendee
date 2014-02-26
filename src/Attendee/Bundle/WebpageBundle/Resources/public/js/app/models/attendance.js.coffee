@@ -3,10 +3,14 @@ App.Attendance = DS.Model.extend
   user:      DS.belongsTo 'user'
   event:     DS.belongsTo 'event'
 
-  isPresent: (->
+  is_editable: (->
+    @get('event.is_running') or @get('event.is_elapsed')
+  ).property('event.is_running', 'event.is_elapsed')
+
+  is_present: (->
     @get('status') == 'present'
   ).property('status')
 
-  isAbsent: (->
+  is_absent: (->
     @get('status') == 'absent'
   ).property('status')
