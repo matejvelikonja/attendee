@@ -100,7 +100,8 @@ class EventService
             ->leftJoin('s.teams', 't')
             ->leftJoin('t.teamManagers', 'm')
             ->where('m.user = :user')
-            ->setParameter('user', $user);
+            ->setParameter('user', $user)
+            ->orderBy('e.startsAt');
 
         if ($from) {
             $qb
