@@ -11,6 +11,10 @@ App.Event = DS.Model.extend
     date.year() == now.year() && date.week() == now.week()
   ).property('starts_at')
 
+  done: (->
+    @get('attendances').filterBy('status', '').get('length') == 0
+  ).property('attendances.@each')
+
   present_count: (->
     @get('attendances').filterBy('isPresent', true).get('length')
   ).property('attendances.@each.isPresent')

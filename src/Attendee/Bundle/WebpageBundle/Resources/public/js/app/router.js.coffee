@@ -34,7 +34,7 @@ App.IndexRoute = Ember.Route.extend
 
 App.EventsRoute = Ember.Route.extend
   model: ->
-    @store.find('event')
+    @store.find('event', { from: '-1 week' })
 
 App.EventEditRoute = Ember.Route.extend
   renderTemplate: ->
