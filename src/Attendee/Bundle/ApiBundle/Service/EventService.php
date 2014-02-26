@@ -77,13 +77,14 @@ class EventService
      * Finds events that user manages.
      * User manages event if (s)he is a manager of team of event's schedule.
      *
-     * @param User $user
-     * @param int  $limit
-     * @param int  $offset
+     * @param User      $user
+     * @param \DateTime $from
+     * @param int       $limit
+     * @param int       $offset
      *
      * @return \Attendee\Bundle\ApiBundle\Entity\Event[]
      */
-    public function findForUser(User $user, $limit = null, $offset = 0)
+    public function findForUser(User $user, \DateTime $from = null, $limit = null, $offset = 0)
     {
         /**
          * The code here is not optimal. We are always fetching
@@ -94,13 +95,20 @@ class EventService
          * http://docs.doctrine-project.org/en/latest/tutorials/pagination.html
          */
 
-        $events = $this->repo->createQueryBuilder('e')
+        $qb = $this->repo->createQueryBuilder('e')
             ->leftJoin('e.schedule', 's')
             ->leftJoin('s.teams', 't')
             ->leftJoin('t.teamManagers', 'm')
             ->where('m.user = :user')
-            ->setParameter('user', $user)
-            ->getQuery()->getResult();
+            ->setParameter('user', $user);
+
+        if ($from) {
+            $qb
+                ->andWhere('e.endsAt >= :from')
+                ->setParameter('from', $from);
+        }
+
+        $events = $qb->getQuery()->getResult();
 
         return array_slice($events, $offset, $limit);
     }

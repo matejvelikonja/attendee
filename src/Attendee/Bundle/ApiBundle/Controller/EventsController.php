@@ -31,7 +31,8 @@ class EventsController extends AbstractController
      *  description="Lists all events of current user.",
      *  parameters={
      *      {"name"="limit",  "dataType"="integer", "required"=false, "description"="Limit number of results."},
-     *      {"name"="offset", "dataType"="integer", "required"=false, "description"="Offset results."}
+     *      {"name"="offset", "dataType"="integer", "required"=false, "description"="Offset results."},
+     *      {"name"="from",   "dataType"="string",  "required"=false, "description"="Returns only events larger than date."}
      *  }
      * )
      */
@@ -39,7 +40,13 @@ class EventsController extends AbstractController
     {
         $limit       = $request->get('limit', 15);
         $offset      = $request->get('offset');
-        $events      = $this->getEventService()->findForUser($this->getUser(), $limit, $offset);
+        $startsAt    = $request->get('from');
+
+        if ($startsAt) {
+            $startsAt = new \DateTime($startsAt);
+        }
+
+        $events      = $this->getEventService()->findForUser($this->getUser(), $startsAt, $limit, $offset);
         $locations   = $this->getLocationService()->findByEvents($events);
         $attendances = $this->getAttendanceService()->findByEvents($events);
         $users       = $this->getUserService()->findByAttendances($attendances);

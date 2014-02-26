@@ -19,7 +19,7 @@ class EventsControllerTest extends BaseTestCase
         $client = $this->createAuthorizedClient();
         $limit  = 15;
 
-        $client->request('GET', $this->url("api_events_index"), array(
+        $client->request('GET', $this->url('api_events_index'), array(
             'limit' => $limit
         ));
 
@@ -34,13 +34,37 @@ class EventsControllerTest extends BaseTestCase
     }
 
     /**
+     * Tests if filtering by from param works, and API returns events larger than now.
+     */
+    public function testFilteringByStartDate()
+    {
+        $client   = $this->createAuthorizedClient();
+        $startsAt = new \DateTime();
+
+        $client->request('GET', $this->url('api_events_index'), array(
+            'from' => $startsAt->format('c')
+        ));
+
+        $decoded = $this->getResponseData($client);
+
+        foreach ($decoded['events'] as $event) {
+            $date = new \DateTime($event['starts_at']);
+            $this->assertGreaterThan(
+                $startsAt,
+                $date,
+                sprintf('Only dates larger than %s should be displayed.', $startsAt->format('c'))
+            );
+        }
+    }
+
+    /**
      * Test event detail.
      */
     public function testShow()
     {
         $client = $this->createAuthorizedClient();
 
-        $client->request('GET', $this->url("api_events_show", array('id' => 1)));
+        $client->request('GET', $this->url('api_events_show', array('id' => 1)));
 
         $decoded = $this->getResponseData($client);
 
