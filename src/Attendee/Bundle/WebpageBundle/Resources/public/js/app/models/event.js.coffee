@@ -23,7 +23,7 @@ App.Event = DS.Model.extend
   ).property('ends_at')
 
   done: (->
-    @get('attendances').filterBy('status', '').get('length') == 0
+    @get('attendances').filterBy('status', '').get('length') == 0 and @get('attendances').get('length') > 0
   ).property('attendances.@each')
 
   incomplete: (->
