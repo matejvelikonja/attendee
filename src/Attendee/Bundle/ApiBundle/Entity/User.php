@@ -36,16 +36,6 @@ class User extends BaseUser
     protected $updated;
 
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->teams = new ArrayCollection();
-    }
-
-    /**
      * @var Attendance[]
      *
      * @ORM\OneToMany(targetEntity="Attendance", mappedBy="user")
@@ -65,6 +55,16 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="users")
      */
     private $teams;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->teams = new ArrayCollection();
+    }
 
     /**
      * @param \Attendee\Bundle\ApiBundle\Entity\Attendance[] $attendances

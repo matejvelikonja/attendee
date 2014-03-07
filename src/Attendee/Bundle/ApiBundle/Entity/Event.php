@@ -154,6 +154,7 @@ class Event extends AbstractEntity
     public function setSchedule(Schedule $schedule)
     {
         $this->schedule = $schedule;
+        $schedule->addEvent($this);
 
         return $this;
     }
@@ -180,6 +181,22 @@ class Event extends AbstractEntity
     public function getAttendances()
     {
         return $this->attendances;
+    }
+
+    /**
+     * @param Attendance $attendance
+     *
+     * @return $this
+     */
+    public function addAttendance(Attendance $attendance)
+    {
+        $this->attendances[] = $attendance;
+
+        if ($attendance->getEvent() !== $this) {
+            $attendance->setEvent($this);
+        }
+
+        return $this;
     }
 
     /**

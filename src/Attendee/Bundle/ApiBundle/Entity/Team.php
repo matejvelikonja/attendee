@@ -28,7 +28,7 @@ class Team extends AbstractEntity
     /**
      * @var User[]
      *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="teams")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="teams", cascade={"persist"})
      */
     private $users;
 

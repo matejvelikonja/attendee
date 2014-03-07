@@ -59,7 +59,7 @@ class Schedule extends AbstractEntity
     /**
      * @var Team[]
      *
-     * @ORM\ManyToMany(targetEntity="Team", mappedBy="schedules")
+     * @ORM\ManyToMany(targetEntity="Team", mappedBy="schedules", cascade={"persist"})
      */
     private $teams;
 
@@ -143,6 +143,23 @@ class Schedule extends AbstractEntity
     }
 
     /**
+     * @param Event $event
+     *
+     * @return $this
+     */
+    public function addEvent(Event $event)
+    {
+        $this->events[] = $event;
+
+        if ($event->getSchedule() !== $this) {
+            $event->setSchedule($this);
+        }
+
+        return $this;
+    }
+
+
+    /**
      * @param \Attendee\Bundle\ApiBundle\Entity\Location $defaultLocation
      *
      * @return $this
@@ -212,5 +229,4 @@ class Schedule extends AbstractEntity
 
         return false;
     }
-
 }

@@ -119,6 +119,7 @@ class Attendance extends AbstractEntity
     public function setEvent(Event $event)
     {
         $this->event = $event;
+        $event->addAttendance($this);
 
         return $this;
     }

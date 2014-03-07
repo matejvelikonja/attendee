@@ -52,4 +52,23 @@ class ScheduleService
 
         return array_values($users);
     }
+
+    /**
+     * @param Schedule $schedule
+     * @param User     $user
+     *
+     * @return bool
+     */
+    public function checkAttendances(Schedule $schedule, User $user)
+    {
+        foreach ($schedule->getEvents() as $event) {
+            foreach ($event->getAttendances() as $attendance) {
+                if ($attendance->getUser() === $user) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
