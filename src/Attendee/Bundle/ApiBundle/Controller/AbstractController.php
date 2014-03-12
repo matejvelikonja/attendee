@@ -14,8 +14,6 @@ use FOS\RestBundle\Controller\FOSRestController;
  * Class AbstractController
  *
  * @package   Attendee\Bundle\ApiBundle\Controller
- * @author    Matej Velikonja <mvelikonja@astina.ch>
- * @copyright 2014 Astina AG (http://astina.ch)
  */
 class AbstractController extends FOSRestController
 {
