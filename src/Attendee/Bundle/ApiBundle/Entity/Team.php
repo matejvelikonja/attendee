@@ -146,7 +146,7 @@ class Team extends AbstractEntity
     }
 
     /**
-     * @return \Attendee\Bundle\ApiBundle\Entity\User[]
+     * @return \Attendee\Bundle\ApiBundle\Entity\User[] | ArrayCollection
      */
     public function getUsers()
     {
