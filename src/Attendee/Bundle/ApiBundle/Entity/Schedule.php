@@ -229,4 +229,12 @@ class Schedule extends AbstractEntity
 
         return false;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

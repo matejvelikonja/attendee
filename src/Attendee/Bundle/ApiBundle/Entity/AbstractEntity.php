@@ -65,4 +65,9 @@ abstract class AbstractEntity
     {
         return $this->updated;
     }
+
+    /**
+     * @return string
+     */
+    abstract public function __toString();
 }

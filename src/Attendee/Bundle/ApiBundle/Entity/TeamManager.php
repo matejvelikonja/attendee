@@ -69,4 +69,12 @@ class TeamManager extends AbstractEntity
     {
         return $this->team;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId();
+    }
 }

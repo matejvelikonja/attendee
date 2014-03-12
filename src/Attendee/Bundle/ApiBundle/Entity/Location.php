@@ -104,4 +104,12 @@ class Location extends AbstractEntity
     {
         return $this->lng;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

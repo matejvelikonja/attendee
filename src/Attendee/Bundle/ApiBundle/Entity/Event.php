@@ -214,4 +214,12 @@ class Event extends AbstractEntity
     {
         return $this->location;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

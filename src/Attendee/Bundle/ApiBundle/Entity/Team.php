@@ -108,18 +108,18 @@ class Team extends AbstractEntity
     }
 
     /**
-     * @param User $newUser
+     * @param User $userToRemove
      *
      * @return $this
      */
-    public function removeUser(User $newUser)
+    public function removeUser(User $userToRemove)
     {
         foreach ($this->users as $key => $user) {
-            if ($user === $newUser) {
+            if ($user === $userToRemove) {
                 $this->users->remove($key);
 
-                if ($newUser->belongsTo($this)) {
-                    $newUser->removeTeam($this);
+                if ($userToRemove->belongsTo($this)) {
+                    $userToRemove->removeTeam($this);
                 }
 
                 break;
