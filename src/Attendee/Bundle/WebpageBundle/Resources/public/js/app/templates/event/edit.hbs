@@ -1,8 +1,4 @@
-<div class="btn-group pull-right">
-    {{#link-to 'event.index' event.id class="btn btn-default"}} <span class="glyphicon glyphicon-chevron-left"></span> {{/link-to}}
-</div>
-
-<h1>{{event.name}} @ {{ event.location.name }}</h1>
+<h2>{{ event.location.name }}</h2>
 
 <div class="form-group">
     {{view Ember.Select

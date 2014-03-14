@@ -1,9 +1,6 @@
 <div class="btn-group pull-right">
     {{# link-to 'event.edit' event.id class="btn btn-default" }} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
-    {{# link-to 'events.index' class="btn btn-default"}} <span class="glyphicon glyphicon-chevron-left"></span> {{/link-to}}
 </div>
-
-<h1>{{ event.name }} @ {{ event.location.name }}</h1>
 
 <h2 {{ action "setStatus" }}>Attendees <span>{{ event.present_count }} / {{ event.absent_count }}</span></h2>
 

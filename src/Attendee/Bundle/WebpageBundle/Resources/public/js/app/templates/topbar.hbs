@@ -1,0 +1,23 @@
+<nav class="top-bar navbar navbar-default" role="navigation">
+    <button {{ action "toggleMenu" }} type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+    {{#if view.title }}
+    <a class="navbar-brand title" href="#">{{ view.title }}</a>
+    {{/if}}
+
+    <ul class="nav navbar-nav navbar-buttons">
+        <li>
+            <button {{ action "goBack" }} class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+            <!--{{# link-to 'event.edit' event.id class='btn btn-default' }} <span class="glyphicon glyphicon-chevron-left"></span> {{/link-to}}-->
+        </li>
+    </ul>
+
+</nav>
+

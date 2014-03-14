@@ -2,6 +2,12 @@
 @import "navigation";
 
 #the-app {
+  .main {
+    h2 {
+      margin-top: 0;
+    }
+  }
+
   .navbar-toggle {
     display: block;
   }
@@ -27,7 +33,7 @@
     }
   }
 
-  .loading {
+  .loading-route {
     margin-top:       40%;
 
     .spinner {

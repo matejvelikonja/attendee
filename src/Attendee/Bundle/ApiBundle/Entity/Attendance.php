@@ -155,7 +155,7 @@ class Attendance extends AbstractEntity
     /**
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->getId() . ' ' . $this->getStatus();
     }

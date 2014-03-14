@@ -2,7 +2,6 @@
     {{#link-to 'teams.create' class="btn btn-default"}} <span class="glyphicon glyphicon-plus"></span> {{/link-to}}
 </div>
 
-<h1>Teams</h1>
 <div class="list-group events">
     {{#each team in teams}}
         {{#link-to 'team' team classNameBindings=":list-group-item team.isDirty"}}
