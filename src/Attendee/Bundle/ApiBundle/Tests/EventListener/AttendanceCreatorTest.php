@@ -51,6 +51,8 @@ class AttendanceCreatorTest extends BaseTestCase
      */
     public function testIfAttendancesAreRemovedWhenUserIsRemovedFromTeam()
     {
+        $this->markTestSkipped(sprintf('Implement functionality for %s test. Deleting attendances when user is removed.', __FUNCTION__));
+
         /** FIRST LET'S CREATE SOME TEAM WITH SCHEDULE */
         $team = $this->createTestTeam(__FUNCTION__);
 
