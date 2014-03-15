@@ -17,7 +17,7 @@ before_script:
   - app/console doctrine:schema:create --env=test
   - app/console doctrine:fixtures:load --env=test -n
 
-script: phpunit --coverage-clover=coverage.clover
+script: phpunit --coverage-clover=coverage.clover -d zend.enable_gc=0
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
