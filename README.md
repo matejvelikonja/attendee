@@ -23,6 +23,13 @@ $ app/console attendee:schedule:create \
 --duration="2 hours 15 minutes"
 ```
 
+#### Make user a team manager command
+
+Example:
+```bash
+$ app/console attendee:team:add-manager --team 7 --email admin@example.com
+```
+
 ## Development
 
 # Tests

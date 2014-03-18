@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * TeamManager
  *
- * @ORM\Table(name="team_managers")
+ * @ORM\Table(name="team_managers", uniqueConstraints={@ORM\UniqueConstraint(name="user_team_idx", columns={"user_id", "team_id"})})
  * @ORM\Entity
  *
  * @Serializer\ExclusionPolicy("all")

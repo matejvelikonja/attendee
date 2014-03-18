@@ -116,4 +116,25 @@ class TeamService
         return $team;
     }
 
+    /**
+     * Add $user as a manager of $team.
+     *
+     * @param Team $team
+     * @param User $user
+     *
+     * @return TeamManager
+     */
+    public function addManager(Team $team, User $user)
+    {
+        $teamManager = new TeamManager();
+        $teamManager
+            ->setUser($user)
+            ->setTeam($team);
+
+        $this->em->persist($team);
+        $this->em->flush();
+
+        return $teamManager;
+    }
+
 }

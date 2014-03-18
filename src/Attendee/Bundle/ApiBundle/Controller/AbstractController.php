@@ -13,7 +13,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 /**
  * Class AbstractController
  *
- * @package   Attendee\Bundle\ApiBundle\Controller
+ * @package Attendee\Bundle\ApiBundle\Controller
  */
 class AbstractController extends FOSRestController
 {

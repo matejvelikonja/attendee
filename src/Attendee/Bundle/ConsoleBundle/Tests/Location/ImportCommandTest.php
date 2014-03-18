@@ -46,7 +46,7 @@ class ImportCommandTest extends WebTestCase
 
         preg_match('/Imported (\d+) locations./', $display, $matches);
 
-        $this->assertCount(2, $matches, 'Should should the number of imported locations.');
+        $this->assertCount(2, $matches, 'Should show number of imported locations.');
 
         $this->assertEquals($locationsCount, $matches[1], 'Imported wrong number of locations.');
     }
