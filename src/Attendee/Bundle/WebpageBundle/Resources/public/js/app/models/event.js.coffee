@@ -5,12 +5,6 @@ App.Event = DS.Model.extend
   location:    DS.belongsTo 'location'
   attendances: DS.hasMany   'attendance', { async: true }
 
-  is_this_week: (->
-    date = moment(@get 'starts_at')
-    now  = moment()
-    date.year() == now.year() and date.week() == now.week()
-  ).property('starts_at')
-
   is_running: ( ->
     ends_at   = moment(@get 'ends_at')
     starts_at = moment(@get 'starts_at')
@@ -22,11 +16,11 @@ App.Event = DS.Model.extend
     moment(@get 'ends_at') < moment()
   ).property('ends_at')
 
-  done: (->
+  is_done: (->
     @get('attendances').filterBy('status', '').get('length') == 0 and @get('attendances').get('length') > 0
   ).property('attendances.@each')
 
-  incomplete: (->
+  is_incomplete: (->
     @get('is_elapsed') and @get('attendances').filterBy('status', '').get('length') != 0
   ).property('attendances.@each', 'is_elapsed')
 

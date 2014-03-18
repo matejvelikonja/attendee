@@ -2,6 +2,15 @@
     {{# link-to 'event.edit' event.id class="btn btn-default" }} <span class="glyphicon glyphicon-edit"></span> {{/link-to}}
 </div>
 
+<dl class="dl-horizontal">
+    <dt>Starts at</dt>
+    <dd>{{ humanizeDate event.starts_at 'dddd, DD.MM.YYYY, HH:mm' }}</dd>
+    <dt>Ends at</dt>
+    <dd>{{ humanizeDate event.ends_at 'dddd, DD.MM.YYYY, HH:mm' }}</dd>
+    <dt>Location</dt>
+    <dd>{{ event.location.name }}</dd>
+</dl>
+
 <h2 {{ action "setStatus" }}>Attendees <span>{{ event.present_count }} / {{ event.absent_count }}</span></h2>
 
 <div class="list-group">

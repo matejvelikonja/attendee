@@ -1,7 +1,14 @@
 <div class="list-group events">
     {{#each event in controller}}
-        {{#link-to 'event' event classNameBindings=":list-group-item event.done:list-group-item-success event.incomplete:list-group-item-danger event.is_this_week:this-week"}}
-            <h4 class="list-group-item-heading">{{event.name}}</h4>
+        {{#link-to 'event' event
+            classNameBindings="
+                :list-group-item
+                event.is_incomplete:list-group-item-danger
+                event.is_running:list-group-item-info
+                event.is_done:list-group-item-success
+                "
+        }}
+            <h4 class="list-group-item-heading">{{ event.name }}</h4>
             <span class="badge is-present">{{ event.present_count }}</span>
             <span class="badge is-absent">{{ event.absent_count }}</span>
             <p class="list-group-item-text">
