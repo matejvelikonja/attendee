@@ -25,6 +25,7 @@ class EventSchedulerTest extends BaseTestCase
         $location  = $this->getRepo('AttendeeApiBundle:Location')->findOneBy(array());
         $startDate = new \DateTime('now');
         $endDate   = new \DateTime('+1 week');
+        $duration  = \DateInterval::createFromDateString('2 hours');
 
         $rRule = new RecurrenceRule(
             sprintf('FREQ=DAILY;INTERVAL=1;UNTIL=%s;BYHOUR=6', $endDate->format('c')),
@@ -36,7 +37,8 @@ class EventSchedulerTest extends BaseTestCase
             ->setName('Test schedule')
             ->setTeams($teams)
             ->setDefaultLocation($location)
-            ->setRRule($rRule);
+            ->setRRule($rRule)
+            ->setDuration($duration);
 
         $this->em()->persist($schedule);
         $this->em()->flush();
@@ -48,6 +50,11 @@ class EventSchedulerTest extends BaseTestCase
         /** @var Event $event */
         foreach ($events as $event) {
             $this->assertEquals(6, $event->getStartsAt()->format('H'), 'Event should be at 6am.');
+
+            $expectedEventEndDate = clone $event->getStartsAt();
+            $expectedEventEndDate->add($event->getSchedule()->getDuration());
+
+            $this->assertEquals($expectedEventEndDate, $event->getEndsAt(), 'Duration of event is calculated wrongfully.');
         }
     }
 }

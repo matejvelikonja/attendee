@@ -49,6 +49,13 @@ class Schedule extends AbstractEntity
     private $rRule;
 
     /**
+     * @var \DateInterval
+     *
+     * @ORM\Column(name="duration", type="dateinterval")
+     */
+    private $duration;
+
+    /**
      * @var Location
      *
      * @ORM\ManyToOne(targetEntity="Location")
@@ -68,7 +75,8 @@ class Schedule extends AbstractEntity
      */
     public function __construct()
     {
-        $this->teams = new ArrayCollection();
+        $this->teams    = new ArrayCollection();
+        $this->duration = \DateInterval::createFromDateString('0 seconds');
     }
 
     /**
@@ -120,6 +128,26 @@ class Schedule extends AbstractEntity
         }
 
         return $this->rRule;
+    }
+
+    /**
+     * @param \DateInterval $duration
+     *
+     * @return $this
+     */
+    public function setDuration(\DateInterval $duration)
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateInterval
+     */
+    public function getDuration()
+    {
+        return $this->duration;
     }
 
     /**

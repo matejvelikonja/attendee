@@ -51,6 +51,7 @@ class LoadScheduleData extends AbstractFixtures
             $endDate     = clone $startDate;
             $endDate     = $endDate->add(new \DateInterval('P1Y'));
             $numbOfTeams = rand(1, count($teams)); // how many teams schedule has
+            $duration    = \DateInterval::createFromDateString('2 hours');
 
             $location = $this->getRandomLocation();
 
@@ -63,7 +64,8 @@ class LoadScheduleData extends AbstractFixtures
             $schedule
                 ->setName($this->faker->company . ' ' . $q)
                 ->setDefaultLocation($location)
-                ->setRRule($rrule);
+                ->setRRule($rrule)
+                ->setDuration($duration);
 
             for ($i = 0; $i < $numbOfTeams; $i++) {
                 do {

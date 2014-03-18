@@ -53,11 +53,15 @@ class EventScheduler
         $transformer->setTransformerConfig($transformerConfig);
 
         $events = array();
+        /** @var \DateTime $eventDate */
         foreach ($transformer->getComputedArray() as $eventDate) {
+            $endDate = clone $eventDate;
+            $endDate->add($schedule->getDuration());
+
             $event = new Event();
             $event
                 ->setStartsAt($eventDate)
-                ->setEndsAt($eventDate)
+                ->setEndsAt($endDate)
                 ->setSchedule($schedule)
                 ->setLocation($schedule->getDefaultLocation());
 
