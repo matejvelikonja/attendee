@@ -1,7 +1,8 @@
-<div class="btn-group pull-right">
+
+<div class="btn-group pull-right clearfix">
     {{#link-to 'teams.create' class="btn btn-default"}} <span class="glyphicon glyphicon-plus"></span> {{/link-to}}
 </div>
-
+<h2>&nbsp;</h2>
 <div class="list-group events">
     {{#each team in teams}}
         {{#link-to 'team' team classNameBindings=":list-group-item team.isDirty"}}
