@@ -33,7 +33,8 @@ class ScheduleCreateCommand extends AbstractCommand
             ->addOption('location', null, InputOption::VALUE_OPTIONAL, 'Default location of schedule.')
             ->addOption('startsAt', null, InputOption::VALUE_OPTIONAL, 'Start date of schedule.')
             ->addOption('endsAt', null, InputOption::VALUE_OPTIONAL, 'End date of schedule.')
-            ->addOption('rRule', null, InputOption::VALUE_OPTIONAL, 'RRule of schedule.');
+            ->addOption('rRule', null, InputOption::VALUE_OPTIONAL, 'RRule of schedule.')
+            ->addOption('duration', null, InputOption::VALUE_OPTIONAL, 'Duration of schedule.');
     }
 
     /**
@@ -73,13 +74,15 @@ class ScheduleCreateCommand extends AbstractCommand
         $data->startsAt  = $this->getStartDate();
         $data->endsAt    = $this->getEndDate($data->startsAt);
         $data->rRule     = $this->getRRule($data->startsAt, $data->endsAt);
+        $data->duration  = $this->getDuration();
 
         $schedule = new Schedule();
         $schedule
             ->setName($data->name)
             ->setDefaultLocation($data->location)
             ->setRRule($data->rRule)
-            ->setTeams($data->teams);
+            ->setTeams($data->teams)
+            ->setDuration($data->duration);
 
         $this->printScheduleTables($schedule);
 
@@ -115,6 +118,7 @@ class ScheduleCreateCommand extends AbstractCommand
             array('startsAt',  $schedule->getRRule()->getStartDate()->format(self::DATE_TIME_FORMAT)),
             array('endsAt',    $schedule->getRRule()->getUntil()->format(self::DATE_TIME_FORMAT)),
             array('rRule',     $schedule->getRRule()->getString()),
+            array('duration',  $schedule->getDuration()->format('%h hours, %i minutes')),
             array('teams',     implode(', ', $teams)),
             array('users',     implode(', ', $users))
         ));
@@ -125,12 +129,13 @@ class ScheduleCreateCommand extends AbstractCommand
         /** PRINT EVENTS DATA */
         $events = $this->getContainer()->get('attendee.event_scheduler')->calculateEvents($schedule);
 
-        $table->setHeaders(array('date', 'time'));
+        $table->setHeaders(array('date', 'time', 'until'));
 
         foreach ($events as $event) {
             $table->addRow(array(
                 $event->getStartsAt()->format(self::DATE_FORMAT),
-                $event->getStartsAt()->format(self::TIME_FORMAT)
+                $event->getStartsAt()->format(self::TIME_FORMAT),
+                $event->getEndsAt()->format(self::TIME_FORMAT)
             ));
         }
 
@@ -320,6 +325,28 @@ class ScheduleCreateCommand extends AbstractCommand
             $this->output,
             "Recurrence Rule: ",
             $createRRule
+        );
+    }
+
+    /**
+     * @return \DateInterval
+     */
+    private function getDuration()
+    {
+        $durationOption = $this->input->getOption('duration');
+
+        $createDuration = function ($answer) {
+            return \DateInterval::createFromDateString($answer);
+        };
+
+        if ($durationOption) {
+            return $createDuration($durationOption);
+        }
+
+        return $this->dialog->askAndValidate(
+            $this->output,
+            "Duration: ",
+            $createDuration
         );
     }
 

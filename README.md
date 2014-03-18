@@ -16,10 +16,11 @@ Example:
 ```bash
 $ app/console attendee:schedule:create \
 --teams="Team name" \
---name="Schedule name" \
+--name="Every thursday at 18h for 1 month and duration of 2 hours and 15 minutes" \
 --startsAt="now" \
 --endsAt="+1 month" \
---rRule="FREQ=WEEKLY;BYDAY=TH;BYHOUR=18"
+--rRule="FREQ=WEEKLY;BYDAY=TH;BYHOUR=18" \
+--duration="2 hours 15 minutes"
 ```
 
 ## Development

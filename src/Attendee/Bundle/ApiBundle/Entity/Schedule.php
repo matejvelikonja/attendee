@@ -25,7 +25,7 @@ class Schedule extends AbstractEntity
     /**
      * @var Event[]
      *
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="schedule")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="schedule", cascade={"persist"})
      */
     private $events;
 
