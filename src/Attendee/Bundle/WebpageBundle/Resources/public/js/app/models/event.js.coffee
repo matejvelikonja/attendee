@@ -12,6 +12,12 @@ App.Event = DS.Model.extend
     now > starts_at and now < ends_at
   ).property('ends_at', 'starts_at')
 
+  is_in_future: ( ->
+    starts_at = moment(@get 'starts_at')
+    now       = moment()
+    starts_at > now
+  ).property('starts_at')
+
   is_elapsed: (->
     moment(@get 'ends_at') < moment()
   ).property('ends_at')
