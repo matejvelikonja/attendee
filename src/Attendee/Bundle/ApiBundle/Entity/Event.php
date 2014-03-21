@@ -154,7 +154,6 @@ class Event extends AbstractEntity
     public function setSchedule(Schedule $schedule)
     {
         $this->schedule = $schedule;
-        $schedule->addEvent($this);
 
         return $this;
     }
@@ -220,6 +219,9 @@ class Event extends AbstractEntity
      */
     public function __toString()
     {
-        return $this->getName();
+        return implode(', ', array(
+            $this->getName(),
+            $this->getStartsAt()->format('c')
+        ));
     }
 }

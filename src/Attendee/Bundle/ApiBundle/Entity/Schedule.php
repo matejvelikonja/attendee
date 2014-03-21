@@ -76,6 +76,7 @@ class Schedule extends AbstractEntity
     public function __construct()
     {
         $this->teams    = new ArrayCollection();
+        $this->events   = new ArrayCollection();
         $this->duration = \DateInterval::createFromDateString('0 seconds');
     }
 
@@ -177,13 +178,32 @@ class Schedule extends AbstractEntity
      */
     public function addEvent(Event $event)
     {
-        $this->events[] = $event;
+        if (! $this->hasEvent($event)) {
+            $this->events[] = $event;
 
-        if ($event->getSchedule() !== $this) {
-            $event->setSchedule($this);
+            if ($event->getSchedule() !== $this) {
+                $event->setSchedule($this);
+            }
         }
 
         return $this;
+    }
+
+
+    /**
+     * @param Event $event
+     *
+     * @return bool
+     */
+    public function hasEvent(Event $event)
+    {
+        foreach($this->events as $existingEvent) {
+            if ($event === $existingEvent) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

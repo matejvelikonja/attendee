@@ -2,7 +2,7 @@
 
 namespace Attendee\Bundle\ConsoleBundle\Location;
 
-use Attendee\Bundle\ConsoleBundle\Command\AbstractCommand;
+use Attendee\Bundle\ConsoleBundle\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Console\Input\InputOption;

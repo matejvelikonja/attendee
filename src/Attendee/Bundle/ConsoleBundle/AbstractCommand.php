@@ -1,6 +1,6 @@
 <?php
 
-namespace Attendee\Bundle\ConsoleBundle\Command;
+namespace Attendee\Bundle\ConsoleBundle;
 
 use Attendee\Bundle\ApiBundle\Service\ScheduleService;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class AbstractCommand
  *
- * @package Attendee\Bundle\ConsoleBundle\Command
+ * @package Attendee\Bundle\ConsoleBundle
  */
 abstract class AbstractCommand extends ContainerAwareCommand
 {

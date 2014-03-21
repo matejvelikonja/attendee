@@ -4,7 +4,7 @@ namespace Attendee\Bundle\ConsoleBundle\Team;
 
 use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
-use Attendee\Bundle\ConsoleBundle\Command\AbstractCommand;
+use Attendee\Bundle\ConsoleBundle\AbstractCommand;
 use Symfony\Component\Console\Input\InputOption;
 use JMS\DiExtraBundle\Annotation as DI;
 

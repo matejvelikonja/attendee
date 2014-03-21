@@ -8,6 +8,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Recurr\RecurrenceRuleTransformer;
 use Recurr\TransformerConfig;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Class EventScheduler
@@ -19,6 +20,23 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class EventScheduler
 {
+    /**
+     * @var \Symfony\Bridge\Monolog\Logger
+     */
+    private $logger;
+
+    /**
+     * @param Logger $logger
+     *
+     * @DI\InjectParams({
+     *     "logger" = @DI\Inject("logger"),
+     * })
+     */
+    public function __construct(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param LifecycleEventArgs $args
      */
@@ -32,10 +50,7 @@ class EventScheduler
         }
 
         $events = $this->calculateEvents($schedule);
-
-        foreach ($events as $event) {
-            $args->getEntityManager()->persist($event);
-        }
+        $schedule->setEvents($events);
     }
 
     /**
@@ -66,6 +81,8 @@ class EventScheduler
                 ->setLocation($schedule->getDefaultLocation());
 
             $events[] = $event;
+
+            $this->logger->addDebug(sprintf('Created event `%s`.', $event));
         }
 
         return $events;

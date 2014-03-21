@@ -1,18 +1,23 @@
 <?php
 
-namespace Attendee\Bundle\ConsoleBundle\Command;
+namespace Attendee\Bundle\ConsoleBundle\Schedule;
 
 use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
 use Attendee\Bundle\ApiBundle\Entity\Team;
+use Attendee\Bundle\ConsoleBundle\AbstractCommand;
 use Recurr\RecurrenceRule;
 use Symfony\Component\Console\Helper\TableHelper;
 use Symfony\Component\Console\Input\InputOption;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * Class ScheduleCreateCommand
  *
- * @package Attendee\Bundle\ConsoleBundle\Command
+ * @package Attendee\Bundle\ConsoleBundle\Schedule
+ *
+ * @DI\Service
+ * @DI\Tag("console.command")
  */
 class ScheduleCreateCommand extends AbstractCommand
 {
@@ -28,9 +33,9 @@ class ScheduleCreateCommand extends AbstractCommand
         $this
             ->setName('attendee:schedule:create')
             ->setDescription('Create schedule.')
-            ->addOption('teams', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'List of team names.')
+            ->addOption('teams', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'List of team names or ids.')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Name of schedule')
-            ->addOption('location', null, InputOption::VALUE_OPTIONAL, 'Default location of schedule.')
+            ->addOption('location', null, InputOption::VALUE_OPTIONAL, 'Default location name or id of schedule.')
             ->addOption('startsAt', null, InputOption::VALUE_OPTIONAL, 'Start date of schedule.')
             ->addOption('endsAt', null, InputOption::VALUE_OPTIONAL, 'End date of schedule.')
             ->addOption('rRule', null, InputOption::VALUE_OPTIONAL, 'RRule of schedule.')
@@ -86,6 +91,10 @@ class ScheduleCreateCommand extends AbstractCommand
 
         $this->printScheduleTables($schedule);
 
+        if (! $this->input->isInteractive()) {
+            return $schedule;
+        }
+
         $confirm = $this->dialog->askConfirmation(
             $this->output,
             '<question>Do you want to create this schedule?</question> [Y/n]',
@@ -139,7 +148,7 @@ class ScheduleCreateCommand extends AbstractCommand
             ));
         }
 
-        $this->output->writeln('<info>Events created by schedule:</info>');
+        $this->output->writeln(sprintf('<info>Events (%d) created by schedule:</info>', count($events)));
         $table->render($this->output);
     }
 
@@ -169,7 +178,7 @@ class ScheduleCreateCommand extends AbstractCommand
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return Team[]
      */
@@ -190,13 +199,17 @@ class ScheduleCreateCommand extends AbstractCommand
             } while ($name !== null);
         }
 
-        foreach ($selected as $teamName) {
+        foreach ($selected as $teamIdentifier) {
+            $key = 'name';
+            if (is_numeric($teamIdentifier)) {
+                $key = 'id';
+            }
             $team = $this->getDoctrine()->getRepository('AttendeeApiBundle:Team')->findOneBy(array(
-                'name' => $teamName
+                $key => $teamIdentifier
             ));
 
             if (! $team instanceof Team) {
-                throw new \RuntimeException("Team $teamName not found.");
+                throw new \InvalidArgumentException("Team $teamIdentifier not found.");
             }
 
             $teams[] = $team;
@@ -217,7 +230,7 @@ class ScheduleCreateCommand extends AbstractCommand
             "Team: ",
             function ($answer) use ($teamsNames) {
                 if (! in_array($answer, $teamsNames) && strlen($answer) > 0) {
-                    throw new \RuntimeException(sprintf('Wrong location `%s` selected.', $answer));
+                    throw new \InvalidArgumentException(sprintf('Wrong location `%s` selected.', $answer));
                 }
 
                 return $answer;
@@ -229,7 +242,7 @@ class ScheduleCreateCommand extends AbstractCommand
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return Location
      */
@@ -245,7 +258,7 @@ class ScheduleCreateCommand extends AbstractCommand
                 "Location: ",
                 function ($answer) use ($locations) {
                     if (! in_array($answer, $locations) && strlen($answer) > 0) {
-                        throw new \RuntimeException(sprintf('Wrong location `%s` selected.', $answer));
+                        throw new \InvalidArgumentException(sprintf('Wrong location `%s` selected.', $answer));
                     }
 
                     return $answer;
@@ -257,12 +270,17 @@ class ScheduleCreateCommand extends AbstractCommand
         }
 
         if ($name) {
+            $key = 'name';
+            if (is_numeric($name)) {
+                $key = 'id';
+            }
+
             $location = $this->getDoctrine()->getRepository('AttendeeApiBundle:Location')->findOneBy(array(
-                'name' => $name
+                $key => $name
             ));
 
             if (! $location instanceof Location) {
-                throw new \RuntimeException("Location $name not found.");
+                throw new \InvalidArgumentException("Location $name not found.");
             }
 
             return $location;
@@ -363,7 +381,7 @@ class ScheduleCreateCommand extends AbstractCommand
     /**
      * @param \DateTime $startDate
      *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @return \DateTime
      */
@@ -375,7 +393,7 @@ class ScheduleCreateCommand extends AbstractCommand
             $defaultDate = new \DateTime($defaultDateOption);
 
             if ($startDate > $defaultDate) {
-                throw new \RuntimeException(
+                throw new \InvalidArgumentException(
                     sprintf('Date %s must be bigger than %s.',
                         $defaultDate->format(self::DATE_TIME_FORMAT),
                         $startDate->format(self::DATE_TIME_FORMAT)
@@ -400,30 +418,33 @@ class ScheduleCreateCommand extends AbstractCommand
             return new \DateTime($defaultDate);
         }
 
-        $dateString = $this->dialog->askAndValidate(
+        $output = $this->output;
+        $dialog = $this->dialog;
+
+        $dateString = $dialog->askAndValidate(
             $this->output,
             $question,
-            function ($userInput) use($startDate) {
+            function ($userInput) use($startDate, $output, $dialog) {
                 try {
                     $date = new \DateTime($userInput);
                 } catch (\Exception $e) {
-                    throw new \RuntimeException('Wrong format. Try again.');
+                    throw new \InvalidArgumentException('Wrong format. Try again.');
                 }
 
                 if ($startDate) {
                     if ($startDate > $date) {
-                        throw new \RuntimeException(sprintf('Date must be bigger than %s.', $startDate->format(self::DATE_TIME_FORMAT)));
+                        throw new \InvalidArgumentException(sprintf('Date must be bigger than %s.', $startDate->format(ScheduleCreateCommand::DATE_TIME_FORMAT)));
                     }
                 }
 
-                $answer = $this->dialog->askConfirmation(
-                    $this->output,
-                    sprintf('<question>Is this date `%s` correct?</question> [Y/n]', $date->format(self::DATE_TIME_FORMAT)),
+                $answer = $dialog->askConfirmation(
+                    $output,
+                    sprintf('<question>Is this date `%s` correct?</question> [Y/n]', $date->format(ScheduleCreateCommand::DATE_TIME_FORMAT)),
                     true
                 );
 
                 if (! $answer) {
-                    throw new \RuntimeException('Try again');
+                    throw new \InvalidArgumentException('Try again');
                 }
 
                 return $userInput;

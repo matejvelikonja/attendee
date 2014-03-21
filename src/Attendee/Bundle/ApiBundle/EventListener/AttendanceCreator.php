@@ -14,6 +14,7 @@ use Attendee\Bundle\ApiBundle\Entity\Attendance;
 use Attendee\Bundle\ApiBundle\Entity\Event;
 use Attendee\Bundle\ApiBundle\Service\EventService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Bridge\Monolog\Logger;
 
 
 /**
@@ -45,18 +46,26 @@ class AttendanceCreator
     private $em;
 
     /**
+     * @var \Symfony\Bridge\Monolog\Logger
+     */
+    private $logger;
+
+    /**
      * @param EventService    $eventService
      * @param ScheduleService $scheduleService
+     * @param Logger          $logger
      *
      * @DI\InjectParams({
      *     "eventService"    = @DI\Inject("attendee.event_service"),
-     *     "scheduleService" = @DI\Inject("attendee.schedule_service")
+     *     "scheduleService" = @DI\Inject("attendee.schedule_service"),
+     *     "logger"          = @DI\Inject("logger"),
      * })
      */
-    public function __construct(EventService $eventService, ScheduleService $scheduleService)
+    public function __construct(EventService $eventService, ScheduleService $scheduleService, Logger $logger)
     {
         $this->eventService    = $eventService;
         $this->scheduleService = $scheduleService;
+        $this->logger          = $logger;
     }
 
     /**
@@ -80,6 +89,7 @@ class AttendanceCreator
                 ->setEvent($event);
 
             $args->getEntityManager()->persist($attendance);
+            $this->logger->addDebug(sprintf('Persisted attendance user_id=`%d`, event=`%s`.', $user->getId(), $event));
         }
     }
 
@@ -96,8 +106,10 @@ class AttendanceCreator
         foreach ($collections as $collection) {
             foreach ($collection->getInsertDiff() as $team) {
                 if ($team instanceof Team) {
+                    $this->logger->addDebug(sprintf('Trying to fix team `%s`(%d).', $team->getName(), $team->getId()));
                     if ($this->fixTeamAttendances($team)) {
                         $changed = true;
+                        $this->logger->addDebug(sprintf('Fix team `%s`(%d) attendances.', $team->getName(), $team->getId()));
                     }
                 }
             }
@@ -141,6 +153,7 @@ class AttendanceCreator
             $event->addAttendance($attendance);
 
             $this->em->persist($attendance);
+            $this->logger->addDebug(sprintf('Persisted attendance user_id=`%d`, event=`%s` because of fixing team attendances.', $user->getId(), $event));
         }
     }
 }
