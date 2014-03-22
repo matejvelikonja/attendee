@@ -3,6 +3,7 @@
 namespace Attendee\Bundle\ApiBundle\Service;
 
 use Attendee\Bundle\ApiBundle\Entity\Schedule;
+use Attendee\Bundle\ApiBundle\Entity\Team;
 use Attendee\Bundle\ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -23,6 +24,11 @@ class ScheduleService
     private $repo;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
      * @param EntityManager $em
      *
      * @DI\InjectParams({
@@ -31,7 +37,17 @@ class ScheduleService
      */
     public function __construct(EntityManager $em)
     {
+        $this->em   = $em;
         $this->repo = $em->getRepository('AttendeeApiBundle:Schedule');
+    }
+
+    /**
+     * @param Schedule $schedule
+     */
+    public function save(Schedule $schedule)
+    {
+        $this->em->persist($schedule);
+        $this->em->flush();
     }
 
     /**
@@ -70,5 +86,39 @@ class ScheduleService
         }
 
         return false;
+    }
+
+    /**
+     * @param Team[] $teams
+     *
+     * @return Schedule[]
+     */
+    public function findByTeams(array $teams)
+    {
+        $schedules = array();
+
+        foreach ($teams as $team) {
+            foreach ($team->getSchedules() as $schedule) {
+                $schedules[$schedule->getId()] = $schedule;
+            }
+        }
+
+        return array_values($schedules);
+    }
+
+    /**
+     * @param Team $team
+     *
+     * @return Schedule[]
+     */
+    public function findByTeam(Team $team)
+    {
+        $schedules = array();
+
+        foreach ($team->getSchedules() as $schedule) {
+            $schedules[$schedule->getId()] = $schedule;
+        }
+
+        return array_values($schedules);
     }
 }

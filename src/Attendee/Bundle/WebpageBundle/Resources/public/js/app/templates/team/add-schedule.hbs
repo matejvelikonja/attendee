@@ -1,0 +1,16 @@
+<h1>Add schedule to {{ team.name }}</h1>
+
+<form role="form">
+    <div class="form-group">
+        {{view Ember.TextField valueBinding="name" class="form-control" placeholder="Name"}}
+    </div>
+    <div class="form-group">
+        {{view App.DatePickerField valueBinding="startsAt" class="form-control" placeholder="Starts at"}}
+    </div>
+    <div class="form-group">
+        {{view Ember.TextField valueBinding="r_rule" class="form-control" placeholder="Recurrence Rule"}}
+    </div>
+    <div class="form-group">
+        <p><button {{action "createItem" this}} type="button" class="btn btn-primary btn-lg btn-block">Save</button></p>
+    </div>
+</form>

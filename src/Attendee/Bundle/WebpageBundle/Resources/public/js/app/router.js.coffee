@@ -22,6 +22,7 @@ App.Router.map ()->
     @route 'edit',
     @route 'add-user',
     @route 'add-new-user',
+    @route 'add-schedule'
 
 App.BaseRoute = Ember.Route.extend
   renderTemplate: (controller, model) ->
@@ -85,6 +86,14 @@ App.TeamAddNewUserRoute = App.BaseRoute.extend
   deactivate: ->
     # cleanup after user leaves the route
     content = @controllerFor('TeamAddUser').get('content')
+    content.rollback() if content and not content.get('isSaving')
+
+App.TeamAddScheduleRoute = App.BaseRoute.extend
+  model: ->
+    @store.createRecord('schedule')
+  deactivate: ->
+    # cleanup after user leaves the route
+    content = @controllerFor('TeamAddSchedule').get('content')
     content.rollback() if content and not content.get('isSaving')
 
 App.LocationsRoute = App.BaseRoute.extend

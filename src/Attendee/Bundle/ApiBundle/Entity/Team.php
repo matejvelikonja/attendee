@@ -63,6 +63,22 @@ class Team extends AbstractEntity
         return $ids;
     }
 
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("schedules")
+     *
+     * @return int[]
+     */
+    public function getSchedulesIds()
+    {
+        $ids = array();
+
+        foreach ($this->schedules as $schedule) {
+            $ids[] = $schedule->getId();
+        }
+
+        return $ids;
+    }
 
     /**
      * Constructor.

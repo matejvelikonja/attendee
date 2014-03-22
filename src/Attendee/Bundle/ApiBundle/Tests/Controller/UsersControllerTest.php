@@ -47,7 +47,7 @@ class UsersControllerTest extends BaseTestCase
     }
 
     /**
-     * Test creating of user..
+     * Test creating of user.
      */
     public function testCreate()
     {

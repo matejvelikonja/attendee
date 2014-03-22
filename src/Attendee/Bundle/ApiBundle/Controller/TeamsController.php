@@ -37,14 +37,16 @@ class TeamsController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $limit  = $request->get('limit', 15);
-        $offset = $request->get('offset');
-        $teams  = $this->getTeamService()->findForUser($this->getUser(), $limit, $offset);
-        $users  = $this->getUserService()->findByTeams($teams);
+        $limit     = $request->get('limit', 15);
+        $offset    = $request->get('offset');
+        $teams     = $this->getTeamService()->findForUser($this->getUser(), $limit, $offset);
+        $users     = $this->getUserService()->findByTeams($teams);
+        $schedules = $this->getScheduleService()->findByTeams($teams);
 
         return array(
-            'teams' => $teams,
-            'users' => $users
+            'teams'     => $teams,
+            'users'     => $users,
+            'schedules' => $schedules,
         );
     }
 
@@ -91,11 +93,13 @@ class TeamsController extends AbstractController
      */
     public function showAction(Team $team)
     {
-        $users = $this->getUserService()->findByTeam($team);
+        $users     = $this->getUserService()->findByTeam($team);
+        $schedules = $this->getScheduleService()->findByTeam($team);
 
         return array(
-            'team'  => $team,
-            'users' => $users
+            'team'      => $team,
+            'users'     => $users,
+            'schedules' => $schedules,
         );
     }
 

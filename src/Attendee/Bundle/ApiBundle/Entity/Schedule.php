@@ -5,6 +5,7 @@ namespace Attendee\Bundle\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Recurr\RecurrenceRule;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Schedule
@@ -12,6 +13,7 @@ use Recurr\RecurrenceRule;
  * @ORM\Table(name="schedules")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @Serializer\ExclusionPolicy("all")
  */
 class Schedule extends AbstractEntity
 {
@@ -19,13 +21,14 @@ class Schedule extends AbstractEntity
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Serializer\Expose
      */
     private $name;
 
     /**
      * @var Event[]
      *
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="schedule", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="schedule", cascade={"persist", "remove"})
      */
     private $events;
 
@@ -33,6 +36,7 @@ class Schedule extends AbstractEntity
      * @var \DateTime
      *
      * @ORM\Column(name="starts_at", type="datetimetz")
+     * @Serializer\Expose
      */
     private $startsAt;
 
@@ -40,6 +44,7 @@ class Schedule extends AbstractEntity
      * @var string
      *
      * @ORM\Column(name="r_rule", type="string", length=255)
+     * @Serializer\Expose
      */
     private $rRuleText;
 
@@ -197,7 +202,7 @@ class Schedule extends AbstractEntity
      */
     public function hasEvent(Event $event)
     {
-        foreach($this->events as $existingEvent) {
+        foreach ($this->events as $existingEvent) {
             if ($event === $existingEvent) {
                 return true;
             }
@@ -276,6 +281,26 @@ class Schedule extends AbstractEntity
         }
 
         return false;
+    }
+
+    /**
+     * @param \DateTime $startsAt
+     *
+     * @return $this
+     */
+    public function setStartsAt(\DateTime $startsAt)
+    {
+        $this->startsAt = $startsAt;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartsAt()
+    {
+        return $this->startsAt;
     }
 
     /**

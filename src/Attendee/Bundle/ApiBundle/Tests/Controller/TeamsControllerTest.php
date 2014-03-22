@@ -25,7 +25,7 @@ class TeamsControllerTest extends BaseTestCase
         $decoded = $this->getResponseData($client);
 
         $this->assertArrayHasKeys(
-            array('teams', 'users'),
+            array('teams', 'users', 'schedules'),
             $decoded
         );
     }
@@ -42,7 +42,7 @@ class TeamsControllerTest extends BaseTestCase
         $decoded = $this->getResponseData($client);
 
         $this->assertArrayHasKeys(
-            array('team', 'users'),
+            array('team', 'users', 'schedules'),
             $decoded
         );
     }

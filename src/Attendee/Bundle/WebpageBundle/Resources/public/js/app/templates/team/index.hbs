@@ -22,3 +22,21 @@
     </li>
 {{/each}}
 </ul>
+
+<div class="btn-group pull-right">
+    {{#link-to 'team.add-schedule' team class="btn btn-default"}} <span class="glyphicon glyphicon-plus"></span> {{/link-to}}
+</div>
+
+<h2>Schedules</h2>
+
+<ul class="list-group">
+    {{#each schedule in team.schedules}}
+        <li class="list-group-item">
+            {{schedule.name}}
+        </li>
+    {{else}}
+        <li class="list-group-item">
+            Team has no schedules.
+        </li>
+    {{/each}}
+</ul>

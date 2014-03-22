@@ -6,6 +6,7 @@ use Attendee\Bundle\ApiBundle\Entity\User;
 use Attendee\Bundle\ApiBundle\Service\AttendanceService;
 use Attendee\Bundle\ApiBundle\Service\EventService;
 use Attendee\Bundle\ApiBundle\Service\LocationService;
+use Attendee\Bundle\ApiBundle\Service\ScheduleService;
 use Attendee\Bundle\ApiBundle\Service\TeamService;
 use Attendee\Bundle\ApiBundle\Service\UserService;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -55,6 +56,14 @@ class AbstractController extends FOSRestController
     protected function getUserService()
     {
         return $this->container->get('attendee.user_service');
+    }
+
+    /**
+     * @return ScheduleService
+     */
+    protected function getScheduleService()
+    {
+        return $this->container->get('attendee.schedule_service');
     }
 
     /**
