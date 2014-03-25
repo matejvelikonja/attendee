@@ -34,7 +34,8 @@ class EventsControllerTest extends BaseTestCase
     }
 
     /**
-     * Tests if filtering by from param works, and API returns events larger than now.
+     * Tests if filtering by from param works,
+     * and API returns events that their ends_at is larger than date provided.
      */
     public function testFilteringByStartDate()
     {
@@ -48,11 +49,11 @@ class EventsControllerTest extends BaseTestCase
         $decoded = $this->getResponseData($client);
 
         foreach ($decoded['events'] as $event) {
-            $date = new \DateTime($event['starts_at']);
+            $date = new \DateTime($event['ends_at']);
             $this->assertGreaterThan(
                 $startsAt,
                 $date,
-                sprintf('Only dates larger than %s should be displayed.', $startsAt->format('c'))
+                sprintf('Event `%s` (%d) has date larger than %s.', $event['name'], $event['id'], $startsAt->format('c'))
             );
         }
     }
