@@ -1,4 +1,4 @@
-App.TeamIndexController = Ember.ArrayController.extend
+App.TeamIndexController = Ember.ObjectController.extend
   needs: ["team"]
   team: Ember.computed.alias("controllers.team")
 
