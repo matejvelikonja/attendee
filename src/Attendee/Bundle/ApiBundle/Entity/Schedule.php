@@ -97,7 +97,7 @@ class Schedule extends AbstractEntity
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -197,7 +197,7 @@ class Schedule extends AbstractEntity
      */
     public function hasEvent(Event $event)
     {
-        foreach($this->events as $existingEvent) {
+        foreach ($this->events as $existingEvent) {
             if ($event === $existingEvent) {
                 return true;
             }

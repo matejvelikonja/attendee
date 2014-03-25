@@ -75,6 +75,21 @@ class UserService
     }
 
     /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function findOneByEmail($email)
+    {
+        $qb = $this->repo->createQueryBuilder('u');
+        $qb
+            ->where('u.email = :email')
+            ->setParameter('email', $email);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * @param Team[] $teams
      *
      * @return User[]

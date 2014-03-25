@@ -37,13 +37,13 @@ class LocationImporter
      * @param string $file
      * @param bool   $dryRun
      *
-     * @throws \RuntimeException
+     * @throws ImporterException
      * @return int
      */
     public function import($file, $dryRun = false)
     {
         if (! is_readable($file)) {
-            throw new \RuntimeException('File is not readable.');
+            throw new ImporterException('File is not readable.');
         }
 
         $locations = $this->getLocationsFromKml($file);
@@ -92,14 +92,14 @@ class LocationImporter
      *
      * @return \SimpleXMLElement
      *
-     * @throws \InvalidArgumentException
+     * @throws ImporterException
      */
     protected function parseFile($file)
     {
         try {
             $dom = XmlUtils::loadFile($file);
         } catch (\InvalidArgumentException $e) {
-            throw new \InvalidArgumentException(sprintf('Unable to parse file "%s".', $file), $e->getCode(), $e);
+            throw new ImporterException(sprintf('Unable to parse file "%s".', $file), $e->getCode(), $e);
         }
 
         return simplexml_import_dom($dom);
