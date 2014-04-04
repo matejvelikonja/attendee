@@ -6,6 +6,11 @@ App.EventIndexController = Ember.ObjectController.extend
     @store.find('location')
   ).property()
 
+  # hack, because ember doesn't mark changed relationships as dirty
+  persistOnChange: (->
+    @get('event').get('content').send('becomeDirty')
+  ).observes('event.location')
+
   actions:
     setStatus: (attendance, status) ->
       if attendance.get("status") != status
