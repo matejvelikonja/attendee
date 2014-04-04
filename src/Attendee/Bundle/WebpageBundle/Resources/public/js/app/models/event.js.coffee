@@ -2,6 +2,7 @@ App.Event = DS.Model.extend
   name:        DS.attr      'string'
   starts_at:   DS.attr      'string'
   ends_at:     DS.attr      'string'
+  notes:       DS.attr      'string'
   location:    DS.belongsTo 'location'
   attendances: DS.hasMany   'attendance', { async: true }
 

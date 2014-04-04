@@ -12,6 +12,8 @@ App.EventIndexController = Ember.ObjectController.extend
         attendance.set "status", status
         attendance.save()
 
-  persistOnChange: (->
-    @get('event').get('content').save()
-  ).observes('event.location')
+    save: ->
+      event = @get('event').get('content')
+      self = @
+      event.save().then ->
+        self.transitionToRoute 'event.index', event

@@ -59,6 +59,9 @@ App.EventRoute = App.BaseRoute.extend
 App.EventEditRoute = App.BaseRoute.extend
   renderTemplate: ->
     @render { controller: 'event.index' }
+  deactivate: ->
+    model = @get('currentModel')
+    model.rollback() if model and not model.get('isSaving')
 
 App.TeamsRoute = App.BaseRoute.extend
   title: ->

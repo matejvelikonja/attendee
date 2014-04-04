@@ -2,6 +2,8 @@
 
 namespace Attendee\Bundle\ApiBundle\Tests\Controller;
 
+use Attendee\Bundle\ApiBundle\Entity\Event;
+use Attendee\Bundle\ApiBundle\Entity\Location;
 use Attendee\Bundle\ApiBundle\Tests\BaseTestCase;
 
 /**
@@ -73,5 +75,51 @@ class EventsControllerTest extends BaseTestCase
             array('event', 'location', 'attendances', 'users'),
             $decoded
         );
+    }
+
+    /**
+     * Test updating of event.
+     *
+     * Test tries to update team location and notes.
+     */
+    public function testUpdate()
+    {
+        $event    = $this->getRepo('AttendeeApiBundle:Event')->find(1);
+        $notes    = 'Some random _markdown_ notes ' . time() . rand();
+        $location = new Location();
+        $location
+            ->setName('Location ' . __FUNCTION__)
+            ->setLat(0)
+            ->setLng(0);
+        $this->em()->persist($location);
+        $this->em()->flush();
+
+        $requestContent = json_encode(
+            array('event' => array(
+                'location' => $location->getId(),
+                'notes'    => $notes
+            )));
+
+        $client = $this->createAuthorizedClient();
+
+        $client->request('PUT', $this->url(
+            'api_events_update', array('id' => $event->getId())),
+            array(), array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            $requestContent
+        );
+
+        $decoded = $this->getResponseData($client);
+
+        $this->assertArrayHasKeys(
+            array('event', 'location', 'attendances', 'users'),
+            $decoded
+        );
+
+        /** @var Event $event */
+        $event = $this->getRepo('AttendeeApiBundle:Event')->find($event->getId());
+
+        $this->assertEquals($location, $event->getLocation(), 'Location should be changed.');
+        $this->assertEquals($notes, $event->getNotes(), 'Notes should be changed.');
     }
 }

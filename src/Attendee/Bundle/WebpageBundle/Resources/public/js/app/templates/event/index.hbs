@@ -9,6 +9,12 @@
     <dd>{{ humanizeDate event.ends_at 'dddd, DD.MM.YYYY, HH:mm' }}</dd>
     <dt>Location</dt>
     <dd>{{ event.location.name }}</dd>
+    {{#if event.notes }}
+    <dt>Notes</dt>
+    <dd>
+        {{ markdown event.notes }}
+    </dd>
+    {{/if}}
 </dl>
 
 <h2 {{ action "setStatus" }}>Attendees <span>{{ event.present_count }} / {{ event.absent_count }}</span></h2>

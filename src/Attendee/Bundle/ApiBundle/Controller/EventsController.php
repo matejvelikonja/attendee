@@ -90,7 +90,7 @@ class EventsController extends AbstractController
      * @param Event   $event
      * @param Request $request
      *
-     * @Rest\View(statusCode=204)
+     * @Rest\View(statusCode=200)
      * @Rest\Put("/{id}", name="api_events_update")
      * @SecureParam(name="event", permissions="MANAGER")
      *
@@ -98,14 +98,17 @@ class EventsController extends AbstractController
      *  section="Events",
      *  description="Update event."
      * )
+     *
+     * @return array
      */
     public function updateAction(Event $event, Request $request)
     {
-        $data       = $request->request->get('event');
-        $locationId = $data['location'];
-        $location   = $this->getLocationService()->find($locationId);
+        $data = $request->request->get('event');
+        $form = $this->createForm('event', $event);
+        $form->submit($data);
 
-        $event->setLocation($location);
         $this->getEventService()->update($event);
+
+        return $this->showAction($event);
     }
 }

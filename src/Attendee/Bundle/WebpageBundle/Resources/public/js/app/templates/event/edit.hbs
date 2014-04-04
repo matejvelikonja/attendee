@@ -14,3 +14,13 @@
 <p>
     <img {{ bind-attr src=event.location.mapsLink }} class="img-rounded" width="100%">
 </p>
+
+<div class="form-group">
+    {{ textarea value=event.notes classNames="form-control" rows=5 placeholder="Add notes" }}
+</div>
+
+{{#if event.isDirty }}
+    <div class="form-group">
+        <p><button {{action "save" content}} type="button" class="btn btn-primary btn-lg btn-block">Save</button></p>
+    </div>
+{{/if}}

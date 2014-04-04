@@ -34,6 +34,15 @@ class Event extends AbstractEntity
     private $endsAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="notes", type="text", nullable=true)
+     *
+     * @Serializer\Expose
+     */
+    private $notes;
+
+    /**
      * @var Schedule
      *
      * @ORM\ManyToOne(targetEntity="Schedule", inversedBy="events")
@@ -115,7 +124,7 @@ class Event extends AbstractEntity
     /**
      * Get startsAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartsAt()
     {
@@ -139,11 +148,31 @@ class Event extends AbstractEntity
     /**
      * Get endsAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndsAt()
     {
         return $this->endsAt;
+    }
+
+    /**
+     * @param string $notes
+     *
+     * @return $this
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
     }
 
     /**
