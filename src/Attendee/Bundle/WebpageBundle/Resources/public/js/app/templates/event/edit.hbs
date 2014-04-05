@@ -11,9 +11,7 @@
     }}
 </div>
 
-<p>
-    <img {{ bind-attr src=event.location.mapsLink }} class="img-rounded" width="100%">
-</p>
+{{ view App.MapView lat=event.location.lat lng=event.location.lng }}
 
 <div class="form-group">
     {{ textarea value=event.notes classNames="form-control" rows=5 placeholder="Add notes" }}
