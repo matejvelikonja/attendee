@@ -2,6 +2,10 @@ App.MapView = Ember.View.extend
   templateName:      'views/map'
   attributeBindings: ['lat', 'lng'],
 
+  click: ->
+    url = 'http://maps.google.com/?q=' + @get('coordinates')
+    window.open url,'_blank'
+
   coordinates: (->
     if (@get 'lat') != 0 and (@get 'lng') != 0
       (@get 'lat') + ',' + (@get 'lng')
