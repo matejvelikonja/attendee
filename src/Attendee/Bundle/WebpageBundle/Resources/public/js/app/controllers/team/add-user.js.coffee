@@ -3,7 +3,10 @@ App.TeamAddUserController = Ember.ObjectController.extend
   team:  Ember.computed.alias("controllers.team")
 
   users: (->
-    @store.find('user')
+    Ember.ArrayProxy.createWithMixins Ember.SortableMixin, {
+      sortProperties: ['name']
+      content:        @store.find('user')
+    }
   ).property()
 
   actions:

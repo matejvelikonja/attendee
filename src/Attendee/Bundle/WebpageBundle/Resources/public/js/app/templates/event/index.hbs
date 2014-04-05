@@ -20,7 +20,7 @@
 <h2 {{ action "setStatus" }}>Attendees <span>{{ event.present_count }} / {{ event.absent_count }}</span></h2>
 
 <div class="list-group">
-{{# each a in event.attendances }}
+{{# each a in attendancesSorted }}
     <div class="list-group-item">
         <span {{bind-attr class="a.isSaving :glyphicon :glyphicon-repeat :rotate"}}></span>
         {{a.user.name}}

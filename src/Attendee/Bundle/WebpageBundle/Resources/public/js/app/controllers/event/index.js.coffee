@@ -6,6 +6,13 @@ App.EventIndexController = Ember.ObjectController.extend
     @store.find('location')
   ).property()
 
+  attendancesSorted: (->
+    Ember.ArrayProxy.createWithMixins Ember.SortableMixin, {
+      sortProperties: ['user.name']
+      content:        @get('event.attendances')
+    }
+  ).property('content.event')
+
   # hack, because ember doesn't mark changed relationships as dirty
   persistOnChange: (->
     @get('event').get('content').send('becomeDirty')
