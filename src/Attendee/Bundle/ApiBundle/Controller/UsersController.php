@@ -23,7 +23,7 @@ class UsersController extends AbstractController
      * @return array
      *
      * @Rest\View()
-     * @Rest\Get("/", name="api_users_index")
+     * @Rest\Get("", name="api_users_index")
      *
      * @ApiDoc(
      *  description="Lists all users.",

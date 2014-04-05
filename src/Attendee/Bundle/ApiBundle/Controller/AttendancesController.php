@@ -21,7 +21,7 @@ class AttendancesController extends AbstractController
      * @param Request $request
      *
      * @Rest\View
-     * @Rest\Get("/", name="api_attendances_index")
+     * @Rest\Get("", name="api_attendances_index")
      *
      * @ApiDoc(
      *  description="Lists all attendances.",

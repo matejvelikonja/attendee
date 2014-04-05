@@ -36,6 +36,7 @@ class LoadScheduleData extends AbstractFixtures
         );
 
         $this->createRandomSchedules(count($this->rRuleStrings));
+        $this->createCurrentlyRunningSchedule();
     }
 
     /**
@@ -78,6 +79,38 @@ class LoadScheduleData extends AbstractFixtures
 
             $this->manager->persist($schedule);
         }
+    }
+
+    /**
+     * Creates schedule with only one event, lasting for whole today.
+     */
+    private function createCurrentlyRunningSchedule()
+    {
+        $team = $this->manager->getRepository('AttendeeApiBundle:Team')->findOneBy(array());
+
+        /** @var \DateTime $startDate */
+        $startDate = new \DateTime('today');
+        $endDate   = clone $startDate;
+        $endDate   = $endDate->add(new \DateInterval('P1D'));
+        $duration  = \DateInterval::createFromDateString('23 hours');
+
+        $location = $this->getRandomLocation();
+
+        $rrule = new RecurrenceRule(
+            sprintf('FREQ=DAILY;INTERVAL=1;UNTIL=%s;BYHOUR=1', $endDate->format('c')),
+            $startDate
+        );
+
+        $schedule = new Schedule();
+        $schedule
+            ->setName('Only now')
+            ->setDefaultLocation($location)
+            ->setRRule($rrule)
+            ->setDuration($duration);
+
+        $schedule->addTeam($team);
+
+        $this->manager->persist($schedule);
     }
 
     /**

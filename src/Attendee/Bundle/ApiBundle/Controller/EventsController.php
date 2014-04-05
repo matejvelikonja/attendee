@@ -24,7 +24,7 @@ class EventsController extends AbstractController
      * @return array
      *
      * @Rest\View
-     * @Rest\Get("/", name="api_events_index")
+     * @Rest\Get("", name="api_events_index")
      *
      * @ApiDoc(
      *  section="Events",

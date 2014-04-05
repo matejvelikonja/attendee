@@ -22,8 +22,11 @@
 <div class="list-group">
 {{# each a in attendancesSorted }}
     <div class="list-group-item">
-        <span {{bind-attr class="a.isSaving :glyphicon :glyphicon-repeat :rotate"}}></span>
-        {{a.user.name}}
+        <div class="pull-left">
+            <span {{bind-attr class="a.isSaving :glyphicon :glyphicon-repeat :rotate :pull-left"}}></span>
+            <h4 class="list-group-item-heading">{{a.user.name}}</h4>
+            <p class="text-muted list-group-item-text">{{ a.user.email }}</p>
+        </div>
         {{#if a.is_editable }}
         <div class="btn-group pull-right">
             <button {{ action "setStatus" a 'present' }} type="button" {{bind-attr class="a.is_present :btn :btn-default"}}>

@@ -22,7 +22,7 @@ class TeamsController extends AbstractController
      * @param Request $request
      *
      * @Rest\View
-     * @Rest\Get("/", name="api_teams_index")
+     * @Rest\Get("", name="api_teams_index")
      *
      * @ApiDoc(
      *  section="Teams",

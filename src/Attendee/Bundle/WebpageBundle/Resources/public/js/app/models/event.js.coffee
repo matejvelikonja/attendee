@@ -6,6 +6,10 @@ App.Event = DS.Model.extend
   location:    DS.belongsTo 'location'
   attendances: DS.hasMany   'attendance', { async: true }
 
+  is_running_and_not_done: (->
+    @get('is_running') and not @get('is_done')
+  ).property('is_running', 'is_done')
+
   is_running: ( ->
     ends_at   = moment(@get 'ends_at')
     starts_at = moment(@get 'starts_at')

@@ -24,6 +24,12 @@ App.Router.map ()->
     @route 'add-new-user',
 
 App.BaseRoute = Ember.Route.extend
+  actions:
+    error: (reason) ->
+      # Reload page if we get forbidden response from API
+      if reason.status == 403 or reason.status == 401
+        window.location.reload false
+
   renderTemplate: (controller, model) ->
     pageTitle = ''
     if typeof @title == "function"

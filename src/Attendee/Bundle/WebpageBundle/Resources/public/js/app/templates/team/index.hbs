@@ -7,7 +7,8 @@
 <ul class="list-group">
     {{#each user in usersSorted}}
         <li class="list-group-item">
-            {{user.name}}
+            {{user.name}} <br>
+            <small class="text-muted">{{ user.email }}</small>
         {{!--
         <div class="btn-group pull-right">
             <button {{ action "removeUser" user }} type="button" class="btn btn-danger">

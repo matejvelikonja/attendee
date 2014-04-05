@@ -18,7 +18,7 @@ class LocationsController extends AbstractController
 {
     /**
      * @Rest\View
-     * @Rest\Get("/")
+     * @Rest\Get("")
      *
      * @ApiDoc(
      *  description="Lists all locations."
